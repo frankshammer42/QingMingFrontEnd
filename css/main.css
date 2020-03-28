@@ -1,0 +1,69 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    color: #fff;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+#containerCSS, #containerWebGL {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0; left: 0;
+}
+
+#containerCSS {
+    background: #383838;
+}
+
+#containerWebGL {
+    pointer-events: none;
+}
+
+.Button {
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    /* background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%); */
+    background-color:#f9f9f9;
+    border-radius:1px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    cursor:pointer;
+    color:#666666;
+    font:sans-serif;
+    font-size:24px;
+    /* font-weight:bold; */
+    padding:18px 34px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #ffffff;
+    position: relative;
+    left:100px;
+    top:60px;
+    margin-top:20px;
+    width:280px;
+}
+.Button:hover {
+    background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
+    background-color:#e9e9e9;
+}
+.Button:active {
+    /* position:relative;
+    /*top:1px; *!*/
+}
+
+.ui{
+    z-index: 2;
+    width:20%;
+    height:100%;
+    position:absolute;
+}
