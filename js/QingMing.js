@@ -9,8 +9,13 @@ let controls;
 let personPoint;
 let personPoints = [];
 // init related var
+// Wider Version of the Sculpture
+// let maxHeight = 2000;
+// let maxRadius = 2000;
+// Narrower Version with segmented Random Number
 let maxHeight = 2000;
-let maxRadius = 2000;
+let maxRadius = 500;
+let ranges = [[100, 200], [200, 400]];
 // Center Line
 let centerLine;
 
@@ -66,7 +71,6 @@ function init() {
     // addPoints();
 }
 
-
 function addOnePoint(){
     let initPosition = new THREE.Vector3(-10000, 0, 0);
     let randomHeight = Math.random()*maxHeight;
@@ -79,13 +83,37 @@ function addOnePoint(){
 
 function addPoints(){
     let initPosition = new THREE.Vector3(-10000, 0, 0);
+    let heightGap = maxHeight/500;
+    let maxPulseNumber = 60;
+    let currentPulseNumber = 30 + Math.floor(Math.random()*maxPulseNumber);
+    let currentLowNumber = currentPulseNumber/2 + 10 + Math.floor(Math.random()*(currentPulseNumber/2 - 10));
+    let pulseCounter = 0;
     for (let i=0; i<500; i++) {
-        let randomHeight = Math.random()*maxHeight;
-        let randomRadius = Math.random()*maxRadius;
+        // let randomHeight = Math.random()*maxHeight;
+        let randomHeight = i*heightGap;
+        // Wide
+        // let randomRadius = Math.random()*maxRadius;
+        // Segmented
+        let randomRadius = 0;
+        let currentRange;
+        if (pulseCounter < currentLowNumber){
+            currentRange = ranges[0];
+        }
+        else{
+            currentRange = ranges[1];
+        }
+        randomRadius = currentRange[0] + Math.random()*(currentRange[1]-currentRange[0]);
+        if (pulseCounter > currentPulseNumber){
+            currentPulseNumber = Math.floor(Math.random()*30);
+            currentLowNumber = Math.floor(Math.random()*currentPulseNumber);
+            pulseCounter = 0;
+        }
+        // let randomRadius = currentRange[0] + Math.random()*(currentRange[1]-currentRange[0]);
         personPoint = new PersonPoint(randomRadius, randomHeight, initPosition);
         scene.add(personPoint.point);
         scene.add(personPoint.trailLine);
         personPoints.push(personPoint);
+        pulseCounter += 1;
     }
 }
 
