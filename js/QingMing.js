@@ -10,7 +10,7 @@ let personPoint;
 let personPoints = [];
 // init related var
 let maxHeight = 2000;
-let maxRadius = 400;
+let maxRadius = 2000;
 // Center Line
 let centerLine;
 
@@ -63,7 +63,7 @@ function init() {
     getLight();
     //model
     loadModel();
-    addPoints();
+    // addPoints();
 }
 
 

@@ -25,7 +25,7 @@ class PersonPoint {
         this.center = [0, height, 0];
         this.circle = new CircleTrail(this.center, radius);
         //Dynamics
-        this.rotateSpeed = Math.random()*0.08 - 0.04;
+        this.rotateSpeed = Math.random()*0.02 - 0.01;
         //Trail
         this.numberOfPointsPerTrail = 200 + Math.floor(Math.random()*100);
         this.trailLineGeometry = new THREE.BufferGeometry();
@@ -41,17 +41,17 @@ class PersonPoint {
             this.trailLine.geometry.attributes.position.array[i] = 0;
         }
         this.currentTrailLineDrawingProgress = 0;
-        this.trailLine.geometry.setDrawRange(0, this.currentTrailLineDrawingProgress);
+        this.trailLine.geometry.setDrawRange(1, this.currentTrailLineDrawingProgress);
         this.trailLine.geometry.attributes.position.needsUpdate = true;
         this.currentTrailIndex = 0;
         this.trailLine.geometry.attributes.position.array[0] = this.x;
         this.trailLine.geometry.attributes.position.array[1] = this.y;
         this.trailLine.geometry.attributes.position.array[2] = this.z;
         //test rotation
-        // this.xRotationAngle = Math.random() - 0.5;
-        // this.zRotationAngle = Math.random() - 0.5;
-        this.xRotationAngle = 0;
-        this.zRotationAngle = 0;
+        // this.xRotationAngle = 0;
+        // this.zRotationAngle = 0;
+        this.xRotationAngle = Math.random() - 0.5;
+        this.zRotationAngle = Math.random() - 0.5;
         //Regarding Initial Movement
         this.startRotate = false;
         this.target = new THREE.Vector3(this.x, this.y, this.z);
