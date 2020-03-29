@@ -190,7 +190,8 @@ function loadMap() {
   let geometry = new THREE.PlaneGeometry(90000 * 1.7, 90000 * 1.4, 32);
   let texture = new THREE.TextureLoader().load('textures/map.png');
   let material = new THREE.MeshBasicMaterial({
-    map: texture
+    //map: texture,
+    color: 0xffffff
     //  side: THREE.DoubleSide
   });
   plane = new THREE.Mesh(geometry, material);
@@ -252,7 +253,7 @@ function getLight() {
 
 
     //this is the fog
-    scene.fog = new THREE.Fog(0xe8e8e8, 100, 80000);
+    scene.fog = new THREE.Fog(0x595959, 100, 40000);
     renderer.setClearColor(scene.fog.color, 1);
 
 
