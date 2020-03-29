@@ -25,9 +25,9 @@ class PersonPoint {
         this.center = [0, height, 0];
         this.circle = new CircleTrail(this.center, radius);
         //Dynamics
-        this.rotateSpeed = Math.random()*0.02 - 0.01;
+        this.rotateSpeed = -Math.random()*0.002;
         //Trail
-        this.numberOfPointsPerTrail = 200 + Math.floor(Math.random()*100);
+        this.numberOfPointsPerTrail = 1000 + Math.floor(Math.random()*100);
         this.trailLineGeometry = new THREE.BufferGeometry();
         this.trailLinePosition = new Float32Array(this.numberOfPointsPerTrail * 3);
         // this.trailLineMaterial = new THREE.LineBasicMaterial({color: 0x000000, linewidth: 3});
@@ -47,11 +47,14 @@ class PersonPoint {
         this.trailLine.geometry.attributes.position.array[0] = this.x;
         this.trailLine.geometry.attributes.position.array[1] = this.y;
         this.trailLine.geometry.attributes.position.array[2] = this.z;
-        //test rotation
-        // this.xRotationAngle = 0;
-        // this.zRotationAngle = 0;
-        this.xRotationAngle = Math.random() - 0.5;
-        this.zRotationAngle = Math.random() - 0.5;
+        // Rotation -> Add Speed to create smooth transition
+        this.ringRotateSpeed = Math.random()*0.001 - 0.0005;
+        this.ringRotateCounterMax = 1000;
+        this.ringRotateCounter = 0;
+        this.xRotationAngle = 0;
+        this.zRotationAngle = 0;
+        // this.xRotationAngle = Math.random()*0.1 - 0.05;
+        // this.zRotationAngle = Math.random()*0.1 - 0.05;
         //Regarding Initial Movement
         this.startRotate = false;
         this.target = new THREE.Vector3(this.x, this.y, this.z);
@@ -94,12 +97,17 @@ class PersonPoint {
         this.x = Math.cos(randomTheta) * this.radius;
         this.y = height;
         this.z = Math.sin(randomTheta) * this.radius;
-        this.generateRotatedPosition();
+        // this.generateRotatedPosition();
     }
 
 
     update(){
         if (this.startRotate) {
+            if (this.ringRotateCounter < this.ringRotateCounterMax){
+                this.xRotationAngle += this.ringRotateSpeed;
+                this.zRotationAngle += this.ringRotateSpeed;
+                this.ringRotateCounter += 1;
+            }
             this.theta += this.rotateSpeed;
             this.x = Math.cos(this.theta) * this.radius;
             // this.y = this.y;
