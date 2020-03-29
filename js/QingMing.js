@@ -177,8 +177,6 @@ function loadMap() {
   plane = new THREE.Mesh(geometry, material);
   plane.position.set(2883, -370, -6822);
   plane.rotation.x = Math.PI + Math.PI / 2;
-
-
   scene.add(plane)
 }
 
@@ -187,7 +185,7 @@ function getLight() {
   //
   //
   //this is the sun
-  dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
+  dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
   dirLight.color.setHSL(0.1, 1, 0.95);
   dirLight.position.set(848, -3955, -1749);
   dirLight.position.multiplyScalar(50);
@@ -220,7 +218,7 @@ function getLight() {
   fillLight.position.set(100, 0, -9900);
 
   //this is the back light
-  backLight = new THREE.DirectionalLight(0xffffff, 1.5);
+  backLight = new THREE.DirectionalLight(0xffffff, 1.1);
   backLight.position.set(-3072, 4868, 2000).normalize();
 
   // light.castShadow = true;
@@ -281,27 +279,31 @@ function addSkybox() {
 
 }
 
-function moveCamera(target, tweenTime, finishFunction) {
-  let deepTripPosition = new TWEEN.Tween(camera.position)
+function moveCamera(target, tweenTime, finishFunction, easingFunction) {
+  let deepTripPosition = new TWEEN.Tween(controls.object.position)
     .to({
       x: target.x,
       y: target.y,
       z: target.z
     }, tweenTime)
-    .easing(TWEEN.Easing.Cubic.InOut).onUpdate(function() {}).onComplete(() => finishFunction())
+    .easing(easingFunction).onUpdate(function() {}).onComplete(() => finishFunction())
     .start();
 }
 
-function moveToTop() {
-  let topTarget = new THREE.Vector3(0, 5000, 0);
-  let tweenTime = 8000;
-  moveCamera(topTarget, tweenTime, () => console.log("ff"));
+function moveToTop(){
+    let topTarget = new THREE.Vector3(0, 3000, 3000);
+    let tweenTime = 2000;
+    moveCamera(topTarget, tweenTime, ()=>{
+        topTarget = new THREE.Vector3(0, 3000, 0);
+        tweenTime = 3000;
+        moveCamera(topTarget, tweenTime, ()=>{"whatever"}, TWEEN.Easing.Cubic.InOut);
+    }, TWEEN.Easing.Linear.None);
 }
 
-function moveToFreeView() {
-  let freeViewTarget = new THREE.Vector3(-336, 1695, 5785);
-  let tweenTime = 3000;
-  moveCamera(freeViewTarget, tweenTime, () => console.log("ff"));
+function moveToFreeView(){
+    let freeViewTarget = new THREE.Vector3(-336, 1695, 5785);
+    let tweenTime = 4000;
+    moveCamera(freeViewTarget, tweenTime, ()=>console.log("ff"), TWEEN.Easing.Cubic.InOut);
 }
 
 function onWindowResize() {
@@ -310,51 +312,42 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+function addControl(){
+    let options = {
+        Top: moveToTop,
+        Around: moveToFreeView
+    };
+    let gui = new dat.GUI();
+    let position = gui.addFolder('Position');
+    position.add(plane.position,'x',-10000,10000).name('PositionX').listen();
+    position.add(plane.position,'y',-1000,1000).name('PositionY').listen();
+    position.add(plane.position,'z',-10000,10000).name('PositionZ').listen();
+    let rotation= gui.addFolder('Rotation');
+    position.add(plane.rotation,'x',0,Math.PI).name('rotateX').listen();
+    position.add(plane.rotation,'y',0,Math.PI).name('rotateY').listen();
+    position.add(plane.rotation,'z',0,Math.PI).name('rotateZ').listen();
+    let scale= gui.addFolder('Scale');
+    scale.add(plane.scale,'x',0,3).name('ScaleX').listen();
+    scale.add(plane.scale,'y',0,3).name('Scaley').listen();
+    position.open();
+    rotation.open();
+    scale.open();
 
-function addControl() {
-  let options = {
-    Top: moveToTop,
-    Around: moveToFreeView
-  };
-  let gui = new dat.GUI();
-
-  let filllight = gui.addFolder('fillLight');
-  filllight.add(fillLight.position, 'x', -1000, 1000).name('PositionX').listen();
-  filllight.add(fillLight.position, 'y', -1000, 1000).name('PositionY').listen();
-  filllight.add(fillLight.position, 'z', -10000, 1000).name('PositionZ').listen();
-
-  let backlight = gui.addFolder('backlight');
-  backlight.add(backLight.position, 'x', -1000, 1000).name('X').listen();
-  backlight.add(backLight.position, 'y', -1000, 1000).name('Y').listen();
-  backlight.add(backLight.position, 'z', -1000, 1000).name('Z').listen();
-
-  let sunlight = gui.addFolder('sunlight');
-  sunlight.add(dirLight.position, 'x', -1000, 1000).name('X').listen();
-  sunlight.add(dirLight.position, 'y', -1000, 1000).name('Y').listen();
-  sunlight.add(dirLight.position, 'z', -1000, 1000).name('Z').listen();
-//  sunlight.add(dirLight.shadowCameraFar, 0, 10000).name('shadowCameraFar').listen();
-
-  filllight.open();
-  backlight.open();
-  sunlight.open();
-  //scale.open();
-
-
-  //Create View Options
-  gui.add(options, 'Top');
-  gui.add(options, 'Around');
+    position.open();
+    rotation.open();
+    //Create View Options
+    gui.add(options, 'Top');
+    gui.add(options, 'Around');
 }
 
-
 function animate() {
-  for (let i = 0; i < personPoints.length; i++) {
-    personPoints[i].update();
-  }
-  // console.log(controls.object.position);
-  TWEEN.update();
-  controls.update();
-  requestAnimationFrame(animate);
-  render();
+    for (let i=0; i<personPoints.length; i++){
+        personPoints[i].update();
+    }
+    TWEEN.update();
+    controls.update();
+    requestAnimationFrame( animate );
+    render();
 }
 
 function render() {
