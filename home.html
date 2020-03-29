@@ -52,19 +52,41 @@
 		</div>
 		<div class="frame">
 			<div id="welcome-page" class="welcome-page">
-				<div class="welcome-card">
-					<div class="intro">
-						<p>截至今天，2020年4月4日，中国已有xxxx人因为新冠肺炎去世。还有多少在统计数据之外、或间接因新冠肺炎去世的人，我们甚至无从得知。春天来了，疫情正在平息，可逝去的生命不会再回来，失去亲人的痛楚也不会停止。</p>
-						<p>今天是清明节，本该是我们祭奠死者的日子。可是因为疫情，大部分人甚至都不能去实地进行祭扫。所以我们在这里发起“逆时针行走”线上祭奠活动。我们带你回到武汉洪山礼堂前——曾在2020年1月召开武汉市和湖北省两会的地方。你可以在这里祭奠死者。每个参与祭奠的你都会留下自己的轨迹，集体行走的轨迹将构建出一个线上纪念碑；不久之后，它会永久矗立在各大地图网站上的武汉洪山礼堂前。</p>
-						<p>希望痛苦和眼泪，问责和反思，都不要被遗忘。</p>
-					</div>
-					<div class="controls">
-						<input class="name-input" type="text" placeholder="你的名字">
-						<button class="enter-button", onclick="enter()">进入</button>
+				<div class="card-backdrop">
+					<div class="card welcome-card">
+						<div class="intro">
+							<p>截至今天，2020年4月4日，中国已有xxxx人因为新冠肺炎去世。还有多少在统计数据之外、或间接因新冠肺炎去世的人，我们甚至无从得知。春天来了，疫情正在平息，可逝去的生命不会再回来，失去亲人的痛楚也不会停止。</p>
+							<p>今天是清明节，本该是我们祭奠死者的日子。可是因为疫情，大部分人甚至都不能去实地进行祭扫。所以我们在这里发起“逆时针行走”线上祭奠活动。我们带你回到武汉洪山礼堂前——曾在2020年1月召开武汉市和湖北省两会的地方。你可以在这里祭奠死者。每个参与祭奠的你都会留下自己的轨迹，集体行走的轨迹将构建出一个线上纪念碑；不久之后，它会永久矗立在各大地图网站上的武汉洪山礼堂前。</p>
+							<p>希望痛苦和眼泪，问责和反思，都不要被遗忘。</p>
+						</div>
+						<div class="controls">
+							<input class="name-input" type="text" placeholder="你的名字">
+							<button class="enter-button" onclick="enter()">进入</button>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div id="container">
+			<div class="main-page">
+				<button class="info-button" onclick="showInfoCard()">
+					<img src="assets/images/info.svg" alt="info">
+				</button>
+				<div id="info-card-backdrop" class="card-backdrop" onclick="closeInfoCard()">
+					<div class="card info-card" onclick="preventEvent(event)">
+						<div class="intro">
+							<header>清明</header>
+							<p>2019年12月，新冠肺炎（COVID-19）在武汉市爆发。当月26日，湖北省中西医结合医院的张继先主任发现不明肺炎，两日后由医院上报省、市卫健委；29日至30日，广州微远基因、北京博奥医学检测所、华大基因先后对病人样本检测出“新冠状病毒”。</p>
+							<p>在疫情防控至关重要的初发阶段，1月6日至17日，武汉市与湖北省“两会”相继召开，而武汉卫健委的官方通报中，此期间均无新增病例。与此同时，作为中国国务院卫生行政部门及向社会依法披露疫情的责任主体国家卫健委，虽然曾派出三批专家组赶赴武汉调查，但迟至1月20日才向社会公布“人传人”。时至今日，此次疫情在中国已造成数千人失去生命，并在全球蔓延扩散。</p>
+							<p>截至今天，2020年4月4日，中国已有xxxx人因为新冠肺炎去世。还有多少在统计数据之外、或间接因新冠肺炎去世的人，我们甚至无从得知。春天来了，疫情正在平息，可逝去的生命不会再回来，失去亲人的痛楚也不会停止。</p>
+							<p>今天是清明节，本该是我们祭奠死者的日子。可是因为疫情，大部分人甚至都不能去实地进行祭扫。所以我们在这里发起“逆时针行走”线上祭奠活动。我们带你回到武汉洪山礼堂前——曾在2020年1月召开武汉市和湖北省两会的地方。你可以在这里祭奠死者。每个参与祭奠的你都会留下自己的轨迹，集体行走的轨迹将构建出一个线上纪念碑；不久之后，它会永久矗立在各大地图网站上的武汉洪山礼堂前。</p>
+							<p>希望痛苦和眼泪，问责和反思，都不要被遗忘。</p>
+						</div>
+						<button class="close-button" onclick="closeInfoCard()">
+							<img src="assets/images/close.svg" alt="close">
+						</button>		
+					</div>
+				</div>
+				<div id="container">
+				</div>	
 			</div>
 		</div>
 		<script src="js/dat.gui.min.js"></script>

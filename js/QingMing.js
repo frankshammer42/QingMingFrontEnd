@@ -105,6 +105,18 @@ function enter() {
   document.getElementById("welcome-page").style.display = 'none';
 }
 
+function showInfoCard() {
+    document.getElementById("info-card-backdrop").style.display = 'flex';
+}
+
+function closeInfoCard() {
+    document.getElementById('info-card-backdrop').style.display = 'none';
+}
+
+function preventEvent(event) {
+    event.stopPropagation();
+}
+
 function addOnePoint() {
   let initPosition = new THREE.Vector3(-10000, 0, 0);
   let randomHeight = Math.random() * maxHeight;
