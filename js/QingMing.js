@@ -176,9 +176,11 @@ function moveCamera(target, tweenTime, finishFunction){
         .start();
 }
 
-function generateRandomNumberInRange(min, max) {
-    let highlightedNumber = Math.random() * (max - min) + min;
-    return highlightedNumber;
+function moveToTop(){
+    let topTarget = new THREE.Vector3(0, 2000, 0);
+    let tweenTime = 3000;
+    moveCamera(topTarget, tweenTime, ()=>console.log("ff"));
+
 }
 
 function onWindowResize() {
@@ -188,6 +190,7 @@ function onWindowResize() {
 }
 
 function animate() {
+    // console.log(controls.object.position);
     for (let i=0; i<personPoints.length; i++){
         personPoints[i].update();
     }
