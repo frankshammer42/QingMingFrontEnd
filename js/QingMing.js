@@ -213,7 +213,7 @@ function getLight() {
   //
   // // the magic is here - this needs to be tweaked if you change dimensions
   //
-  dirLight.shadowCameraFar = 35000;
+  dirLight.shadowCameraFar = 3500;
   dirLight.shadowBias = -0.000001;
   dirLight.shadowDarkness = 0.35;
   scene.add(dirLight);
@@ -224,11 +224,11 @@ function getLight() {
   scene.add(ambientLight);
 
   //this is the fill light
-  fillLight = new THREE.DirectionalLight(0x111111, 1, 2);
+  fillLight = new THREE.DirectionalLight(0x111111, 1.2);
   fillLight.position.set(100, 0, -9900);
 
   //this is the back light
-  backLight = new THREE.DirectionalLight(0xffffff, 1.1);
+  backLight = new THREE.DirectionalLight(0xffffff, 1.5);
   backLight.position.set(-3072, 4868, 2000).normalize();
 
   // light.castShadow = true;
@@ -243,7 +243,7 @@ function getLight() {
 
 
     //this is the fog
-    scene.fog = new THREE.Fog(0xb8b8b8, 100, 80000);
+    scene.fog = new THREE.Fog(0xe8e8e8, 100, 80000);
     renderer.setClearColor(scene.fog.color, 1);
 
 
