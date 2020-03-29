@@ -1,3 +1,4 @@
+//TODO: Wait For Emboddie
 //Set Up Variables
 let scene;
 let camera;
@@ -48,7 +49,10 @@ function init() {
   camera.updateProjectionMatrix();
   // geometry
   controls = new THREE.OrbitControls(camera, container);
-  controls.addEventListener('change', render);
+  controls.minDistance = 500;
+  controls.maxDistance = 5500 ;
+  controls.maxPolarAngle = Math.PI/2;
+
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xffffff);
   // scene.background =  new THREE.Color( 0x000000);
@@ -61,19 +65,19 @@ function init() {
   renderer.gammaOutput = true;
   container.appendChild(renderer.domElement);
   window.addEventListener('resize', onWindowResize, false);
-  //
-  let start = new THREE.Vector3(0, 52000, 0);
-  let end = new THREE.Vector3(0, 0, 0);
-  centerLine = new Line(start, end, 2, 2000);
-  scene.add(centerLine.line);
-  console.log(centerLine.line.position);
 
-  // light
+  // Center Line
+  // let start = new THREE.Vector3(0, 52000, 0);
+  // let end = new THREE.Vector3(0, 0, 0);
+  // centerLine = new Line(start, end, 2, 2000);
+  // scene.add(centerLine.line);
+  // console.log(centerLine.line.position);
+
+  //Light and Model and Map
   getLight();
-  //model
   loadModel();
-  // addPoints();
   loadMap();
+  //Add Control Panel
   addControl();
 }
 
@@ -102,18 +106,6 @@ function addOnePoint() {
   scene.add(personPoint.point);
   scene.add(personPoint.trailLine);
   personPoints.push(personPoint);
-}
-
-function addPoints() {
-  let initPosition = new THREE.Vector3(-10000, 0, 0);
-  for (let i = 0; i < 500; i++) {
-    let randomHeight = Math.random() * maxHeight;
-    let randomRadius = Math.random() * maxRadius;
-    personPoint = new PersonPoint(randomRadius, randomHeight, initPosition);
-    scene.add(personPoint.point);
-    scene.add(personPoint.trailLine);
-    personPoints.push(personPoint);
-  }
 }
 
 function addPoints(){
@@ -211,9 +203,15 @@ function moveCamera(target, tweenTime, finishFunction) {
 }
 
 function moveToTop(){
-    let topTarget = new THREE.Vector3(0, 2000, 0);
-    let tweenTime = 3000;
+    let topTarget = new THREE.Vector3(0, 3000, 0);
+    let tweenTime = 8000;
     moveCamera(topTarget, tweenTime, ()=>console.log("ff"));
+}
+
+function moveToFreeView(){
+    let freeViewTarget = new THREE.Vector3(-336, 1695, 5785);
+    let tweenTime = 3000;
+    moveCamera(freeViewTarget, tweenTime, ()=>console.log("ff"));
 }
 
 function onWindowResize() {
@@ -223,25 +221,32 @@ function onWindowResize() {
 }
 
 function addControl(){
-  let gui = new dat.GUI();
-  let position = gui.addFolder('Position');
-  position.add(plane.position,'x',-1000,1000).name('PositionX').listen();
-  position.add(plane.position,'y',-1000,1000).name('PositionY').listen();
-  position.add(plane.position,'z',-1000,1000).name('PositionZ').listen();
-  let rotation= gui.addFolder('Rotation');
-  position.add(plane.rotation,'x',0,Math.PI).name('rotateX').listen();
-  position.add(plane.rotation,'y',0,Math.PI).name('rotateY').listen();
-  position.add(plane.rotation,'z',0,Math.PI).name('rotateZ').listen();
+    let options = {
+        Top: moveToTop,
+        Around: moveToFreeView
+    };
+    let gui = new dat.GUI();
+    let position = gui.addFolder('Position');
+    position.add(plane.position,'x',-1000,1000).name('PositionX').listen();
+    position.add(plane.position,'y',-1000,1000).name('PositionY').listen();
+    position.add(plane.position,'z',-1000,1000).name('PositionZ').listen();
+    let rotation= gui.addFolder('Rotation');
+    position.add(plane.rotation,'x',0,Math.PI).name('rotateX').listen();
+    position.add(plane.rotation,'y',0,Math.PI).name('rotateY').listen();
+    position.add(plane.rotation,'z',0,Math.PI).name('rotateZ').listen();
 
-  position.open();
-  rotation.open();
+    position.open();
+    rotation.open();
+    //Create View Options
+    gui.add(options, 'Top');
+    gui.add(options, 'Around');
 }
 
 function animate() {
-    // console.log(controls.object.position);
     for (let i=0; i<personPoints.length; i++){
         personPoints[i].update();
     }
+    // console.log(controls.object.position);
     TWEEN.update();
     controls.update();
     requestAnimationFrame( animate );
