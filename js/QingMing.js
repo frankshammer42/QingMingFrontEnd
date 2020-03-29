@@ -243,27 +243,31 @@ function addSkybox() {
 
 }
 
-function moveCamera(target, tweenTime, finishFunction) {
-  let deepTripPosition = new TWEEN.Tween(camera.position)
+function moveCamera(target, tweenTime, finishFunction, easingFunction) {
+  let deepTripPosition = new TWEEN.Tween(controls.object.position)
     .to({
       x: target.x,
       y: target.y,
       z: target.z
     }, tweenTime)
-    .easing(TWEEN.Easing.Cubic.InOut).onUpdate(function() {}).onComplete(() => finishFunction())
+    .easing(easingFunction).onUpdate(function() {}).onComplete(() => finishFunction())
     .start();
 }
 
 function moveToTop(){
-    let topTarget = new THREE.Vector3(0, 5000, 0);
-    let tweenTime = 8000;
-    moveCamera(topTarget, tweenTime, ()=>console.log("ff"));
+    let topTarget = new THREE.Vector3(0, 3000, 3000);
+    let tweenTime = 2000;
+    moveCamera(topTarget, tweenTime, ()=>{
+        topTarget = new THREE.Vector3(0, 3000, 0);
+        tweenTime = 2000;
+        moveCamera(topTarget, tweenTime, ()=>{"whatever"}, TWEEN.Easing.Cubic.InOut);
+    }, TWEEN.Easing.Linear.None);
 }
 
 function moveToFreeView(){
     let freeViewTarget = new THREE.Vector3(-336, 1695, 5785);
     let tweenTime = 3000;
-    moveCamera(freeViewTarget, tweenTime, ()=>console.log("ff"));
+    moveCamera(freeViewTarget, tweenTime, ()=>console.log("ff"), TWEEN.Easing.Cubic.InOut);
 }
 
 function onWindowResize() {
@@ -271,7 +275,6 @@ function onWindowResize() {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
-
 
 function addControl(){
     let options = {
@@ -301,12 +304,11 @@ function addControl(){
     gui.add(options, 'Around');
 }
 
-
 function animate() {
     for (let i=0; i<personPoints.length; i++){
         personPoints[i].update();
     }
-    // console.log(controls.object.position);
+    console.log(controls.object.position);
     TWEEN.update();
     controls.update();
     requestAnimationFrame( animate );
