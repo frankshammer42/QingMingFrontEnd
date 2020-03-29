@@ -30,6 +30,11 @@ let initModelPos = new THREE.Vector3(-45000, -33800, 8000);
 let initMapPos = new THREE.Vector3(2883, -370, -6822);
 let currentModelPos = initModelPos;
 let currentMapPos = initMapPos;
+let hemiLight;
+let dirLight;
+let fillLight;
+let backLight;
+let ambientLight;
 
 //Main Loop------------------------------------------------------
 init();
@@ -114,15 +119,15 @@ function enter() {
 }
 
 function showInfoCard() {
-    document.getElementById("info-card-backdrop").style.display = 'flex';
+  document.getElementById("info-card-backdrop").style.display = 'flex';
 }
 
 function closeInfoCard() {
-    document.getElementById('info-card-backdrop').style.display = 'none';
+  document.getElementById('info-card-backdrop').style.display = 'none';
 }
 
 function preventEvent(event) {
-    event.stopPropagation();
+  event.stopPropagation();
 }
 
 function addOnePoint() {
@@ -146,22 +151,21 @@ function addPoints(){
     let pulseCounter = 0;
     for (let i=0; i<numberOfPoints; i++) {
         // let randomHeight = Math.random()*maxHeight;
-        let randomHeight = i*heightGap;
+        let randomHeight = i * heightGap;
         // Wide
         // let randomRadius = Math.random()*maxRadius;
         // Segmented
         let randomRadius = 0;
         let currentRange;
-        if (pulseCounter < currentLowNumber){
+        if (pulseCounter < currentLowNumber) {
             currentRange = ranges[0];
-        }
-        else{
+        } else {
             currentRange = ranges[1];
         }
-        randomRadius = currentRange[0] + Math.random()*(currentRange[1]-currentRange[0]);
-        if (pulseCounter > currentPulseNumber){
-            currentPulseNumber = pulseOffset + Math.floor(Math.random()*(maxPulseNumber-pulseOffset));
-            currentLowNumber = currentPulseNumber/2 + Math.floor(Math.random()*(currentPulseNumber/2))*Math.random();
+        randomRadius = currentRange[0] + Math.random() * (currentRange[1] - currentRange[0]);
+        if (pulseCounter > currentPulseNumber) {
+            currentPulseNumber = pulseOffset + Math.floor(Math.random() * (maxPulseNumber - pulseOffset));
+            currentLowNumber = currentPulseNumber / 2 + Math.floor(Math.random() * (currentPulseNumber / 2)) * Math.random();
             pulseCounter = 0;
         }
         // let randomRadius = currentRange[0] + Math.random()*(currentRange[1]-currentRange[0]);
@@ -187,21 +191,62 @@ function loadMap() {
 }
 
 function getLight() {
-  let light = new THREE.PointLight(0xffffff, 1, 0);
-  light.position.set(1, 1, 1);
-  let ambientLight = new THREE.AmbientLight(0x111111, 5.5);
-  ambientLight.position.set(100, 100, 0);
+
+  //
+  //
+  //this is the sun
+  dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+  dirLight.color.setHSL(0.1, 1, 0.95);
+  dirLight.position.set(848, -3955, -1749);
+  dirLight.position.multiplyScalar(50);
+  scene.add(dirLight);
+  //
+  dirLight.castShadow = true;
+  dirLight.shadowMapWidth = dirLight.shadowMapHeight = 1024 * 2;
+  //
+  // var d = 30;
+  //
+  // dirLight.shadowCameraLeft = -d;
+  // dirLight.shadowCameraRight = d;
+  // dirLight.shadowCameraTop = d;
+  // dirLight.shadowCameraBottom = -d;
+  //
+  // // the magic is here - this needs to be tweaked if you change dimensions
+  //
+  dirLight.shadowCameraFar = 35000;
+  dirLight.shadowBias = -0.000001;
+  dirLight.shadowDarkness = 0.35;
+  scene.add(dirLight);
+
+  //tyis is the amibient light
+  ambientLight = new THREE.AmbientLight(0x111111, 5.5);
+  ambientLight.position.set(2100, 20000, 6000);
   scene.add(ambientLight);
-  let fillLight = new THREE.DirectionalLight(0x111111, 1, 0.2);
-  fillLight.position.set(100, 0, -100);
-  let backLight = new THREE.DirectionalLight(0xffffff, 1.0);
-  backLight.position.set(100, 0, 50).normalize();
-  light.castShadow = true;
-  light.shadow.camera.near = 0.1;
-  light.shadow.camera.far = 100;
+
+  //this is the fill light
+  fillLight = new THREE.DirectionalLight(0x111111, 1, 2);
+  fillLight.position.set(100, 0, -9900);
+
+  //this is the back light
+  backLight = new THREE.DirectionalLight(0xffffff, 1.1);
+  backLight.position.set(-3072, 4868, 2000).normalize();
+
+  // light.castShadow = true;
+  // light.shadow.camera.near = 0.1;
+  // light.shadow.camera.far = 500;
+
+
+
   scene.add(fillLight);
   scene.add(backLight);
   scene.add(ambientLight);
+
+
+    //this is the fog
+    scene.fog = new THREE.Fog(0x323233, 100, 80000);
+    renderer.setClearColor(scene.fog.color, 1);
+
+
 }
 
 function addSkybox() {
@@ -229,7 +274,7 @@ function addSkybox() {
 
   //scene.fog.color.copy( uniforms.bottomColor.value );
 
-  let skyGeo = new THREE.SphereGeometry(80000*1.2, 640*1.2, 300*1.2);
+  let skyGeo = new THREE.SphereGeometry(80000 * 1.2, 640 * 1.2, 300 * 1.2);
   let skyMat = new THREE.ShaderMaterial({
     vertexShader: vertexShader,
     fragmentShader: fragmentShader,
@@ -238,8 +283,8 @@ function addSkybox() {
   });
 
   let sky = new THREE.Mesh(skyGeo, skyMat);
-//  sky.position.z-=10000;
-//  console.log(sky.position.y)
+  //  sky.position.z-=10000;
+  //  console.log(sky.position.y)
   scene.add(sky);
 
 }
