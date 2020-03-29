@@ -55,6 +55,7 @@ function init() {
   controls.minDistance = 500;
   controls.maxDistance = 8000;
   controls.maxPolarAngle = Math.PI/2;
+  controls.autoRotate = true;
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color('skyblue');
@@ -173,33 +174,22 @@ function loadMap() {
   plane = new THREE.Mesh(geometry, material);
   plane.position.set(2883, -370, -6822);
   plane.rotation.x = Math.PI + Math.PI / 2;
-
-
   scene.add(plane)
 }
 
 function getLight() {
   let light = new THREE.PointLight(0xffffff, 1, 0);
   light.position.set(1, 1, 1);
-
-
   let ambientLight = new THREE.AmbientLight(0x111111, 5.5);
   ambientLight.position.set(100, 100, 0);
   scene.add(ambientLight);
-
-
   let fillLight = new THREE.DirectionalLight(0x111111, 1, 0.2);
   fillLight.position.set(100, 0, -100);
-
   let backLight = new THREE.DirectionalLight(0xffffff, 1.0);
   backLight.position.set(100, 0, 50).normalize();
-
   light.castShadow = true;
   light.shadow.camera.near = 0.1;
   light.shadow.camera.far = 100;
-
-
-
   scene.add(fillLight);
   scene.add(backLight);
   scene.add(ambientLight);
@@ -261,14 +251,14 @@ function moveToTop(){
     let tweenTime = 2000;
     moveCamera(topTarget, tweenTime, ()=>{
         topTarget = new THREE.Vector3(0, 3000, 0);
-        tweenTime = 2000;
+        tweenTime = 3000;
         moveCamera(topTarget, tweenTime, ()=>{"whatever"}, TWEEN.Easing.Cubic.InOut);
     }, TWEEN.Easing.Linear.None);
 }
 
 function moveToFreeView(){
     let freeViewTarget = new THREE.Vector3(-336, 1695, 5785);
-    let tweenTime = 3000;
+    let tweenTime = 4000;
     moveCamera(freeViewTarget, tweenTime, ()=>console.log("ff"), TWEEN.Easing.Cubic.InOut);
 }
 
@@ -310,7 +300,6 @@ function animate() {
     for (let i=0; i<personPoints.length; i++){
         personPoints[i].update();
     }
-    console.log(controls.object.position);
     TWEEN.update();
     controls.update();
     requestAnimationFrame( animate );
