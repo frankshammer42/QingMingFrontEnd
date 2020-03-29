@@ -77,6 +77,19 @@ function init() {
   addControl();
 }
 
+function loadModel() {
+    let loader = new THREE.OBJLoader();
+    loader.load('/models/building2.obj', function(object) {
+        scene.add(object);
+        object.position.x = -45000;
+        object.position.y = -33800;
+        object.position.z = 8000;
+        object.scale.x *= 2000;
+        object.scale.y *= 2000;
+        object.scale.z *= 2000;
+    });
+}
+
 function enter() {
     document.getElementById("welcome-page").style.display = 'none';
 }
@@ -222,8 +235,6 @@ function addControl(){
 
   position.open();
   rotation.open();
-
-
 }
 
 function animate() {
