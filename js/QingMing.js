@@ -211,11 +211,11 @@ function addSkybox() {
   let uniforms = {
     topColor: {
       type: "c",
-      value: new THREE.Color(0x0077ff)
+      value: new THREE.Color(0xcad4db)
     },
     bottomColor: {
       type: "c",
-      value: new THREE.Color(0xffffff)
+      value: new THREE.Color(0xf0f4f7)
     },
     offset: {
       type: "f",
@@ -239,6 +239,8 @@ function addSkybox() {
   });
 
   let sky = new THREE.Mesh(skyGeo, skyMat);
+//  sky.position.z-=10000;
+//  console.log(sky.position.y)
   scene.add(sky);
 
 }
