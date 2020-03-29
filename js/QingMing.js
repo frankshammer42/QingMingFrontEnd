@@ -1,3 +1,4 @@
+//TODO: Wait For Emboddie
 //Set Up Variables
 let scene;
 let camera;
@@ -51,7 +52,10 @@ function init() {
   camera.updateProjectionMatrix();
   // geometry
   controls = new THREE.OrbitControls(camera, container);
-  controls.addEventListener('change', render);
+  controls.minDistance = 500;
+  controls.maxDistance = 8000;
+  controls.maxPolarAngle = Math.PI/2;
+
   scene = new THREE.Scene();
   scene.background = new THREE.Color('skyblue');
   // scene.background =  new THREE.Color( 0x000000);
@@ -64,22 +68,22 @@ function init() {
   renderer.gammaOutput = true;
   container.appendChild(renderer.domElement);
   window.addEventListener('resize', onWindowResize, false);
-  //
-  let start = new THREE.Vector3(0, 52000, 0);
-  let end = new THREE.Vector3(0, 0, 0);
-  centerLine = new Line(start, end, 2, 2000);
-  scene.add(centerLine.line);
-  console.log(centerLine.line.position);
 
-  // light
-  getLight();
+  // Center Line
+  // let start = new THREE.Vector3(0, 52000, 0);
+  // let end = new THREE.Vector3(0, 0, 0);
+  // centerLine = new Line(start, end, 2, 2000);
+  // scene.add(centerLine.line);
+  // console.log(centerLine.line.position);
+
+  //Light and Model and Map
 
   //addSkybox
   addSkybox()
   //model
   loadModel();
-  // addPoints();
   loadMap();
+  //Add Control Panel
   addControl();
 }
 
@@ -110,51 +114,40 @@ function addOnePoint() {
   personPoints.push(personPoint);
 }
 
-function addPoints() {
-  let initPosition = new THREE.Vector3(-10000, 0, 0);
-  for (let i = 0; i < 500; i++) {
-    let randomHeight = Math.random() * maxHeight;
-    let randomRadius = Math.random() * maxRadius;
-    personPoint = new PersonPoint(randomRadius, randomHeight, initPosition);
-    scene.add(personPoint.point);
-    scene.add(personPoint.trailLine);
-    personPoints.push(personPoint);
-  }
-}
-
-function addPoints() {
-  let initPosition = new THREE.Vector3(-10000, 0, 0);
-  let heightGap = maxHeight / 500;
-  let maxPulseNumber = 60;
-  let currentPulseNumber = 30 + Math.floor(Math.random() * maxPulseNumber);
-  let currentLowNumber = currentPulseNumber / 2 + 10 + Math.floor(Math.random() * (currentPulseNumber / 2 - 10));
-  let pulseCounter = 0;
-  for (let i = 0; i < 500; i++) {
-    // let randomHeight = Math.random()*maxHeight;
-    let randomHeight = i * heightGap;
-    // Wide
-    // let randomRadius = Math.random()*maxRadius;
-    // Segmented
-    let randomRadius = 0;
-    let currentRange;
-    if (pulseCounter < currentLowNumber) {
-      currentRange = ranges[0];
-    } else {
-      currentRange = ranges[1];
+function addPoints(){
+    let initPosition = new THREE.Vector3(-10000, 0, 0);
+    let heightGap = maxHeight/500;
+    let maxPulseNumber = 60;
+    let currentPulseNumber = 30 + Math.floor(Math.random()*maxPulseNumber);
+    let currentLowNumber = currentPulseNumber/2 + 10 + Math.floor(Math.random()*(currentPulseNumber/2 - 10));
+    let pulseCounter = 0;
+    for (let i=0; i<500; i++) {
+        // let randomHeight = Math.random()*maxHeight;
+        let randomHeight = i*heightGap;
+        // Wide
+        // let randomRadius = Math.random()*maxRadius;
+        // Segmented
+        let randomRadius = 0;
+        let currentRange;
+        if (pulseCounter < currentLowNumber){
+            currentRange = ranges[0];
+        }
+        else{
+            currentRange = ranges[1];
+        }
+        randomRadius = currentRange[0] + Math.random()*(currentRange[1]-currentRange[0]);
+        if (pulseCounter > currentPulseNumber){
+            currentPulseNumber = Math.floor(Math.random()*30);
+            currentLowNumber = Math.floor(Math.random()*currentPulseNumber);
+            pulseCounter = 0;
+        }
+        // let randomRadius = currentRange[0] + Math.random()*(currentRange[1]-currentRange[0]);
+        personPoint = new PersonPoint(randomRadius, randomHeight, initPosition);
+        scene.add(personPoint.point);
+        scene.add(personPoint.trailLine);
+        personPoints.push(personPoint);
+        pulseCounter += 1;
     }
-    randomRadius = currentRange[0] + Math.random() * (currentRange[1] - currentRange[0]);
-    if (pulseCounter > currentPulseNumber) {
-      currentPulseNumber = Math.floor(Math.random() * 30);
-      currentLowNumber = Math.floor(Math.random() * currentPulseNumber);
-      pulseCounter = 0;
-    }
-    // let randomRadius = currentRange[0] + Math.random()*(currentRange[1]-currentRange[0]);
-    personPoint = new PersonPoint(randomRadius, randomHeight, initPosition);
-    scene.add(personPoint.point);
-    scene.add(personPoint.trailLine);
-    personPoints.push(personPoint);
-    pulseCounter += 1;
-  }
 }
 
 function loadMap() {
@@ -248,10 +241,16 @@ function moveCamera(target, tweenTime, finishFunction) {
     .start();
 }
 
-function moveToTop() {
-  let topTarget = new THREE.Vector3(0, 2000, 0);
-  let tweenTime = 3000;
-  moveCamera(topTarget, tweenTime, () => console.log("ff"));
+function moveToTop(){
+    let topTarget = new THREE.Vector3(0, 5000, 0);
+    let tweenTime = 8000;
+    moveCamera(topTarget, tweenTime, ()=>console.log("ff"));
+}
+
+function moveToFreeView(){
+    let freeViewTarget = new THREE.Vector3(-336, 1695, 5785);
+    let tweenTime = 3000;
+    moveCamera(freeViewTarget, tweenTime, ()=>console.log("ff"));
 }
 
 function onWindowResize() {
@@ -260,33 +259,45 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function addControl() {
-  let gui = new dat.GUI();
-  let position = gui.addFolder('Position');
-  position.add(plane.position, 'x', -10000, 10000).name('PositionX').listen();
-  position.add(plane.position, 'y', -1000, 1000).name('PositionY').listen();
-  position.add(plane.position, 'z', -10000, 10000).name('PositionZ').listen();
-  let rotation = gui.addFolder('Rotation');
-  position.add(plane.rotation, 'x', 0, Math.PI).name('rotateX').listen();
-  position.add(plane.rotation, 'y', 0, Math.PI).name('rotateY').listen();
-  position.add(plane.rotation, 'z', 0, Math.PI).name('rotateZ').listen();
-  let scale = gui.addFolder('Scale');
-  scale.add(plane.scale, 'x', 0, 3).name('ScaleX').listen();
-  scale.add(plane.scale, 'y', 0, 3).name('Scaley').listen();
-  position.open();
-  rotation.open();
-  scale.open();
+
+function addControl(){
+    let options = {
+        Top: moveToTop,
+        Around: moveToFreeView
+    };
+    let gui = new dat.GUI();
+    let position = gui.addFolder('Position');
+    position.add(plane.position,'x',-10000,10000).name('PositionX').listen();
+    position.add(plane.position,'y',-1000,1000).name('PositionY').listen();
+    position.add(plane.position,'z',-10000,10000).name('PositionZ').listen();
+    let rotation= gui.addFolder('Rotation');
+    position.add(plane.rotation,'x',0,Math.PI).name('rotateX').listen();
+    position.add(plane.rotation,'y',0,Math.PI).name('rotateY').listen();
+    position.add(plane.rotation,'z',0,Math.PI).name('rotateZ').listen();
+    let scale= gui.addFolder('Scale');
+    scale.add(plane.scale,'x',0,3).name('ScaleX').listen();
+    scale.add(plane.scale,'y',0,3).name('Scaley').listen();
+    position.open();
+    rotation.open();
+    scale.open();
+
+    position.open();
+    rotation.open();
+    //Create View Options
+    gui.add(options, 'Top');
+    gui.add(options, 'Around');
 }
 
+
 function animate() {
-  // console.log(controls.object.position);
-  for (let i = 0; i < personPoints.length; i++) {
-    personPoints[i].update();
-  }
-  TWEEN.update();
-  controls.update();
-  requestAnimationFrame(animate);
-  render();
+    for (let i=0; i<personPoints.length; i++){
+        personPoints[i].update();
+    }
+    // console.log(controls.object.position);
+    TWEEN.update();
+    controls.update();
+    requestAnimationFrame( animate );
+    render();
 }
 
 function render() {
