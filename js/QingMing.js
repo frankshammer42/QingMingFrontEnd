@@ -71,6 +71,10 @@ function init() {
     // addPoints();
 }
 
+function enter() {
+    document.getElementById("welcome-page").style.display = 'none';
+}
+
 function addOnePoint(){
     let initPosition = new THREE.Vector3(-10000, 0, 0);
     let randomHeight = Math.random()*maxHeight;
