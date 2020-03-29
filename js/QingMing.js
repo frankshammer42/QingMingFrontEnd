@@ -153,14 +153,14 @@ function addPoints(){
 }
 
 function loadMap() {
-  let geometry = new THREE.PlaneGeometry(80000, 80000, 32);
+  let geometry = new THREE.PlaneGeometry(90000*1.7, 90000*1.4, 32);
   let texture = new THREE.TextureLoader().load('textures/map.png');
   let material = new THREE.MeshBasicMaterial({
     map:texture
   //  side: THREE.DoubleSide
   });
   plane = new THREE.Mesh(geometry, material);
-  plane.position.set(0,-100,0);
+  plane.position.set(2883,-370,-6822);
   plane.rotation.x= Math.PI+Math.PI/2;
 
 
@@ -225,16 +225,19 @@ function onWindowResize() {
 function addControl(){
   let gui = new dat.GUI();
   let position = gui.addFolder('Position');
-  position.add(plane.position,'x',-1000,1000).name('PositionX').listen();
+  position.add(plane.position,'x',-10000,10000).name('PositionX').listen();
   position.add(plane.position,'y',-1000,1000).name('PositionY').listen();
-  position.add(plane.position,'z',-1000,1000).name('PositionZ').listen();
+  position.add(plane.position,'z',-10000,10000).name('PositionZ').listen();
   let rotation= gui.addFolder('Rotation');
   position.add(plane.rotation,'x',0,Math.PI).name('rotateX').listen();
   position.add(plane.rotation,'y',0,Math.PI).name('rotateY').listen();
   position.add(plane.rotation,'z',0,Math.PI).name('rotateZ').listen();
-
+  let scale= gui.addFolder('Scale');
+  scale.add(plane.scale,'x',0,3).name('ScaleX').listen();
+  scale.add(plane.scale,'y',0,3).name('Scaley').listen();
   position.open();
   rotation.open();
+  scale.open();
 }
 
 function animate() {
