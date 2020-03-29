@@ -233,7 +233,7 @@ function getLight() {
 
 
     //this is the fog
-    scene.fog = new THREE.Fog(0x323233, 100, 80000);
+    scene.fog = new THREE.Fog(0xb8b8b8, 100, 80000);
     renderer.setClearColor(scene.fog.color, 1);
 
 
