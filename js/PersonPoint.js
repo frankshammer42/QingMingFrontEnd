@@ -9,14 +9,19 @@ class PersonPoint {
         this.initPosition = initPosition;
         this.generateInitCirclePoint(radius, height);
         //Point Geometry
+        let materialColor = Math.floor(Math.random()*180).toString();
+        let pointColor = new THREE.Color("rgb("+materialColor+","+materialColor+","+materialColor+")");
         this.pointGeometry = new THREE.BufferGeometry();
         this.position = new Float32Array(3);
         this.pointGeometry.addAttribute("position", new THREE.BufferAttribute(this.position, 3));
         this.pointMaterial = new THREE.PointsMaterial( {
-            size: 3,
+
+            size: Math.random()*1.5+2.5,
             sizeAttenuation: false,
-            color: 0x000000
+            color: pointColor
         });
+        this.pointMaterial.transparent = true;
+        this.pointMaterial.opacity = Math.random()*0.2 +0.8;
         this.point = new THREE.Points(this.pointGeometry, this.pointMaterial);
         // this.point.position.copy(new THREE.Vector3(this.x, this.y, this.z));
         this.point.position.copy(this.initPosition);
@@ -31,9 +36,9 @@ class PersonPoint {
         this.trailLineGeometry = new THREE.BufferGeometry();
         this.trailLinePosition = new Float32Array(this.numberOfPointsPerTrail * 3);
         // this.trailLineMaterial = new THREE.LineBasicMaterial({color: 0x000000, linewidth: 3});
-        this.trailLineMaterial = new THREE.LineBasicMaterial({color: 0x000000, linewidth: 3});
+        this.trailLineMaterial = new THREE.LineBasicMaterial({color: pointColor , linewidth: Math.random()*4+2});
         this.trailLineMaterial.transparent = true;
-        this.trailLineMaterial.opacity = 0.6;
+        this.trailLineMaterial.opacity = Math.random()*0.2 +0.5;
         this.trailLineGeometry.addAttribute("position", new THREE.BufferAttribute(this.trailLinePosition, 3));
         this.trailLine = new THREE.Line(this.trailLineGeometry, this.trailLineMaterial);
         this.trailLine.geometry.dynamic = true;
