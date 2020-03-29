@@ -213,7 +213,7 @@ function addSkybox() {
       type: "f",
       value: 0.6
     }
-  }
+  };
   //uniforms.topColor.value.copy( hemiLight.color );
 
   //scene.fog.color.copy( uniforms.bottomColor.value );
