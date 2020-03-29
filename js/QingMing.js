@@ -180,7 +180,6 @@ function moveToTop(){
     let topTarget = new THREE.Vector3(0, 2000, 0);
     let tweenTime = 3000;
     moveCamera(topTarget, tweenTime, ()=>console.log("ff"));
-
 }
 
 function onWindowResize() {
