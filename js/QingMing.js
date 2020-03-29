@@ -1,10 +1,13 @@
 //TODO: Wait For Emboddie
 //Set Up Variables
 let scene;
+let sceneCSS;
 let camera;
 let container;
+let containerCSS;
 let raycaster;
 let renderer;
+let rendererCSS;
 let controls;
 //
 let personPoint;
@@ -50,11 +53,8 @@ function reset_scene() {
 }
 
 function init() {
-  // ---------------------Env Set Up
   raycaster = new THREE.Raycaster();
   container = document.getElementById('container');
-  // camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 4000 );
-  // camera.position.z = 500;
   // camera
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
   camera.position.x = 0;
@@ -62,35 +62,44 @@ function init() {
   camera.position.z = 32808;
   camera.far = 1000000;
   camera.updateProjectionMatrix();
-  // geometry
-  controls = new THREE.OrbitControls(camera, container);
-  controls.minDistance = 500;
-  controls.maxDistance = 8000;
-  controls.maxPolarAngle = Math.PI/2;
 
+  //WebGL
   scene = new THREE.Scene();
   scene.background = new THREE.Color('skyblue');
-  // scene.background =  new THREE.Color( 0x000000);
   renderer = new THREE.WebGLRenderer({
+    alpha: true,
     antialias: true
   });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.gammaInput = true;
   renderer.gammaOutput = true;
+  renderer.domElement.style.top = 0;
+  renderer.domElement.style.zIndex = "1"; // required
   container.appendChild(renderer.domElement);
   window.addEventListener('resize', onWindowResize, false);
 
-  // Center Line
+  //Create CSS container for billboarding
+  sceneCSS = new THREE.Scene();
+  containerCSS = document.getElementById("containerCSS");
+  rendererCSS = new THREE.CSS3DRenderer();
+  rendererCSS.setSize( window.innerWidth, window.innerHeight );
+  rendererCSS.domElement.style.position = 'absolute';
+  rendererCSS.domElement.style.top = 0;
+  containerCSS.appendChild(rendererCSS.domElement);
+
+  //Orbit Controls
+  controls = new THREE.OrbitControls(camera, container);
+  controls.minDistance = 500;
+  controls.maxDistance = 8000;
+  controls.maxPolarAngle = Math.PI/2;
+
+    // Center Line
   // let start = new THREE.Vector3(0, 52000, 0);
   // let end = new THREE.Vector3(0, 0, 0);
   // centerLine = new Line(start, end, 2, 2000);
   // scene.add(centerLine.line);
-  // console.log(centerLine.line.position);
-
-  //Light and Model and Map
-
-  //addSkybox
+  // Light and Model Set Up
   getLight();
   addSkybox();
   //model
