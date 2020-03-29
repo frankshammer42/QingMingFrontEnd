@@ -134,7 +134,7 @@ function getLight() {
     let light = new THREE.PointLight(0xffffff, 1, 0);
     light.position.set(1, 1, 1);
 
-    let ambientLight = new THREE.AmbientLight(0x111111, 0.01);
+    let ambientLight = new THREE.AmbientLight(0x111111, 1);
     ambientLight.position.set(100, 100, 0);
     scene.add(ambientLight);
 
@@ -142,7 +142,7 @@ function getLight() {
     keyLight.position.set(-100, 0, 100);
     light.castShadow = true;
     light.shadow.camera.near = 0.1;
-    light.shadow.camera.far = 25
+    light.shadow.camera.far = 25;
 
     let fillLight = new THREE.DirectionalLight(0x111111, 0.8, 0.2);
     fillLight.position.set(100, 0, -100);
