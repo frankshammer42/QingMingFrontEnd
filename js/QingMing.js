@@ -23,6 +23,13 @@ let ranges = [
 // Center Line
 let centerLine;
 let plane;
+let model;
+// Move Around Model
+let moveAroundOffset = new THREE.Vector3(-1277, 0, -4586);
+let initModelPos = new THREE.Vector3(-45000, -33800, 8000);
+let initMapPos = new THREE.Vector3(2883, -370, -6822);
+let currentModelPos = initModelPos;
+let currentMapPos = initMapPos;
 
 //Main Loop------------------------------------------------------
 init();
@@ -55,7 +62,6 @@ function init() {
   controls.minDistance = 500;
   controls.maxDistance = 8000;
   controls.maxPolarAngle = Math.PI/2;
-  controls.autoRotate = true;
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color('skyblue');
@@ -93,12 +99,13 @@ function loadModel() {
   let loader = new THREE.OBJLoader();
   loader.load('/models/building2.obj', function(object) {
     scene.add(object);
-    object.position.x = -45000;
+    object.position.x = -45000 + moveAroundOffset.x;
     object.position.y = -33800;
-    object.position.z = 8000;
+    object.position.z = 8000 + moveAroundOffset.z;
     object.scale.x *= 2000;
     object.scale.y *= 2000;
     object.scale.z *= 2000;
+    model = object;
   });
 }
 
@@ -130,12 +137,14 @@ function addOnePoint() {
 
 function addPoints(){
     let initPosition = new THREE.Vector3(-10000, 0, 0);
-    let heightGap = maxHeight/500;
+    let numberOfPoints = 500;
+    let heightGap = maxHeight/numberOfPoints;
     let maxPulseNumber = 60;
-    let currentPulseNumber = 30 + Math.floor(Math.random()*maxPulseNumber);
-    let currentLowNumber = currentPulseNumber/2 + 10 + Math.floor(Math.random()*(currentPulseNumber/2 - 10));
+    let pulseOffset = maxPulseNumber/2;
+    let currentPulseNumber = pulseOffset + Math.floor(Math.random()*(maxPulseNumber-pulseOffset));
+    let currentLowNumber = currentPulseNumber/2 + Math.floor(Math.random()*(currentPulseNumber/2))*Math.random();
     let pulseCounter = 0;
-    for (let i=0; i<500; i++) {
+    for (let i=0; i<numberOfPoints; i++) {
         // let randomHeight = Math.random()*maxHeight;
         let randomHeight = i*heightGap;
         // Wide
@@ -151,8 +160,8 @@ function addPoints(){
         }
         randomRadius = currentRange[0] + Math.random()*(currentRange[1]-currentRange[0]);
         if (pulseCounter > currentPulseNumber){
-            currentPulseNumber = Math.floor(Math.random()*30);
-            currentLowNumber = Math.floor(Math.random()*currentPulseNumber);
+            currentPulseNumber = pulseOffset + Math.floor(Math.random()*(maxPulseNumber-pulseOffset));
+            currentLowNumber = currentPulseNumber/2 + Math.floor(Math.random()*(currentPulseNumber/2))*Math.random();
             pulseCounter = 0;
         }
         // let randomRadius = currentRange[0] + Math.random()*(currentRange[1]-currentRange[0]);
@@ -172,7 +181,7 @@ function loadMap() {
     //  side: THREE.DoubleSide
   });
   plane = new THREE.Mesh(geometry, material);
-  plane.position.set(2883, -370, -6822);
+  plane.position.set(2883 + moveAroundOffset.x, -370, -6822 + moveAroundOffset.z);
   plane.rotation.x = Math.PI + Math.PI / 2;
   scene.add(plane)
 }
@@ -256,10 +265,29 @@ function moveToTop(){
     }, TWEEN.Easing.Linear.None);
 }
 
+function moveAuto(){
+    controls.autoRotate = !controls.autoRotate;
+}
+
 function moveToFreeView(){
     let freeViewTarget = new THREE.Vector3(-336, 1695, 5785);
     let tweenTime = 4000;
     moveCamera(freeViewTarget, tweenTime, ()=>console.log("ff"), TWEEN.Easing.Cubic.InOut);
+}
+
+function moveModelMap(){
+    model.position.x = moveAroundOffset.x + initModelPos.x;
+    model.position.y = moveAroundOffset.y + initModelPos.y;
+    model.position.z = moveAroundOffset.z + initModelPos.z;
+    plane.position.x = moveAroundOffset.x + initMapPos.x;
+    plane.position.y = moveAroundOffset.y + initMapPos.y;
+    plane.position.z = moveAroundOffset.z + initMapPos.z;
+}
+
+function resetModelMap(){
+    console.log("reset");
+    model.position = initModelPos;
+    plane.position = initMapPos;
 }
 
 function onWindowResize() {
@@ -271,7 +299,10 @@ function onWindowResize() {
 function addControl(){
     let options = {
         Top: moveToTop,
-        Around: moveToFreeView
+        Around: moveToFreeView,
+        Auto: moveAuto,
+        Move: moveModelMap,
+        Reset: resetModelMap
     };
     let gui = new dat.GUI();
     let position = gui.addFolder('Position');
@@ -285,15 +316,20 @@ function addControl(){
     let scale= gui.addFolder('Scale');
     scale.add(plane.scale,'x',0,3).name('ScaleX').listen();
     scale.add(plane.scale,'y',0,3).name('Scaley').listen();
+    let move = gui.addFolder('MoveAround');
+    move.add(moveAroundOffset, 'x', -30000, 30000).name('MoveAroundX').listen();
+    move.add(moveAroundOffset, 'y', -30000, 30000).name('MoveAroundY').listen();
+    move.add(moveAroundOffset, 'z', -30000, 30000).name('MoveAroundZ').listen();
     position.open();
     rotation.open();
     scale.open();
-
-    position.open();
-    rotation.open();
+    move.open();
     //Create View Options
     gui.add(options, 'Top');
     gui.add(options, 'Around');
+    gui.add(options, 'Auto');
+    gui.add(options, 'Move');
+    gui.add(options, 'Reset');
 }
 
 function animate() {
