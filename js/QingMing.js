@@ -79,7 +79,8 @@ function init() {
   //Light and Model and Map
 
   //addSkybox
-  addSkybox()
+  getLight();
+  addSkybox();
   //model
   loadModel();
   loadMap();
@@ -193,9 +194,9 @@ function getLight() {
 }
 
 function addSkybox() {
-  var vertexShader = document.getElementById('vertexShader').textContent;
-  var fragmentShader = document.getElementById('fragmentShader').textContent;
-  var uniforms = {
+  let vertexShader = document.getElementById('vertexShader').textContent;
+  let fragmentShader = document.getElementById('fragmentShader').textContent;
+  let uniforms = {
     topColor: {
       type: "c",
       value: new THREE.Color(0x0077ff)
@@ -217,15 +218,15 @@ function addSkybox() {
 
   //scene.fog.color.copy( uniforms.bottomColor.value );
 
-  var skyGeo = new THREE.SphereGeometry(80000*1.2, 640*1.2, 300*1.2);
-  var skyMat = new THREE.ShaderMaterial({
+  let skyGeo = new THREE.SphereGeometry(80000*1.2, 640*1.2, 300*1.2);
+  let skyMat = new THREE.ShaderMaterial({
     vertexShader: vertexShader,
     fragmentShader: fragmentShader,
     uniforms: uniforms,
     side: THREE.BackSide
   });
 
-  var sky = new THREE.Mesh(skyGeo, skyMat);
+  let sky = new THREE.Mesh(skyGeo, skyMat);
   scene.add(sky);
 
 }
