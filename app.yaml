@@ -1,0 +1,21 @@
+runtime: python27
+service: monument-frontend
+api_version: 1
+threadsafe: true
+
+default_expiration: '30m'
+
+handlers:
+  - url: /$
+    static_files: dist/index.html
+    upload: dist/index.html
+    expiration: 10m
+    secure: always
+    redirect_http_response_code: 301
+
+  - url: /(.*)
+    static_files: dist/\1
+    upload: dist/(.*)
+    expiration: 10m
+    secure: always
+    redirect_http_response_code: 301

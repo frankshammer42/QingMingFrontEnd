@@ -1,9 +1,8 @@
 @font-face {
   font-family: 'JingDianXingShuJian';
-  src:
-    url('../assets/JingDianXingShuJian.woff2') format('woff2'),
-    url('../assets/JingDianXingShuJian.woff') format('woff'),
-    url('../assets/JingDianXingShuJian.ttf') format('truetype');
+  src: url('/assets/JingDianXingShuJian.woff2') format('woff2'),
+    url('/assets/JingDianXingShuJian.woff') format('woff'),
+    url('/assets/JingDianXingShuJian.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
@@ -11,8 +10,6 @@
 html,
 body {
   width: 100%;
-  background: #000;
-  color: #fff;
   margin: 0;
   padding: 0;
   border: 0;
@@ -28,16 +25,17 @@ body {
   overflow: hidden;
 }
 
-body, p, input, button {
-  font-family: Songti TC, -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto,
-    Helvetica Neue, Fira Sans, Ubuntu, Oxygen, Oxygen Sans, Cantarell,
+body,
+p,
+input,
+button {
+  font-family: Songti TC, -apple-system, system-ui, BlinkMacSystemFont, Segoe UI,
+    Roboto, Helvetica Neue, Fira Sans, Ubuntu, Oxygen, Oxygen Sans, Cantarell,
     Droid Sans, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol,
     Lucida Grande, Helvetica, Arial, sans-serif;
   /* font-weight: 400; */
-  opacity: 0.7;
   font-family: STSongti-TC-Light;
   font-size: 18px;
-  color: #FFFFFF;
   letter-spacing: 0;
   text-align: justify;
   line-height: 24px;
@@ -73,7 +71,8 @@ canvas {
   color: rgba(0, 0, 0, 0.75);
 }
 
-#containerCSS, #container {
+#containerCSS,
+#container {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -139,8 +138,8 @@ canvas {
   height: 100%;
   backdrop-filter: blur(10px);
 
-  background: rgba(255, 255, 255, 0.1);
-  opacity:0.6;
+  background: rgba(10, 10, 10, 0.48);
+  opacity: 0.6;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -222,7 +221,8 @@ canvas {
   padding: 32px;
 }
 
-.name-input, .enter-button {
+.name-input,
+.enter-button {
   height: 60px;
   box-sizing: border-box;
   width: 200px;
@@ -238,29 +238,18 @@ canvas {
 }
 
 .enter-button {
-<<<<<<< HEAD:css/main.css
   margin: 10px 0;
   border: 0px solid #000;
-  */ //background: rgba(0, 0, 0, 1);
+  /*background: rgba(0, 0, 0, 1);*/
   background: radial-gradient(circle farthest-side, #787878, #181717);
-  background-repeat: no-repeat;
+      background-repeat: no-repeat;
   /*border-radius:6px;*/
   color: #ffffff;
   cursor: pointer;
-=======
-    margin: 10px 0;
-    border: 0px solid #000;
-    /*background: rgba(0, 0, 0, 1);*/
-    background: radial-gradient(circle farthest-side, #787878, #181717);
-    background-repeat: no-repeat;
-    /*border-radius:6px;*/
-    color: #ffffff;
-    cursor: pointer;
->>>>>>> 53d3e3d5a9c1324c44a81b112b3230ab99ab1254:src/css/main.css
 }
 
 .enter-button:hover {
-  border: 1px solid rgba(255, 255, 255, 1)
+  border: 1px solid rgba(255, 255, 255, 1);
 }
 
 @media only screen and (max-width: 768px) {
@@ -287,7 +276,8 @@ canvas {
     padding: 24px;
   }
 
-  .name-input, .enter-button {
+  .name-input,
+  .enter-button {
     height: 36px;
     width: 180px;
     border-radius: 24px;
@@ -307,7 +297,8 @@ canvas {
 
 /*************** END welcome page ****************/
 /*************** START main page ****************/
-.close-button img, .info-button img {
+.close-button img,
+.info-button img {
   width: 100%;
   height: 100%;
 }
@@ -332,35 +323,19 @@ canvas {
 }
 
 .info-button {
-<<<<<<< HEAD:css/main.css
   border-radius: 50% 50% 50% 0;
   position: absolute;
   left: 16px;
   bottom: 16px;
-  width: 36px;
-  height: 36px;
-  box-shadow: 1px 1px 3px #555;
+  width: 40px;
+  height: 40px;
+  box-shadow: 1px 1px 3px #ccc;
   border: none;
   padding: 0;
   box-sizing: border-box;
   background: #212121;
   z-index: 500;
   cursor: pointer;
-=======
-    border-radius: 50% 50% 50% 0;
-    position: absolute;
-    left: 16px;
-    bottom: 16px;
-    width: 40px;
-    height: 40px;
-    box-shadow: 1px 1px 3px #ccc;
-    border: none;
-    padding: 0;
-    box-sizing: border-box;
-    background: #212121;
-    z-index: 500;
-    cursor: pointer;
->>>>>>> 53d3e3d5a9c1324c44a81b112b3230ab99ab1254:src/css/main.css
 }
 
 #info-card-backdrop {
@@ -372,33 +347,35 @@ canvas {
   position: relative;
 }
 
-.view-angle1-button, .view-angle2-button, .view-angle3-button {
-    color: #000;
-    background: #fff;
-    box-shadow: 1px 1px 3px #ccc;
-    position: absolute;
-    width: 200px;
-    height: 100px;
-    background-size: cover;
-    padding: 0;
-    z-index: 500;
-    border-radius: 8px;
+.view-angle1-button,
+.view-angle2-button,
+.view-angle3-button {
+  color: #000;
+  background: #fff;
+  box-shadow: 1px 1px 3px #ccc;
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  background-size: cover;
+  padding: 0;
+  z-index: 500;
+  border-radius: 8px;
 }
 
 .view-angle1-button {
-    background-image: url('/assets/images/view-angle1.png');
-    right: 448px;
-    bottom: 16px;
+  background-image: url('/assets/images/view-angle1.png');
+  right: 448px;
+  bottom: 16px;
 }
 
 .view-angle2-button {
-    background-image: url('/assets/images/view-angle2.png');
-    right: 232px;
-    bottom: 16px;
+  background-image: url('/assets/images/view-angle2.png');
+  right: 232px;
+  bottom: 16px;
 }
 
 .view-angle3-button {
-    background-image: url('/assets/images/view-angle3.png');
-    right: 16px;
-    bottom: 16px;
+  background-image: url('/assets/images/view-angle3.png');
+  right: 16px;
+  bottom: 16px;
 }

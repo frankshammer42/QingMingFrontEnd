@@ -140,7 +140,7 @@ function addBillboards(){
 
 function loadModel() {
   let loader = new THREE.OBJLoader();
-  loader.load('/models/building2.obj', function(object) {
+  loader.load('/assets/models/building2.obj', function(object) {
     scene.add(object);
     object.position.x = -45000 + moveAroundOffset.x;
     object.position.y = -33800;
@@ -244,7 +244,7 @@ function addPoints(initPos){
 
 function loadMap() {
   let geometry = new THREE.PlaneGeometry(90000 * 1.7, 90000 * 1.4, 32);
-  let texture = new THREE.TextureLoader().load('textures/map.png');
+  let texture = new THREE.TextureLoader().load('/assets/textures/map.png');
   let material = new THREE.MeshBasicMaterial({
     map: texture,
     color: 0xffffff
