@@ -41,6 +41,8 @@ let dirLight;
 let fillLight;
 let backLight;
 let ambientLight;
+//for mouse
+let mouse;
 
 //Main Loop------------------------------------------------------
 init();
@@ -60,9 +62,13 @@ function init() {
   container = document.getElementById('container');
   // camera
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-  camera.position.x = 0;
-  camera.position.y = 0;
-  camera.position.z = 32808;
+  //
+  //   -7965.668730586435
+  //   y: 514.8100231721643
+  //   z: -532.0642015762531
+  camera.position.x = -7965.66;
+  camera.position.y = 514.81;
+  camera.position.z = -532.06;
   camera.far = 1000000;
   camera.updateProjectionMatrix();
 
@@ -93,7 +99,7 @@ function init() {
 
   //Orbit Controls
   controls = new THREE.OrbitControls(camera, container);
-  controls.minDistance = 500;
+  controls.minDistance = 50;
   controls.maxDistance = 8000;
   controls.maxPolarAngle = Math.PI/2;
 
@@ -110,8 +116,19 @@ function init() {
   loadMap();
   //Add Control Panel
   addControl();
-  addBillboards();
+  // addPoints();
+  // addBillboards();
+  document.addEventListener("mousemove", mouseMove);
 }
+
+function mouseMove(event){
+    mouse = new THREE.Vector3();
+    mouse.set(
+        ( event.clientX / window.innerWidth ) * 2 - 1,
+        - ( event.clientY / window.innerHeight ) * 2 + 1,
+        0.5 );
+}
+
 
 function addBillboards(){
     let content = "洪山礼堂";
@@ -137,6 +154,10 @@ function loadModel() {
 
 function enter() {
   document.getElementById("welcome-page").style.display = 'none';
+  let vector = new THREE.Vector3( mouse.x, mouse.y, -1 ).unproject( camera );
+  // vector.z = -400;
+  addPoints(vector);
+  initCamMove();
 }
 
 function showInfoCard() {
@@ -161,8 +182,15 @@ function addOnePoint() {
   personPoints.push(personPoint);
 }
 
-function addPoints(){
-    let initPosition = new THREE.Vector3(-10000, 0, 0);
+function convertIndexToRowCol(index, widthNum){
+    let row = Math.floor(index / widthNum );
+    let col  = index % widthNum;
+    return  [row, col];
+}
+
+function addPoints(initPos){
+    // let initPosition = new THREE.Vector3(-10000, 0, 0);
+    let initPosition = initPos;
     let numberOfPoints = 500;
     let heightGap = maxHeight/numberOfPoints;
     let maxPulseNumber = 60;
@@ -170,7 +198,23 @@ function addPoints(){
     let currentPulseNumber = pulseOffset + Math.floor(Math.random()*(maxPulseNumber-pulseOffset));
     let currentLowNumber = currentPulseNumber/2 + Math.floor(Math.random()*(currentPulseNumber/2))*Math.random();
     let pulseCounter = 0;
+    //For Initial Rectangles
+    let recWidthGap =  0.1;
+    let recHeightGap = 0.1;
+    let colNumber = 25;
+    let rowNumber = numberOfPoints/colNumber;
+    let width = colNumber * recWidthGap;
+    let height = rowNumber * recHeightGap;
+    let halfWidth = width/2;
+    let halfHeight = height/2;
+
     for (let i=0; i<numberOfPoints; i++) {
+        // let recIndexes = convertIndexToRowCol(i, colNumber);
+        // let rowIndex = recIndexes[0];
+        // let colIndex = recIndexes[1];
+        // let initX = -halfWidth + colIndex*recWidthGap;
+        // let initY = halfHeight - rowIndex*recHeightGap;
+        // initPosition = new THREE.Vector3(initX, initY, 6000);
         // let randomHeight = Math.random()*maxHeight;
         let randomHeight = i * heightGap;
         // Wide
@@ -304,6 +348,14 @@ function moveCamera(target, tweenTime, finishFunction, easingFunction) {
     .start();
 }
 
+function initCamMove(){
+    let topTarget = new THREE.Vector3(0, 0, 7500);
+    let tweenTime = 5000;
+    moveCamera(topTarget, tweenTime, ()=>{
+        console.log("ff");
+    }, TWEEN.Easing.Linear.None);
+}
+
 function moveToTop(){
     let topTarget = new THREE.Vector3(0, 3000, 3000);
     let tweenTime = 2000;
@@ -382,9 +434,10 @@ function addControl(){
 }
 
 function animate() {
-    for (let i=0; i<personPoints.length; i++){
-        personPoints[i].update();
-    }
+    console.log(controls.object.position);
+    // for (let i=0; i<personPoints.length; i++){
+    //     personPoints[i].update();
+    // }
     for (let i=0; i<billBoards.length; i++){
         billBoards[i].update();
     }

@@ -1,5 +1,5 @@
 class PersonPoint {
-    constructor(radius, height, initPosition){
+    constructor(radius, height, initPosition) {
         this.radius = radius;
         this.height = height;
         this.theta = 0;
@@ -9,19 +9,19 @@ class PersonPoint {
         this.initPosition = initPosition;
         this.generateInitCirclePoint(radius, height);
         //Point Geometry
-        let materialColor = Math.floor(Math.random()*180).toString();
-        let pointColor = new THREE.Color("rgb("+materialColor+","+materialColor+","+materialColor+")");
+        let materialColor = Math.floor(Math.random() * 180).toString();
+        let pointColor = new THREE.Color("rgb(" + materialColor + "," + materialColor + "," + materialColor + ")");
         this.pointGeometry = new THREE.BufferGeometry();
         this.position = new Float32Array(3);
         this.pointGeometry.addAttribute("position", new THREE.BufferAttribute(this.position, 3));
-        this.pointMaterial = new THREE.PointsMaterial( {
+        this.pointMaterial = new THREE.PointsMaterial({
 
-            size: Math.random()*1.5+2.5,
+            size: Math.random() * 1.5 + 2.5,
             sizeAttenuation: false,
             color: pointColor
         });
         this.pointMaterial.transparent = true;
-        this.pointMaterial.opacity = Math.random()*0.2 +0.8;
+        this.pointMaterial.opacity = Math.random() * 0.2 + 0.8;
         this.point = new THREE.Points(this.pointGeometry, this.pointMaterial);
         // this.point.position.copy(new THREE.Vector3(this.x, this.y, this.z));
         this.point.position.copy(this.initPosition);
@@ -30,15 +30,15 @@ class PersonPoint {
         this.center = [0, height, 0];
         this.circle = new CircleTrail(this.center, radius);
         //Dynamics
-        this.rotateSpeed = -Math.random()*0.002;
+        this.rotateSpeed = -Math.random() * 0.002;
         //Trail
-        this.numberOfPointsPerTrail = 1000 + Math.floor(Math.random()*100);
+        this.numberOfPointsPerTrail = 1000 + Math.floor(Math.random() * 100);
         this.trailLineGeometry = new THREE.BufferGeometry();
         this.trailLinePosition = new Float32Array(this.numberOfPointsPerTrail * 3);
         // this.trailLineMaterial = new THREE.LineBasicMaterial({color: 0x000000, linewidth: 3});
-        this.trailLineMaterial = new THREE.LineBasicMaterial({color: pointColor , linewidth: Math.random()*4+2});
+        this.trailLineMaterial = new THREE.LineBasicMaterial({color: pointColor, linewidth: Math.random() * 4 + 2});
         this.trailLineMaterial.transparent = true;
-        this.trailLineMaterial.opacity = Math.random()*0.2 +0.5;
+        this.trailLineMaterial.opacity = Math.random() * 0.2 + 0.5;
         this.trailLineGeometry.addAttribute("position", new THREE.BufferAttribute(this.trailLinePosition, 3));
         this.trailLine = new THREE.Line(this.trailLineGeometry, this.trailLineMaterial);
         this.trailLine.geometry.dynamic = true;
@@ -53,7 +53,7 @@ class PersonPoint {
         this.trailLine.geometry.attributes.position.array[1] = this.y;
         this.trailLine.geometry.attributes.position.array[2] = this.z;
         // Rotation -> Add Speed to create smooth transition
-        this.ringRotateSpeed = Math.random()*0.001 - 0.0005;
+        this.ringRotateSpeed = Math.random() * 0.001 - 0.0005;
         this.ringRotateCounterMax = 1000;
         this.ringRotateCounter = 0;
         this.xRotationAngle = 0;
@@ -63,9 +63,10 @@ class PersonPoint {
         //Regarding Initial Movement
         this.startRotate = false;
         this.target = new THREE.Vector3(this.x, this.y, this.z);
-        this.tweenTime = 8000;
+        this.tweenTime = 3000 + Math.random()*3000;
         this.tweenToInitPosition();
     }
+
 
     tweenToInitPosition(){
         let deepTripPosition = new TWEEN.Tween( this.point.position )
