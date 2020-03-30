@@ -20,11 +20,11 @@ let billBoards = [];
 // let maxHeight = 2000;
 // let maxRadius = 2000;
 // Narrower Version with segmented Random Number
-let maxHeight = 2000;
+let maxHeight = 1000;
 let maxRadius = 500;
 let ranges = [
-  [100, 200],
-  [200, 400]
+  [700,  800],
+  [900, 1200]
 ];
 // Center Line
 let centerLine;
@@ -292,7 +292,7 @@ function getLight() {
   scene.add(ambientLight);
 
   //this is the fog
-  scene.fog = new THREE.Fog(0x595959, 100, 40000);
+  scene.fog = new THREE.Fog(0xdedede, 100, 80000);
   renderer.setClearColor(scene.fog.color, 1);
 
 }
