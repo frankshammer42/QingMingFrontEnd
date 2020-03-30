@@ -117,7 +117,7 @@ function init() {
   //Add Control Panel
   addControl();
   // addPoints();
-  // addBillboards();
+  addBillboards();
   document.addEventListener("mousemove", mouseMove);
 }
 
@@ -246,7 +246,7 @@ function loadMap() {
   let geometry = new THREE.PlaneGeometry(90000 * 1.7, 90000 * 1.4, 32);
   let texture = new THREE.TextureLoader().load('textures/map.png');
   let material = new THREE.MeshBasicMaterial({
-    //map: texture,
+    map: texture,
     color: 0xffffff
     //  side: THREE.DoubleSide
   });
@@ -435,9 +435,9 @@ function addControl(){
 
 function animate() {
     console.log(controls.object.position);
-    // for (let i=0; i<personPoints.length; i++){
-    //     personPoints[i].update();
-    // }
+    for (let i=0; i<personPoints.length; i++){
+        personPoints[i].update();
+    }
     for (let i=0; i<billBoards.length; i++){
         billBoards[i].update();
     }
