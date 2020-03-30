@@ -229,7 +229,7 @@ canvas {
 
 .enter-button {
     margin: 10px 0;
-    /*border: 1px solid #000;*/
+    border: 0px solid #000;
     background: rgba(0, 0, 0, 1);
     background: radial-gradient(circle farthest-side, #9B9B9B, #181717);
     background-repeat: no-repeat;
