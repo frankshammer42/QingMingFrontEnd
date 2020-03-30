@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'JingDianXingShuJian';
-    src: 
+    src:
         url('../assets/JingDianXingShuJian.woff2') format('woff2'),
         url('../assets/JingDianXingShuJian.woff') format('woff'),
         url('../assets/JingDianXingShuJian.ttf') format('truetype');
@@ -229,9 +229,9 @@ canvas {
 
 .enter-button {
     margin: 10px 0;
-    /*border: 1px solid #000;*/
-    background: rgba(0, 0, 0, 1);
-    background: radial-gradient(circle farthest-side, #9B9B9B, #181717);
+    border: 0px solid #000;*/
+    //background: rgba(0, 0, 0, 1);
+    background: radial-gradient(circle farthest-side, #787878, #181717);
     background-repeat: no-repeat;
     /*border-radius:6px;*/
     color: #ffffff;
@@ -239,8 +239,8 @@ canvas {
 }
 
 .enter-button:hover {
-    background: radial-gradient(circle farthest-side, #181717, #747474);
-  background-repeat: no-repeat;
+
+  border: 1px solid rgba(255,255,255,1)
 }
 
 @media only screen and (max-width: 768px) {
