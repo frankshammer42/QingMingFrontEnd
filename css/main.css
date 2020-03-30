@@ -229,8 +229,8 @@ canvas {
 
 .enter-button {
     margin: 10px 0;
-    border: 0px solid #000;*/
-    //background: rgba(0, 0, 0, 1);
+    border: 0px solid #000;
+    /*background: rgba(0, 0, 0, 1);*/
     background: radial-gradient(circle farthest-side, #787878, #181717);
     background-repeat: no-repeat;
     /*border-radius:6px;*/
@@ -318,9 +318,9 @@ canvas {
     position: absolute;
     left: 16px;
     bottom: 16px;
-    width: 36px;
-    height: 36px;
-    box-shadow: 1px 1px 3px #555;
+    width: 40px;
+    height: 40px;
+    box-shadow: 1px 1px 3px #ccc;
     border: none;
     padding: 0;
     box-sizing: border-box;
@@ -336,4 +336,35 @@ canvas {
 .info-card {
     padding: 40px 0;
     position: relative;
+}
+
+.view-angle1-button, .view-angle2-button, .view-angle3-button {
+    color: #000;
+    background: #fff;
+    box-shadow: 1px 1px 3px #ccc;
+    position: absolute;
+    width: 200px;
+    height: 100px;
+    background-size: cover;
+    padding: 0;
+    z-index: 500;
+    border-radius: 8px;
+}
+
+.view-angle1-button {
+    background-image: url('/assets/images/view-angle1.png');
+    right: 448px;
+    bottom: 16px;
+}
+
+.view-angle2-button {
+    background-image: url('/assets/images/view-angle2.png');
+    right: 232px;
+    bottom: 16px;
+}
+
+.view-angle3-button {
+    background-image: url('/assets/images/view-angle3.png');
+    right: 16px;
+    bottom: 16px;
 }
