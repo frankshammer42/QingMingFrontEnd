@@ -7,26 +7,16 @@
 	<link rel="stylesheet" href="css/main.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
-
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-
 	<script type="x-shader/x-vertex" id="vertexShader">
-
 		varying vec3 worldPosition;
-
 		void main() {
-
 				vec4 mPosition = modelMatrix * vec4( position, 1.0 );
-
 				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
 				worldPosition = mPosition.xyz;
-
 		}
-
-</script>
-
-<script type="x-shader/x-fragment" id="fragmentShader">
+	</script>
+	<script type="x-shader/x-fragment" id="fragmentShader">
 
 		uniform vec3 topColor;
 		uniform vec3 bottomColor;
@@ -87,10 +77,13 @@
 				</div>
 				<div id="container">
 				</div>
+				<div id="containerCSS">
+				</div>
 			</div>
 		</div>
 		<script src="js/dat.gui.min.js"></script>
 		<script src="js/three.js"></script>
+		<script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
 		<script src="js/OrbitControls.js"></script>
 		<script src="js/stats.min.js"></script>
     	<script src="js/TrackballControls.js"></script>
@@ -99,6 +92,7 @@
 		<script src="js/PersonPoint.js"></script>
 		<script src="js/OBJLoader.js"></script>
 		<script src="js/Line.js"></script>
+		<script src="js/Billboard.js"></script>
 		<script src="js/QingMing.js"></script>
 </body>
 </html>
