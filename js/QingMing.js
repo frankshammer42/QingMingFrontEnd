@@ -12,6 +12,9 @@ let controls;
 //
 let personPoint;
 let personPoints = [];
+//
+let billBoards = [];
+
 // init related var
 // Wider Version of the Sculpture
 // let maxHeight = 2000;
@@ -107,6 +110,15 @@ function init() {
   loadMap();
   //Add Control Panel
   addControl();
+  addBillboards();
+}
+
+function addBillboards(){
+    let content = "洪山礼堂";
+    let position = new THREE.Vector3(0, 500, -1000);
+    let billBoard = new Billboard(position, content, camera);
+    billBoards.push(billBoard);
+    sceneCSS.add(billBoard.container);
 }
 
 function loadModel() {
@@ -201,28 +213,14 @@ function loadMap() {
 }
 
 function getLight() {
-
-  //
-  //
-  //this is the sun
   dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
   dirLight.color.setHSL(0.1, 1, 0.95);
   dirLight.position.set(848, -3955, -1749);
   dirLight.position.multiplyScalar(50);
   scene.add(dirLight);
-  //
   dirLight.castShadow = true;
   dirLight.shadowMapWidth = dirLight.shadowMapHeight = 1024 * 2;
-  //
-  // var d = 30;
-  //
-  // dirLight.shadowCameraLeft = -d;
-  // dirLight.shadowCameraRight = d;
-  // dirLight.shadowCameraTop = d;
-  // dirLight.shadowCameraBottom = -d;
-  //
-  // // the magic is here - this needs to be tweaked if you change dimensions
-  //
+
   dirLight.shadowCameraFar = 3500;
   dirLight.shadowBias = -0.000001;
   dirLight.shadowDarkness = 0.35;
@@ -245,17 +243,13 @@ function getLight() {
   // light.shadow.camera.near = 0.1;
   // light.shadow.camera.far = 500;
 
-
-
   scene.add(fillLight);
   scene.add(backLight);
   scene.add(ambientLight);
 
-
-    //this is the fog
-    scene.fog = new THREE.Fog(0x595959, 100, 40000);
-    renderer.setClearColor(scene.fog.color, 1);
-
+  //this is the fog
+  scene.fog = new THREE.Fog(0x595959, 100, 40000);
+  renderer.setClearColor(scene.fog.color, 1);
 
 }
 
@@ -391,6 +385,9 @@ function animate() {
     for (let i=0; i<personPoints.length; i++){
         personPoints[i].update();
     }
+    for (let i=0; i<billBoards.length; i++){
+        billBoards[i].update();
+    }
     TWEEN.update();
     controls.update();
     requestAnimationFrame( animate );
@@ -399,4 +396,5 @@ function animate() {
 
 function render() {
   renderer.render(scene, camera);
+  rendererCSS.render(sceneCSS, camera);
 }

@@ -4,6 +4,7 @@ class Billboard{
         this.content = content;
         this.container = null;
         this.camera = camera;
+        this.createBoard();
     }
 
     createBoard(){
@@ -22,8 +23,9 @@ class Billboard{
         this.container.position.x = this.position.x;
         this.container.position.y = this.position.y;
         this.container.position.z = this.position.z;
-        this.container.scale.x = this.container.scale.x*0.1;
-        this.container.scale.y = this.container.scale.y*0.1;
-        this.container.scale.z = this.container.scale.z*0.1;
+    }
+
+    update(){
+        this.container.quaternion.copy(this.camera.quaternion);
     }
 }
