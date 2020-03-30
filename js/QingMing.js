@@ -64,8 +64,8 @@ function init() {
   camera.updateProjectionMatrix();
   // geometry
   controls = new THREE.OrbitControls(camera, container);
-  controls.minDistance = 500;
-  controls.maxDistance = 8000;
+  controls.minDistance = 0;
+  controls.maxDistance = Infinity;
   controls.maxPolarAngle = Math.PI/2;
 
   scene = new THREE.Scene();
@@ -97,7 +97,7 @@ function init() {
   loadModel();
   loadMap();
   //Add Control Panel
-  addControl();
+//  addControl();
 }
 
 function loadModel() {
