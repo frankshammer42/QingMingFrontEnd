@@ -21,11 +21,11 @@ let inputField = null;
 // let maxHeight = 2000;
 // let maxRadius = 2000;
 // Narrower Version with segmented Random Number
-let maxHeight = 1000;
+let maxHeight = 2000;
 let maxRadius = 500;
 let ranges = [
-  [700,  800],
-  [900, 1200]
+  [200,  400],
+  [600, 800]
 ];
 // Center Line
 let centerLine;
@@ -305,7 +305,7 @@ function convertIndexToRowCol(index, widthNum){
 function addPoints(initPos){
     // let initPosition = new THREE.Vector3(-10000, 0, 0);
     let initPosition = initPos;
-    let numberOfPoints = 500;
+    let numberOfPoints = 1000;
     let heightGap = maxHeight/numberOfPoints;
     let maxPulseNumber = 60;
     let pulseOffset = maxPulseNumber/2;
@@ -535,10 +535,13 @@ function addControl(){
 
 function animate() {
     if (inputField.generateNewPoint){
+        console.log("Get a new point");
         let newPoint = new PersonPoint(1000, 0, inputField.trailGroup.position);
         scene.add(newPoint.point);
         scene.add(newPoint.trailLine);
         personPoints.push(newPoint);
+        inputField.newGeneratedPoint = newPoint.point;
+        inputField.generateNewPoint = false;
     }
 
     if (displayLoadProgress < loadProgress && displayLoadProgress < 100){

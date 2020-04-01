@@ -18,13 +18,19 @@ class InputField{
         this.trailGroup = new THREE.Group();
         this.trails = [];
         this.createTrails();
+        //Control variables
         this.startGenerateNewPoint = false;
         this.generateNewPoint = false;
+        this.inputFunctionFinished = false;
+        // Follow Point
+        this.newGeneratedPoint = null
     }
 
     createTrails(){
         for (let i=0; i<this.numberOfTrails; i++){
             let newTrail = new PersonPoint(15, 20, new THREE.Vector3(0,0,0));
+            newTrail.xRotationAngle = Math.random()*Math.PI*2 - Math.PI;
+            newTrail.zRotationAngle = Math.random()*Math.PI*2 - Math.PI;
             this.trails.push(newTrail);
             this.trailGroup.add(newTrail.point);
             this.trailGroup.add(newTrail.trailLine);
@@ -111,24 +117,35 @@ class InputField{
         this.inputContainer.translateY(95);
         this.inputContainer.translateZ(-300);
 
-        this.trailGroup.position.copy(camera.position);
-        this.trailGroup.rotation.copy(camera.rotation);
-        this.trailGroup.translateX(-190);
-        this.trailGroup.translateY(80);
-        this.trailGroup.translateZ(-300);
+        if (!this.inputFunctionFinished){
+            this.trailGroup.position.copy(camera.position);
+            this.trailGroup.rotation.copy(camera.rotation);
+            this.trailGroup.translateX(-190);
+            this.trailGroup.translateY(80);
+            this.trailGroup.translateZ(-300);
+        }
+        else{
+            this.trailGroup.position.copy(this.newGeneratedPoint.position);
+        }
 
         // this.inputContainer.scale.x = 0;
-        for(let i=0; i<this.numberOfTrails; i++){
-            this.trails[i].update();
-        }
-
-        if (this.startGenerateNewPoint){
-            this.trailGroup.scale.x *= 0.99;
-            this.trailGroup.scale.y *= 0.99;
-            this.trailGroup.scale.z *= 0.99;
-            if (this.trailGroup.scale.x < 0.1){
-                this.generateNewPoint = true;
+        if (!this.inputFunctionFinished){
+            for(let i=0; i<this.numberOfTrails; i++){
+                this.trails[i].update();
             }
         }
+
+        if (!this.inputFunctionFinished){
+            if (this.startGenerateNewPoint){
+                this.trailGroup.scale.x *= 0.99;
+                this.trailGroup.scale.y *= 0.99;
+                this.trailGroup.scale.z *= 0.99;
+                if (this.trailGroup.scale.x < 0.02){
+                    this.generateNewPoint = true;
+                    this.inputFunctionFinished = true;
+                }
+            }
+        }
+
     }
 }

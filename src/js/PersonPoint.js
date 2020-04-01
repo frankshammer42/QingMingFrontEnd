@@ -15,8 +15,7 @@ class PersonPoint {
         this.position = new Float32Array(3);
         this.pointGeometry.addAttribute("position", new THREE.BufferAttribute(this.position, 3));
         this.pointMaterial = new THREE.PointsMaterial({
-
-            size: Math.random(),
+            size: Math.random()*3,
             sizeAttenuation: false,
             color: pointColor
         });
