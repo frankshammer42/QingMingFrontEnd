@@ -1,3 +1,4 @@
+// TODO:
 //Set Up Variables
 let scene;
 let sceneCSS;
@@ -13,6 +14,8 @@ let personPoint;
 let personPoints = [];
 // Building Names
 let billBoards = [];
+// Input Field
+let inputField = null;
 // init related var
 // Wider Version of the Sculpture
 // let maxHeight = 2000;
@@ -51,15 +54,16 @@ let mouse;
 // for visitor
 let visitorCount = 0;
 
+
 function initVisitor() {
   let req = new XMLHttpRequest();
   req.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
+    if (this.readyState === 4 && this.status === 200) {
       let resObj = JSON.parse(this.responseText);
       console.log('Visitor count is ' + resObj.count);
       visitorCount = resObj.count;
     }
-  }
+  };
   req.open('GET', '/monument-api/visitor', true);
   req.send();
 }
@@ -140,7 +144,16 @@ function init() {
   loadModelAndMap();
   // addPoints();
   addBillboards();
+  addNameInput();
   document.addEventListener("mousemove", mouseMove);
+}
+
+function addNameInput(){
+    inputField = new InputField(new THREE.Vector3(0, 0, 50000), "加入祭奠", camera);
+    sceneCSS.add(inputField.buttonContainer);
+    sceneCSS.add(inputField.inputContainer);
+    sceneCSS.add(inputField.submitButtonContainer);
+    scene.add(inputField.trailGroup);
 }
 
 function initLoadManager(){
@@ -517,6 +530,13 @@ function addControl(){
 }
 
 function animate() {
+    if (inputField.generateNewPoint){
+        let newPoint = new PersonPoint(1000, 0, inputField.trailGroup.position);
+        scene.add(newPoint.point);
+        scene.add(newPoint.trailLine);
+        personPoints.push(newPoint);
+    }
+
     if (displayLoadProgress < loadProgress && displayLoadProgress < 100){
         displayLoadProgress += Math.random();
         if (displayLoadProgress > 100){
@@ -525,6 +545,7 @@ function animate() {
         let result = displayLoadProgress.toFixed(0);
         document.getElementById("loading").innerHTML = result +  "%";
     }
+
     for (let i=0; i<personPoints.length; i++){
         personPoints[i].update();
     }
@@ -533,6 +554,8 @@ function animate() {
     }
     TWEEN.update();
     controls.update();
+    inputField.update();
+
     requestAnimationFrame( animate );
     render();
 }

@@ -379,6 +379,11 @@ canvas {
   bottom: 16px;
 }
 
+.InputWords {
+  text-align: center;
+  font-size: 50px;
+}
+
 /*************** END main page ****************/
 
 /*************** START sharing ****************/

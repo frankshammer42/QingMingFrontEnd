@@ -36,7 +36,7 @@ class PersonPoint {
         this.trailLineGeometry = new THREE.BufferGeometry();
         this.trailLinePosition = new Float32Array(this.numberOfPointsPerTrail * 3);
         // this.trailLineMaterial = new THREE.LineBasicMaterial({color: 0x000000, linewidth: 3});
-        this.trailLineMaterial = new THREE.LineBasicMaterial({color: pointColor, linewidth: Math.random()});
+        this.trailLineMaterial = new THREE.LineBasicMaterial({color: pointColor, linewidth: 3*Math.random()});
         this.trailLineMaterial.transparent = true;
         this.trailLineMaterial.opacity = Math.random() * 0.5 + 0.2;
         this.trailLineGeometry.addAttribute("position", new THREE.BufferAttribute(this.trailLinePosition, 3));
@@ -67,7 +67,6 @@ class PersonPoint {
         this.tweenToInitPosition();
     }
 
-
     tweenToInitPosition(){
         let deepTripPosition = new TWEEN.Tween( this.point.position )
             .to( {
@@ -79,7 +78,6 @@ class PersonPoint {
             }).onComplete(() => this.startRotate = true)
             .start();
     }
-
 
     vectorAdd(v1, v2){
         return new THREE.Vector3(v1.x+v2.x, v1.y+v2.y, v1.z+v2.z);
@@ -105,7 +103,6 @@ class PersonPoint {
         this.z = Math.sin(randomTheta) * this.radius;
         // this.generateRotatedPosition();
     }
-
 
     update(){
         if (this.startRotate) {
