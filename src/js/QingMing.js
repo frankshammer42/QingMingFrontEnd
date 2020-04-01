@@ -44,6 +44,24 @@ let ambientLight;
 //for mouse
 let mouse;
 
+// for visitor
+let visitorCount = 0;
+
+function initVisitor() {
+  let req = new XMLHttpRequest();
+  req.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      let resObj = JSON.parse(this.responseText);
+      console.log('Visitor count is ' + resObj.count);
+      visitorCount = resObj.count;
+    }
+  }
+  req.open('GET', '/monument-api/visitor', true);
+  req.send();
+}
+
+initVisitor();
+
 //Main Loop------------------------------------------------------
 init();
 animate();
@@ -166,6 +184,41 @@ function showInfoCard() {
 
 function closeInfoCard() {
   document.getElementById('info-card-backdrop').style.display = 'none';
+}
+
+function closeQrCard() {
+  document.getElementById('qr-card-backdrop').style.display = 'none';
+}
+
+function toggleShareControls() {
+  let elem = document.getElementById("share-controls");
+  elem.style.display = elem.style.display === 'flex' ? 'none' : 'flex';
+}
+ 
+function shareTo(website) {
+  console.log('Sharing to ' + website);
+  switch (website) {
+    case 'WEIBO':
+      const url1 = 'http://service.weibo.com/share/share.php?url=' +
+        encodeURIComponent(window.location.href) +
+        '&sharesource=weibo&title=我正在和' + visitorCount + '人一同逆时针行走纪念逝者';
+      window.open(url1, '_blank');
+      break;
+    case 'WECHAT':
+      document.getElementById("qr-card-backdrop").style.display = 'flex';
+      break;
+    case 'FACEBOOK':
+      let url3 = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href);
+      window.open(url3, '_blank');
+      break;
+    case 'TWITTER':
+      let url4 = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(window.location.href) 
+      + '&text=我正在和' + visitorCount + '人一同逆时针行走纪念逝者';
+      window.open(url4, '_blank');
+      break;
+    default:
+      window.alert('unknown website ' + website);
+  }
 }
 
 function preventEvent(event) {
@@ -434,7 +487,7 @@ function addControl(){
 }
 
 function animate() {
-    console.log(controls.object.position);
+    //console.log(controls.object.position);
     for (let i=0; i<personPoints.length; i++){
         personPoints[i].update();
     }

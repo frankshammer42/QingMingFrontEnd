@@ -4,7 +4,15 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<link rel="stylesheet" href="/assets/css/main.css">
+    <meta name="twitter:card" content="summary"></meta>
+    <meta property="fb:app_id" content="218600172525837" />
+	<meta property="og:url"           content="https://www.qingming.space" />
+	<meta property="og:type"          content="website" />
+	<meta property="og:title"         content="清明“逆时针行走”" />
+    <meta property="og:site_name" content="清明，“逆时针行走”,COVID-19" />
+	<meta property="og:description"   content="在清明时节，让我们一起“逆时针行走”线上祭奠。希望痛苦和眼泪，问责和反思，都不要被遗忘。" />
+	<!--meta property="og:image"         content="https://www.your-domain.com/path/image.jpg" /-->
+    <link rel="stylesheet" href="/assets/css/main.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -60,6 +68,29 @@
 				<button class="info-button" onclick="showInfoCard()">
 					<img src="/assets/images/info.svg" alt="info">
 				</button>
+				<button class="share-button" onclick="toggleShareControls()">
+					<img src="/assets/images/share.svg" alt="info">
+				</button>
+				<div id="share-controls" class="share-controls">
+					<button class="share-wechat" onclick="shareTo('WECHAT')">
+						<img src="/assets/images/wechat.svg" alt="info">
+					</button>
+					<button class="share-weibo" onclick="shareTo('WEIBO')">
+						<img src="/assets/images/weibo.svg" alt="info">
+					</button>
+					<button class="share-twitter" onclick="shareTo('TWITTER')">
+						<img src="/assets/images/twitter.svg" alt="info">
+					</button>
+					<button class="share-facebook" onclick="shareTo('FACEBOOK')">
+						<img src="/assets/images/facebook.svg" alt="info">
+					</button>
+				</div>
+				<div id="qr-card-backdrop" class="card-backdrop" onclick="closeQrCard()">
+					<div class="card qr-card">
+						<img src="/assets/images/website-qr.png" alt="QR code" onclick="preventEvent(event)">
+						<div class="qr-instruction">请使用微信扫描二维码并分享</div>
+					</div>
+				</div>
 				<button class="view-angle1-button" onclick="enableViewAngle1()">
 				    鸟瞰
 				</button>

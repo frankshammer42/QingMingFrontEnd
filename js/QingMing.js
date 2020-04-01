@@ -172,6 +172,11 @@ function preventEvent(event) {
   event.stopPropagation();
 }
 
+function toggleShareControls() {
+  let elem = document.getElementById("share-controls");
+  elem.style.display = elem.style.display === 'flex' ? 'none' : 'flex';
+}
+
 function addOnePoint() {
   let initPosition = new THREE.Vector3(-10000, 0, 0);
   let randomHeight = Math.random() * maxHeight;
@@ -434,7 +439,7 @@ function addControl(){
 }
 
 function animate() {
-    console.log(controls.object.position);
+    //console.log(controls.object.position);
     for (let i=0; i<personPoints.length; i++){
         personPoints[i].update();
     }
