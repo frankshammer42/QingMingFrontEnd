@@ -4,15 +4,16 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <meta name="twitter:card" content="summary"></meta>
-    <meta property="fb:app_id" content="218600172525837" />
-	<meta property="og:url"           content="https://www.qingming.space" />
-	<meta property="og:type"          content="website" />
-	<meta property="og:title"         content="清明“逆时针行走”" />
-    <meta property="og:site_name" content="清明，“逆时针行走”,COVID-19" />
-	<meta property="og:description"   content="在清明时节，让我们一起“逆时针行走”线上祭奠。希望痛苦和眼泪，问责和反思，都不要被遗忘。" />
+	<meta name="twitter:card" content="summary">
+	</meta>
+	<meta property="fb:app_id" content="218600172525837" />
+	<meta property="og:url" content="https://www.qingming.space" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="清明“逆时针行走”" />
+	<meta property="og:site_name" content="清明，“逆时针行走”,COVID-19" />
+	<meta property="og:description" content="在清明时节，让我们一起“逆时针行走”线上祭奠。希望痛苦和眼泪，问责和反思，都不要被遗忘。" />
 	<!--meta property="og:image"         content="https://www.your-domain.com/path/image.jpg" /-->
-    <link rel="stylesheet" href="/assets/css/main.css">
+	<link rel="stylesheet" href="/assets/css/main.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -44,95 +45,101 @@
 </head>
 
 <body>
-		<div class="frame">
-			<div id="welcome-page" class="welcome-page">
-				<div class="card-backdrop">
-					<div class="card welcome-card">
-						<div class="intro">
-							<p>截至今天，2020年4月4日，中国已有xxxx人因为新冠肺炎去世。还有多少在统计数据之外、或间接因新冠肺炎去世的人，我们甚至无从得知。春天来了，疫情正在平息，可逝去的生命不会再回来，失去亲人的痛楚也不会停止。</p>
-							<p>今天是清明节，本该是我们祭奠死者的日子。可是因为疫情，大部分人甚至都不能去实地进行祭扫。所以我们在这里发起“逆时针行走”线上祭奠活动。我们带你回到武汉洪山礼堂前——曾在2020年1月召开武汉市和湖北省两会的地方。你可以在这里祭奠死者。每个参与祭奠的你都会留下自己的轨迹，集体行走的轨迹将构建出一个线上纪念碑；不久之后，它会永久矗立在各大地图网站上的武汉洪山礼堂前。</p>
-							<p>希望痛苦和眼泪，问责和反思，都不要被遗忘。</p>
-						</div>
-						<div id="loading">
-							0%
-						</div>
-						<div class="controls">
-<!--							<input class="name-input" type="text" placeholder="你的名字">-->
-							<button class="enter-button" onclick="enter()">进入</button>
-						</div>
+	<div class="frame">
+		<div id="welcome-page" class="welcome-page">
+			<div class="card-backdrop">
+
+				<div id="blank-block" > </div>
+				<div class="card welcome-card">
+					<div class="title" id="main-title">
+						<h1>清明 </h1>
 					</div>
-				</div>
-			</div>
-			<div class="main-page">
-				<button class="info-button" onclick="showInfoCard()">
-					<img src="/assets/images/info.svg" alt="info">
-				</button>
-				<button class="share-button" onclick="toggleShareControls()">
-					<img src="/assets/images/share.svg" alt="info">
-				</button>
-				<div id="share-controls" class="share-controls">
-					<button class="share-wechat" onclick="shareTo('WECHAT')">
-						<img src="/assets/images/wechat.svg" alt="info">
-					</button>
-					<button class="share-weibo" onclick="shareTo('WEIBO')">
-						<img src="/assets/images/weibo.svg" alt="info">
-					</button>
-					<button class="share-twitter" onclick="shareTo('TWITTER')">
-						<img src="/assets/images/twitter.svg" alt="info">
-					</button>
-					<button class="share-facebook" onclick="shareTo('FACEBOOK')">
-						<img src="/assets/images/facebook.svg" alt="info">
-					</button>
-				</div>
-				<div id="qr-card-backdrop" class="card-backdrop" onclick="closeQrCard()">
-					<div class="card qr-card">
-						<img src="/assets/images/website-qr.png" alt="QR code" onclick="preventEvent(event)">
-						<div class="qr-instruction">请使用微信扫描二维码并分享</div>
+
+					<div class="intro hidden">
+						<p>截至今天，2020年4月4日，中国已有xxxx人因为新冠肺炎去世。还有多少在统计数据之外、或间接因新冠肺炎去世的人，我们甚至无从得知。春天来了，疫情正在平息，可逝去的生命不会再回来，失去亲人的痛楚也不会停止。</p>
+						<p>今天是清明节，本该是我们祭奠死者的日子。可是因为疫情，大部分人甚至都不能去实地进行祭扫。所以我们在这里发起“逆时针行走”线上祭奠活动。我们带你回到武汉洪山礼堂前——曾在2020年1月召开武汉市和湖北省两会的地方。你可以在这里祭奠死者。每个参与祭奠的你都会留下自己的轨迹，集体行走的轨迹将构建出一个线上纪念碑；不久之后，它会永久矗立在各大地图网站上的武汉洪山礼堂前。</p>
+						<p>希望痛苦和眼泪，问责和反思，都不要被遗忘。</p>
 					</div>
+
+				<div id="loading"> 0% </div>
+				<div class="controls">
+					<button class="hidden" onclick="enter()">进入</button>
 				</div>
-				<button class="view-angle1-button" onclick="enableViewAngle1()">
-				    鸟瞰
-				</button>
-				<button class="view-angle2-button" onclick="enableViewAngle2()">
-					化身
-				</button>
-				<button class="view-angle3-button" onclick="enableViewAngle3()">
-					旁观
-				</button>
-				<div id="info-card-backdrop" class="card-backdrop" onclick="closeInfoCard()">
-					<div class="card info-card" onclick="preventEvent(event)">
-						<div class="intro">
-							<header>清明</header>
-							<p>2019年12月，新冠肺炎（COVID-19）在武汉市爆发。当月26日，湖北省中西医结合医院的张继先主任发现不明肺炎，两日后由医院上报省、市卫健委；29日至30日，广州微远基因、北京博奥医学检测所、华大基因先后对病人样本检测出“新冠状病毒”。</p>
-							<p>在疫情防控至关重要的初发阶段，1月6日至17日，武汉市与湖北省“两会”相继召开，而武汉卫健委的官方通报中，此期间均无新增病例。与此同时，作为中国国务院卫生行政部门及向社会依法披露疫情的责任主体国家卫健委，虽然曾派出三批专家组赶赴武汉调查，但迟至1月20日才向社会公布“人传人”。时至今日，此次疫情在中国已造成数千人失去生命，并在全球蔓延扩散。</p>
-							<p>截至今天，2020年4月4日，中国已有xxxx人因为新冠肺炎去世。还有多少在统计数据之外、或间接因新冠肺炎去世的人，我们甚至无从得知。春天来了，疫情正在平息，可逝去的生命不会再回来，失去亲人的痛楚也不会停止。</p>
-							<p>今天是清明节，本该是我们祭奠死者的日子。可是因为疫情，大部分人甚至都不能去实地进行祭扫。所以我们在这里发起“逆时针行走”线上祭奠活动。我们带你回到武汉洪山礼堂前——曾在2020年1月召开武汉市和湖北省两会的地方。你可以在这里祭奠死者。每个参与祭奠的你都会留下自己的轨迹，集体行走的轨迹将构建出一个线上纪念碑；不久之后，它会永久矗立在各大地图网站上的武汉洪山礼堂前。</p>
-							<p>希望痛苦和眼泪，问责和反思，都不要被遗忘。</p>
-						</div>
-						<button class="close-button" onclick="closeInfoCard()">
-							<img src="/assets/images/close.svg" alt="close">
-						</button>
-					</div>
-				</div>
-				<div id="container">
-				</div>
-				<div id="containerCSS">
-				</div>
+
 			</div>
 		</div>
-		<script src="js/dat.gui.min.js"></script>
-		<script src="js/three.js"></script>
-		<script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
-		<script src="js/OrbitControls.js"></script>
-		<script src="js/stats.min.js"></script>
-    	<script src="js/TrackballControls.js"></script>
-		<script src="js/CircleTrail.js"></script>
-		<script src="js/PersonLife.js"></script>
-		<script src="js/PersonPoint.js"></script>
-		<script src="js/OBJLoader.js"></script>
-		<script src="js/Line.js"></script>
-		<script src="js/Billboard.js"></script>
-		<script src="js/InputField.js"></script>
-		<script src="js/QingMing.js"></script>
+	</div>
+	<div class="main-page">
+		<button class="info-button" onclick="showInfoCard()">
+			<img src="/assets/images/info.svg" alt="info">
+		</button>
+		<button class="share-button" onclick="toggleShareControls()">
+			<img src="/assets/images/share.svg" alt="info">
+		</button>
+		<div id="share-controls" class="share-controls">
+			<button class="share-wechat" onclick="shareTo('WECHAT')">
+				<img src="/assets/images/wechat.svg" alt="info">
+			</button>
+			<button class="share-weibo" onclick="shareTo('WEIBO')">
+				<img src="/assets/images/weibo.svg" alt="info">
+			</button>
+			<button class="share-twitter" onclick="shareTo('TWITTER')">
+				<img src="/assets/images/twitter.svg" alt="info">
+			</button>
+			<button class="share-facebook" onclick="shareTo('FACEBOOK')">
+				<img src="/assets/images/facebook.svg" alt="info">
+			</button>
+		</div>
+		<div id="qr-card-backdrop" class="card-backdrop" onclick="closeQrCard()">
+			<div class="card qr-card">
+				<img src="/assets/images/website-qr.png" alt="QR code" onclick="preventEvent(event)">
+				<div class="qr-instruction">请使用微信扫描二维码并分享</div>
+			</div>
+		</div>
+		<button class="view-angle1-button" onclick="enableViewAngle1()">
+			鸟瞰
+		</button>
+		<button class="view-angle2-button" onclick="enableViewAngle2()">
+			化身
+		</button>
+		<button class="view-angle3-button" onclick="enableViewAngle3()">
+			旁观
+		</button>
+		<div id="info-card-backdrop" class="card-backdrop" onclick="closeInfoCard()">
+			<div class="card info-card" onclick="preventEvent(event)">
+				<div class="intro">
+					<header>清明</header>
+					<p>2019年12月，新冠肺炎（COVID-19）在武汉市爆发。当月26日，湖北省中西医结合医院的张继先主任发现不明肺炎，两日后由医院上报省、市卫健委；29日至30日，广州微远基因、北京博奥医学检测所、华大基因先后对病人样本检测出“新冠状病毒”。</p>
+					<p>在疫情防控至关重要的初发阶段，1月6日至17日，武汉市与湖北省“两会”相继召开，而武汉卫健委的官方通报中，此期间均无新增病例。与此同时，作为中国国务院卫生行政部门及向社会依法披露疫情的责任主体国家卫健委，虽然曾派出三批专家组赶赴武汉调查，但迟至1月20日才向社会公布“人传人”。时至今日，此次疫情在中国已造成数千人失去生命，并在全球蔓延扩散。</p>
+					<p>截至今天，2020年4月4日，中国已有xxxx人因为新冠肺炎去世。还有多少在统计数据之外、或间接因新冠肺炎去世的人，我们甚至无从得知。春天来了，疫情正在平息，可逝去的生命不会再回来，失去亲人的痛楚也不会停止。</p>
+					<p>今天是清明节，本该是我们祭奠死者的日子。可是因为疫情，大部分人甚至都不能去实地进行祭扫。所以我们在这里发起“逆时针行走”线上祭奠活动。我们带你回到武汉洪山礼堂前——曾在2020年1月召开武汉市和湖北省两会的地方。你可以在这里祭奠死者。每个参与祭奠的你都会留下自己的轨迹，集体行走的轨迹将构建出一个线上纪念碑；不久之后，它会永久矗立在各大地图网站上的武汉洪山礼堂前。</p>
+					<p>希望痛苦和眼泪，问责和反思，都不要被遗忘。</p>
+				</div>
+				<button class="close-button" onclick="closeInfoCard()">
+					<img src="/assets/images/close.svg" alt="close">
+				</button>
+			</div>
+		</div>
+		<div id="container">
+		</div>
+		<div id="containerCSS">
+		</div>
+	</div>
+	</div>
+	<script src="js/dat.gui.min.js"></script>
+	<script src="js/three.js"></script>
+	<script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
+	<script src="js/OrbitControls.js"></script>
+	<script src="js/stats.min.js"></script>
+	<script src="js/TrackballControls.js"></script>
+	<script src="js/CircleTrail.js"></script>
+	<script src="js/PersonLife.js"></script>
+	<script src="js/PersonPoint.js"></script>
+	<script src="js/OBJLoader.js"></script>
+	<script src="js/Line.js"></script>
+	<script src="js/Billboard.js"></script>
+	<script src="js/InputField.js"></script>
+	<script src="js/QingMing.js"></script>
 </body>
+
 </html>

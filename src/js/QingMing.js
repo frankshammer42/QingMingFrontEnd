@@ -100,7 +100,7 @@ function init() {
 
   //WebGL
   scene = new THREE.Scene();
-  scene.background = new THREE.Color('skyblue');
+  scene.background = new THREE.Color('white');
   renderer = new THREE.WebGLRenderer({
     alpha: true,
     antialias: true
@@ -137,13 +137,13 @@ function init() {
   // Light and Model Set Up
 
 
-  getLight();
-  addSkybox();
+  // getLight();
+  // addSkybox();
   //model
   initLoadManager();
   loadModelAndMap();
   // addPoints();
-  addBillboards();
+  // addBillboards();
   addNameInput();
   document.addEventListener("mousemove", mouseMove);
 }
@@ -217,7 +217,7 @@ function loadModelAndMap() {
         object.scale.y *= 2000;
         object.scale.z *= 2000;
         model = object;
-        loadMap();
+        // loadMap();
       },
       function (xhr){
           loadProgress = Math.floor((xhr.loaded / xhr.total) * 0.5*100);
@@ -251,7 +251,7 @@ function toggleShareControls() {
   let elem = document.getElementById("share-controls");
   elem.style.display = elem.style.display === 'flex' ? 'none' : 'flex';
 }
- 
+
 function shareTo(website) {
   console.log('Sharing to ' + website);
   switch (website) {
@@ -269,7 +269,7 @@ function shareTo(website) {
       window.open(url3, '_blank');
       break;
     case 'TWITTER':
-      let url4 = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(window.location.href) 
+      let url4 = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(window.location.href)
       + '&text=' + encodedText();
       window.open(url4, '_blank');
       break;
@@ -533,6 +533,8 @@ function addControl(){
     gui.add(options, 'Reset');
 }
 
+
+
 function animate() {
     if (inputField.generateNewPoint){
         console.log("Get a new point");
@@ -550,7 +552,28 @@ function animate() {
             displayLoadProgress = 100;
         }
         let result = displayLoadProgress.toFixed(0);
-        document.getElementById("loading").innerHTML = result +  "%";
+        let progress=document.getElementById("loading")
+        progress.innerHTML = result +  "%";
+        if (result === "100"){
+          console.log("fuck me");
+          let arry=document.getElementsByClassName("hidden");
+          let i;
+          for (i=0;i<arry.length;i++){
+            // console.log(arry[i].tagName);
+            //console.log (i+": "+ arry[i]);
+            if (arry[i].tagName !== "BUTTON"){
+              arry[i].className="intro visible";
+            }
+            else{
+              arry[i].className="visible";
+            }
+          }
+          document.getElementById("blank-block").className="blank-block-loaded";
+          document.getElementById("loading").className="loaded";
+          // document.getElementById("main-title").className="title-loaded"
+
+
+        }
     }
 
     for (let i=0; i<personPoints.length; i++){

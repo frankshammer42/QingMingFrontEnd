@@ -137,10 +137,10 @@ canvas {
 .card-backdrop {
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(10px);
-
-  background: rgba(255, 255, 255, 0.1);
-  opacity:0.6;
+  /* backdrop-filter: blur(10px); */
+  /* background-image: linear-gradient(270deg, #F3F3F3 8%, #DDE1E4 100%); */
+  background: #F3F3F3;
+  opacity:1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -204,6 +204,7 @@ canvas {
   height: 100vh;
   left: 0;
   top: 0;
+
 }
 
 .welcome-card {
