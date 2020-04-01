@@ -1,4 +1,3 @@
-//TODO: Wait For Emboddie
 //Set Up Variables
 let scene;
 let sceneCSS;
@@ -9,12 +8,11 @@ let raycaster;
 let renderer;
 let rendererCSS;
 let controls;
-//
+// Point Cloud
 let personPoint;
 let personPoints = [];
-//
+// Building Names
 let billBoards = [];
-
 // init related var
 // Wider Version of the Sculpture
 // let maxHeight = 2000;
@@ -28,14 +26,20 @@ let ranges = [
 ];
 // Center Line
 let centerLine;
-let plane;
-let model;
 // Move Around Model
 let moveAroundOffset = new THREE.Vector3(-1277, 0, -4586);
 let initModelPos = new THREE.Vector3(-45000, -33800, 8000);
 let initMapPos = new THREE.Vector3(2883, -370, -6822);
 let currentModelPos = initModelPos;
 let currentMapPos = initMapPos;
+// Model Textures
+let plane;
+let model;
+// Load Manager
+let loadManager = new THREE.LoadingManager();
+let loadProgress = 0;
+let displayLoadProgress = 0;
+// Light
 let hemiLight;
 let dirLight;
 let fillLight;
@@ -100,25 +104,41 @@ function init() {
   //Orbit Controls
   controls = new THREE.OrbitControls(camera, container);
   controls.minDistance = 50;
-  controls.maxDistance = 8000;
+  controls.maxDistance = 20000;
   controls.maxPolarAngle = Math.PI/2;
 
-    // Center Line
+  // Center Line
   // let start = new THREE.Vector3(0, 52000, 0);
   // let end = new THREE.Vector3(0, 0, 0);
   // centerLine = new Line(start, end, 2, 2000);
   // scene.add(centerLine.line);
   // Light and Model Set Up
+
+
   getLight();
   addSkybox();
   //model
-  loadModel();
-  loadMap();
-  //Add Control Panel
-  addControl();
+  initLoadManager();
+  loadModelAndMap();
   // addPoints();
   addBillboards();
   document.addEventListener("mousemove", mouseMove);
+}
+
+function initLoadManager(){
+    loadManager.onStart = function ( url, itemsLoaded, itemsTotal ) {
+        console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+    };
+    loadManager.onLoad = function ( ) {
+        loadProgress = 100;
+        console.log( 'Loading complete!');
+    };
+    loadManager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
+        console.log( 'Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+    };
+    loadManager.onError = function ( url ) {
+        console.log( 'There was an error loading ' + url );
+    };
 }
 
 function mouseMove(event){
@@ -129,7 +149,6 @@ function mouseMove(event){
         0.5 );
 }
 
-
 function addBillboards(){
     let content = "洪山礼堂";
     let position = new THREE.Vector3(0, 500, -1000);
@@ -138,18 +157,43 @@ function addBillboards(){
     sceneCSS.add(billBoard.container);
 }
 
-function loadModel() {
-  let loader = new THREE.OBJLoader();
-  loader.load('/assets/models/building2.obj', function(object) {
-    scene.add(object);
-    object.position.x = -45000 + moveAroundOffset.x;
-    object.position.y = -33800;
-    object.position.z = 8000 + moveAroundOffset.z;
-    object.scale.x *= 2000;
-    object.scale.y *= 2000;
-    object.scale.z *= 2000;
-    model = object;
-  });
+function loadMap() {
+    let geometry = new THREE.PlaneGeometry(90000 * 1.7, 90000 * 1.4, 32);
+    let texture = new THREE.TextureLoader(loadManager).load('/assets/textures/map.png');
+    let material = new THREE.MeshBasicMaterial({
+        map: texture,
+        color: 0xffffff
+        //  side: THREE.DoubleSide
+    });
+    plane = new THREE.Mesh(geometry, material);
+    plane.position.set(2883 + moveAroundOffset.x, -370, -6822 + moveAroundOffset.z);
+    plane.rotation.x = Math.PI + Math.PI / 2;
+    scene.add(plane);
+    //Add Control Panel
+    addControl();
+}
+
+function loadModelAndMap() {
+  let loader = new THREE.OBJLoader(loadManager);
+  loader.load(
+      '/assets/models/building2.obj',
+      function(object) {
+        scene.add(object);
+        object.position.x = -45000 + moveAroundOffset.x;
+        object.position.y = -33800;
+        object.position.z = 8000 + moveAroundOffset.z;
+        object.scale.x *= 2000;
+        object.scale.y *= 2000;
+        object.scale.z *= 2000;
+        model = object;
+        loadMap();
+      },
+      function (xhr){
+          loadProgress = Math.floor((xhr.loaded / xhr.total) * 0.5*100);
+          document.getElementById("loading").innerHTML = loadProgress.toString();
+          console.log( ( xhr.loaded / xhr.total * 100 ) + '% model loaded' );
+      }
+  );
 }
 
 function enter() {
@@ -240,20 +284,6 @@ function addPoints(initPos){
         personPoints.push(personPoint);
         pulseCounter += 1;
     }
-}
-
-function loadMap() {
-  let geometry = new THREE.PlaneGeometry(90000 * 1.7, 90000 * 1.4, 32);
-  let texture = new THREE.TextureLoader().load('/assets/textures/map.png');
-  let material = new THREE.MeshBasicMaterial({
-    map: texture,
-    color: 0xffffff
-    //  side: THREE.DoubleSide
-  });
-  plane = new THREE.Mesh(geometry, material);
-  plane.position.set(2883 + moveAroundOffset.x, -370, -6822 + moveAroundOffset.z);
-  plane.rotation.x = Math.PI + Math.PI / 2;
-  scene.add(plane)
 }
 
 function getLight() {
@@ -434,7 +464,15 @@ function addControl(){
 }
 
 function animate() {
-    console.log(controls.object.position);
+    // console.log(controls.object.position);
+    if (displayLoadProgress < loadProgress && displayLoadProgress < 100){
+        displayLoadProgress += Math.random();
+        if (displayLoadProgress > 100){
+            displayLoadProgress = 100;
+        }
+        let result = displayLoadProgress.toFixed(0);
+        document.getElementById("loading").innerHTML = result +  "%";
+    }
     for (let i=0; i<personPoints.length; i++){
         personPoints[i].update();
     }
