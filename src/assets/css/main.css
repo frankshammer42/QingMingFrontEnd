@@ -379,9 +379,13 @@ canvas {
   bottom: 16px;
 }
 
-.InputWords {
+.addNameHint {
+  font-size: 45px;
   text-align: center;
-  font-size: 50px;
+}
+
+.addNameHint:hover {
+  cursor: pointer;
 }
 
 /*************** END main page ****************/

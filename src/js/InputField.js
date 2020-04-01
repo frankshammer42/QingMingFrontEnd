@@ -6,8 +6,8 @@ class InputField{
         this.content = content;
         this.buttonElement = null;
         this.parentCamera = camera;
-        this.buttonContainer = null;
-        this.createButton();
+        this.hintContainer = null;
+        this.createHint();
         this.inputElement = null;
         this.inputContainer = null;
         this.createInputField();
@@ -23,34 +23,44 @@ class InputField{
         this.generateNewPoint = false;
         this.inputFunctionFinished = false;
         // Follow Point
-        this.newGeneratedPoint = null
+        this.newGeneratedPoint = null;
+        // Input Moving Tracking
+        this.movingTrack = 0;
     }
 
     createTrails(){
         for (let i=0; i<this.numberOfTrails; i++){
-            let newTrail = new PersonPoint(15, 20, new THREE.Vector3(0,0,0));
-            newTrail.xRotationAngle = Math.random()*Math.PI*2 - Math.PI;
-            newTrail.zRotationAngle = Math.random()*Math.PI*2 - Math.PI;
+            let randomScale = 1000;
+            let randomInit = new THREE.Vector3(Math.random()*randomScale - randomScale/2, Math.random()*randomScale - randomScale/2, Math.random()*randomScale - randomScale/2);
+            let newTrail = new PersonPoint(16, 13.5, randomInit);
+            // newTrail.xRotationAngle = Math.random()*Math.PI*2 - Math.PI;
+            // newTrail.zRotationAngle = Math.random()*Math.PI*2 - Math.PI;
+            newTrail.xRotationAngle = Math.PI*0.5 + (Math.random()*0.1 - 0.05);
+            newTrail.rotateSpeed = Math.random()*0.02 - 0.5*0.02;
+            newTrail.ringRotateSpeed = 0;
             this.trails.push(newTrail);
             this.trailGroup.add(newTrail.point);
             this.trailGroup.add(newTrail.trailLine);
         }
     }
 
-    createButton(){
+    createHint(){
         let button = document.createElement('div');
         button.innerHTML = this.content;
-        button.className = "InputWords";
+        button.className = "addNameHint";
         button.style.width = "300px";
         button.style.height = "300px";
+        button.onclick = () => {
+            this.hintClickAnimation();
+        };
         this.buttonElement = button;
-        this.buttonContainer = new THREE.CSS3DObject(this.buttonElement);
-        this.buttonContainer.position.x = this.relPosition.x;
-        this.buttonContainer.position.y = this.relPosition.y;
-        this.buttonContainer.position.z = this.relPosition.z;
-        this.buttonContainer.scale.x = 0.1;
-        this.buttonContainer.scale.y = 0.1;
-        this.buttonContainer.scale.z = 0.1;
+        this.hintContainer = new THREE.CSS3DObject(this.buttonElement);
+        this.hintContainer.position.x = this.relPosition.x;
+        this.hintContainer.position.y = this.relPosition.y;
+        this.hintContainer.position.z = this.relPosition.z;
+        this.hintContainer.scale.x = 0.1;
+        this.hintContainer.scale.y = 0.1;
+        this.hintContainer.scale.z = 0.1;
     }
 
     createInputField(){
@@ -64,7 +74,7 @@ class InputField{
         this.inputContainer.position.x = this.relPosition.x;
         this.inputContainer.position.y = this.relPosition.y;
         this.inputContainer.position.z = this.relPosition.z;
-        this.inputContainer.scale.x = 0.1;
+        this.inputContainer.scale.x = 0;
         this.inputContainer.scale.y = 0.1;
         this.inputContainer.scale.z = 0.1;
     }
@@ -78,43 +88,97 @@ class InputField{
         submitButton.id = "submit";
         this.submitButtonElement = submitButton;
         submitButton.onclick = () => {
-            console.log("wtf");
-            this.removeElements();
-            this.startGenerateNewPoint = true;
+            // console.log("wtf");
+            this.putElementsInCircle();
+            // this.startGenerateNewPoint = true;
+            // this.submitAnimation();
         };
         this.submitButtonContainer = new THREE.CSS3DObject(this.submitButtonElement);
         this.submitButtonContainer.position.x = this.relPosition.x;
         this.submitButtonContainer.position.y = this.relPosition.y;
         this.submitButtonContainer.position.z = this.relPosition.z;
-        this.submitButtonContainer.scale.x = 0.1;
-        this.submitButtonContainer.scale.y = 0.1;
-        this.submitButtonContainer.scale.z = 0.1;
+        this.submitButtonContainer.scale.x = 0.0;
+        this.submitButtonContainer.scale.y = 0.0;
+        this.submitButtonContainer.scale.z = 0.0;
     }
 
-    removeElements(){
-        console.log("removing");
+    hintClickAnimation(){
+        let inputContainerTarget = new THREE.Vector3(0.1, 0.1, 0.1);
+        let hintContainerTarget = new THREE.Vector3(0.6, 0.6, 0.6);
+        this.moveValue(this.inputContainer.scale, inputContainerTarget, 2000, ()=>{
+            this.moveValue(this.submitButtonContainer.scale, inputContainerTarget, 1500, ()=>{});
+        });
+        this.buttonElement.innerHTML = "";
+        this.moveValue(this.trailGroup.scale, hintContainerTarget, 2000, ()=>{
+        });
+        // this.moveValue(this.hintContainer.scale, new THREE.Vector3(0.0,0.1,0.1), 2000, ()=>{});
+    }
+
+    moveValue(toMove, target, tweenTime, finishFunction ) {
+        let deepTripPosition = new TWEEN.Tween(toMove)
+            .to({
+                x: target.x,
+                y: target.y,
+                z: target.z
+            }, tweenTime)
+            .easing(TWEEN.Easing.Cubic.InOut).onUpdate(function() {console.log(
+                'wtf'
+            );}).onComplete(() => finishFunction())
+            .start();
+    }
+
+    moveColor(toMove, target, tweenTime, finishFunction){
+        let deepTripPosition = new TWEEN.Tween(toMove)
+            .to({
+                r: target.r,
+                g: target.g,
+                b: target.b
+            }, tweenTime)
+            .easing(TWEEN.Easing.Cubic.InOut).onUpdate(function() {}).onComplete(() => finishFunction())
+            .start();
+    }
+
+    putElementsInCircle(){
         this.submitButtonContainer.scale.copy(new THREE.Vector3(0,0,0));
-        this.inputContainer.scale.copy(new THREE.Vector3(0,0,0));
-        this.buttonContainer.scale.copy(new THREE.Vector3(0,0,0));
+        let currentOffset = {x: 0};
+        let targetOffset = {x: -60};
+        let tweenMovingTrack = new TWEEN.Tween(currentOffset)
+            .to(
+               targetOffset
+            , 2000)
+            .easing(TWEEN.Easing.Cubic.InOut).onUpdate(()=>{
+                    this.movingTrack = currentOffset.x;
+                }
+            ).onComplete(() => {this.startGenerateNewPoint = true;})
+            .start();
+        this.moveValue(this.inputContainer.scale, new THREE.Vector3(0,0,0), 2000, ()=>{
+        });
+    }
+
+    scaleDownFinished(){
+        console.log("called finished");
+        this.generateNewPoint = true;
+        this.inputFunctionFinished = true;
     }
 
     update(){
-        this.buttonContainer.position.copy(this.parentCamera.position);
-        this.buttonContainer.rotation.copy(this.parentCamera.rotation);
-        this.buttonContainer.translateX(-190);
-        this.buttonContainer.translateY(80);
-        this.buttonContainer.translateZ(-300);
+        console.log(this.movingTrack);
+        this.hintContainer.position.copy(this.parentCamera.position);
+        this.hintContainer.rotation.copy(this.parentCamera.rotation);
+        this.hintContainer.translateX(-190);
+        this.hintContainer.translateY(80);
+        this.hintContainer.translateZ(-300);
 
         this.submitButtonContainer.position.copy(this.parentCamera.position);
         this.submitButtonContainer.rotation.copy(this.parentCamera.rotation);
         this.submitButtonContainer.translateX(-80);
-        this.submitButtonContainer.translateY(95);
+        this.submitButtonContainer.translateY(88);
         this.submitButtonContainer.translateZ(-300);
 
         this.inputContainer.position.copy(this.parentCamera.position);
         this.inputContainer.rotation.copy(this.parentCamera.rotation);
-        this.inputContainer.translateX(-130);
-        this.inputContainer.translateY(95);
+        this.inputContainer.translateX(-130 + this.movingTrack);
+        this.inputContainer.translateY(88);
         this.inputContainer.translateZ(-300);
 
         if (!this.inputFunctionFinished){
@@ -125,7 +189,14 @@ class InputField{
             this.trailGroup.translateZ(-300);
         }
         else{
-            this.trailGroup.position.copy(this.newGeneratedPoint.position);
+            this.trailGroup.position.copy(this.newGeneratedPoint.point.position);
+            if (this.newGeneratedPoint.startRotate){
+                if (this.trailGroup.scale.x > 0.01){
+                    this.trailGroup.scale.x *= 0.99;
+                    this.trailGroup.scale.y *= 0.99;
+                    this.trailGroup.scale.z *= 0.99;
+                }
+            }
         }
 
         // this.inputContainer.scale.x = 0;
@@ -137,15 +208,22 @@ class InputField{
 
         if (!this.inputFunctionFinished){
             if (this.startGenerateNewPoint){
-                this.trailGroup.scale.x *= 0.99;
-                this.trailGroup.scale.y *= 0.99;
-                this.trailGroup.scale.z *= 0.99;
-                if (this.trailGroup.scale.x < 0.02){
-                    this.generateNewPoint = true;
-                    this.inputFunctionFinished = true;
+                let col = new THREE.Color('#ff0000');
+                this.moveValue(this.trailGroup.scale, new THREE.Vector3(0.3,0.3,0.3), 4000, ()=>{this.scaleDownFinished()});
+                for(let i=0; i<this.numberOfTrails; i++){
+                    this.moveColor(this.trails[i].point.material.color, col, 4000, ()=>{});
+                    this.moveColor(this.trails[i].trailLine.material.color, col, 4000, ()=>{});
+                    // this.trails[i].update();
                 }
+                this.startGenerateNewPoint = false;
+                // this.trailGroup.scale.x *= 0.99;
+                // this.trailGroup.scale.y *= 0.99;
+                // this.trailGroup.scale.z *= 0.99;
+                // if (this.trailGroup.scale.x < 0.3){
+                //     this.generateNewPoint = true;
+                //     this.inputFunctionFinished = true;
+                // }
             }
         }
-
     }
 }
