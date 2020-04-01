@@ -258,7 +258,7 @@ function shareTo(website) {
     case 'WEIBO':
       const url1 = 'http://service.weibo.com/share/share.php?url=' +
         encodeURIComponent(window.location.href) +
-        '&sharesource=weibo&title=我正在和' + visitorCount + '人一同逆时针行走纪念逝者';
+        '&sharesource=weibo&title=' + encodedText();
       window.open(url1, '_blank');
       break;
     case 'WECHAT':
@@ -270,12 +270,16 @@ function shareTo(website) {
       break;
     case 'TWITTER':
       let url4 = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(window.location.href) 
-      + '&text=我正在和' + visitorCount + '人一同逆时针行走纪念逝者';
+      + '&text=' + encodedText();
       window.open(url4, '_blank');
       break;
     default:
       window.alert('unknown website ' + website);
   }
+}
+
+function encodedText() {
+  return encodeURIComponent('#清明# 我正在和' + visitorCount + '人一同逆时针行走纪念逝者');
 }
 
 function preventEvent(event) {
