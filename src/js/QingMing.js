@@ -143,14 +143,14 @@ function init() {
   initLoadManager();
   loadModelAndMap();
   // addPoints();
-  // addBillboards();
-  addNameInput();
+  addBillboards();
+  // addNameInput();
   document.addEventListener("mousemove", mouseMove);
 }
 
 function addNameInput(){
     inputField = new InputField(new THREE.Vector3(0, 0, 50000), "加入祭奠", camera);
-    sceneCSS.add(inputField.buttonContainer);
+    sceneCSS.add(inputField.hintContainer);
     sceneCSS.add(inputField.inputContainer);
     sceneCSS.add(inputField.submitButtonContainer);
     scene.add(inputField.trailGroup);
@@ -232,6 +232,7 @@ function enter() {
   let vector = new THREE.Vector3( mouse.x, mouse.y, -1 ).unproject( camera );
   // vector.z = -400;
   addPoints(vector);
+  addNameInput();
   initCamMove();
 }
 
@@ -536,14 +537,19 @@ function addControl(){
 
 
 function animate() {
-    if (inputField.generateNewPoint){
-        console.log("Get a new point");
-        let newPoint = new PersonPoint(1000, 0, inputField.trailGroup.position);
-        scene.add(newPoint.point);
-        scene.add(newPoint.trailLine);
-        personPoints.push(newPoint);
-        inputField.newGeneratedPoint = newPoint.point;
-        inputField.generateNewPoint = false;
+    TWEEN.update();
+    if (inputField !== null){
+        if (inputField.generateNewPoint){
+            console.log("Get a new point");
+            let newPoint = new PersonPoint(1000, maxHeight/2, inputField.trailGroup.position);
+            newPoint.trailLine.material.color = new THREE.Color('#ff0000');
+            newPoint.point.material.color = new THREE.Color('#ff0000');
+            scene.add(newPoint.point);
+            scene.add(newPoint.trailLine);
+            personPoints.push(newPoint);
+            inputField.newGeneratedPoint = newPoint;
+            inputField.generateNewPoint = false;
+        }
     }
 
     if (displayLoadProgress < loadProgress && displayLoadProgress < 100){
@@ -582,9 +588,10 @@ function animate() {
     for (let i=0; i<billBoards.length; i++){
         billBoards[i].update();
     }
-    TWEEN.update();
     controls.update();
-    inputField.update();
+    if (inputField !== null){
+        inputField.update();
+    }
 
     requestAnimationFrame( animate );
     render();
