@@ -90,13 +90,16 @@ function init() {
   container = document.getElementById('container');
   // camera
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-  //
-  //   -7965.668730586435
-  //   y: 514.8100231721643
-  //   z: -532.0642015762531
   camera.position.x = -7965.66;
   camera.position.y = 514.81;
   camera.position.z = -532.06;
+  // camera.position.x = 0;
+  // camera.position.y = 0;
+  // camera.position.z = 1000;
+  // camera.position.x = 461;
+  // camera.position.y = 7400;
+  // camera.position.z = 8620;
+
   camera.far = 1000000;
   camera.updateProjectionMatrix();
 
@@ -183,11 +186,20 @@ function mouseMove(event){
 }
 
 function addBillboards(){
-    let content = "洪山礼堂";
-    let position = new THREE.Vector3(0, 500, -1000);
-    let billBoard = new Billboard(position, content, camera);
-    billBoards.push(billBoard);
-    sceneCSS.add(billBoard.container);
+  let hongShanLiTang = new Billboard(
+    new THREE.Vector3(0, 500, -15000),
+    '洪山礼堂',
+    camera
+  );
+  billBoards.push(hongShanLiTang);
+  sceneCSS.add(hongShanLiTang.container);
+  let hongShanLu = new Billboard(
+    new THREE.Vector3(0, 500, -8000),
+    '洪山路',
+    camera
+  );
+  billBoards.push(hongShanLu);
+  sceneCSS.add(hongShanLu.container);
 }
 
 function loadMap() {
@@ -230,12 +242,14 @@ function loadModelAndMap() {
 }
 
 function enter() {
-  document.getElementById("welcome-page").style.display = 'none';
-  let vector = new THREE.Vector3( mouse.x, mouse.y, -1 ).unproject( camera );
-  // vector.z = -400;
-  addPoints(vector);
-  addNameInput();
-  initCamMove();
+    document.getElementById("welcome-page").style.display = 'none';
+    let vector = new THREE.Vector3( mouse.x, mouse.y, -1).unproject( camera );
+    // vector.z -= 1000;
+    // vector.z -= 100;
+    console.log(vector);
+    addPoints(vector);
+    addNameInput();
+    initCamMove();
 }
 
 function showInfoCard() {
@@ -305,8 +319,16 @@ function convertIndexToRowCol(index, widthNum){
     return  [row, col];
 }
 
+function generateSphereOffset(radius){
+    let randomDirection = new THREE.Vector3(Math.random()-0.5,Math.random()-0.5,Math.random()-0.5).normalize();
+    let radius3 = Math.random() * 350 + 1;
+    let randomOffset = randomDirection.multiplyScalar(radius3);
+    return randomOffset;
+}
+
 function addPoints(initPos){
     // let initPosition = new THREE.Vector3(-10000, 0, 0);
+    let offsetRadius = 100;
     let initPosition = initPos;
     let numberOfPoints = 1000;
     let heightGap = maxHeight/numberOfPoints;
@@ -326,6 +348,8 @@ function addPoints(initPos){
     let halfHeight = height/2;
 
     for (let i=0; i<numberOfPoints; i++) {
+        // let offset = generateSphereOffset(offsetRadius);
+        initPosition = initPos + 0;
         // let recIndexes = convertIndexToRowCol(i, colNumber);
         // let rowIndex = recIndexes[0];
         // let colIndex = recIndexes[1];
@@ -452,8 +476,8 @@ function moveCamera(target, tweenTime, finishFunction, easingFunction) {
 }
 
 function initCamMove(){
-    let topTarget = new THREE.Vector3(0, 0, 7500);
-    let tweenTime = 5000;
+    let topTarget = new THREE.Vector3(0, 0, 5000);
+    let tweenTime = 8000;
     moveCamera(topTarget, tweenTime, ()=>{
         console.log("ff");
     }, TWEEN.Easing.Linear.None);
@@ -536,10 +560,10 @@ function addControl(){
     gui.add(options, 'Reset');
 }
 
-
-
 function animate() {
     TWEEN.update();
+    // console.log(controls.object.position);
+    //---------Input
     if (inputField !== null){
         if (inputField.generateNewPoint){
             console.log("Get a new point");
@@ -553,9 +577,9 @@ function animate() {
             inputField.generateNewPoint = false;
         }
     }
-
+    //---------Progress
     if (displayLoadProgress < loadProgress && displayLoadProgress < 100){
-        displayLoadProgress += Math.random();
+        displayLoadProgress += Math.random()*5;
         if (displayLoadProgress > 100){
             displayLoadProgress = 100;
         }
@@ -587,10 +611,11 @@ function animate() {
             }
         }
     }
-
+    //---------Cloud
     for (let i=0; i<personPoints.length; i++){
         personPoints[i].update();
     }
+    //---------Billboards
     for (let i=0; i<billBoards.length; i++){
         billBoards[i].update();
     }
@@ -598,7 +623,6 @@ function animate() {
     if (inputField !== null){
         inputField.update();
     }
-
     requestAnimationFrame( animate );
     render();
 }
