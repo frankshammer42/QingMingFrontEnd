@@ -137,8 +137,8 @@ function init() {
   // Light and Model Set Up
 
 
-  // getLight();
-  // addSkybox();
+  getLight();
+  addSkybox();
   //model
   initLoadManager();
   loadModelAndMap();
@@ -217,7 +217,7 @@ function loadModelAndMap() {
         object.scale.y *= 2000;
         object.scale.z *= 2000;
         model = object;
-        // loadMap();
+        loadMap();
       },
       function (xhr){
           loadProgress = Math.floor((xhr.loaded / xhr.total) * 0.5*100);
@@ -577,8 +577,6 @@ function animate() {
           document.getElementById("blank-block").className="blank-block-loaded";
           document.getElementById("loading").className="loaded";
           // document.getElementById("main-title").className="title-loaded"
-
-
         }
     }
 
