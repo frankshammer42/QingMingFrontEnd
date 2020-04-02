@@ -53,6 +53,8 @@ let mouse;
 
 // for visitor
 let visitorCount = 0;
+// for intro progress check
+let fullyLoaded = false;
 
 
 function initVisitor() {
@@ -137,8 +139,8 @@ function init() {
   // Light and Model Set Up
 
 
-  // getLight();
-  // addSkybox();
+  getLight();
+  addSkybox();
   //model
   initLoadManager();
   loadModelAndMap();
@@ -217,7 +219,7 @@ function loadModelAndMap() {
         object.scale.y *= 2000;
         object.scale.z *= 2000;
         model = object;
-        // loadMap();
+        loadMap();
       },
       function (xhr){
           loadProgress = Math.floor((xhr.loaded / xhr.total) * 0.5*100);
@@ -558,27 +560,31 @@ function animate() {
             displayLoadProgress = 100;
         }
         let result = displayLoadProgress.toFixed(0);
-        let progress=document.getElementById("loading")
+        let progress=document.getElementById("loading");
         progress.innerHTML = result +  "%";
-        if (result === "100"){
-          console.log("fuck me");
-          let arry=document.getElementsByClassName("hidden");
-          let i;
-          for (i=0;i<arry.length;i++){
-            // console.log(arry[i].tagName);
-            //console.log (i+": "+ arry[i]);
-            if (arry[i].tagName !== "BUTTON"){
-              arry[i].className="intro visible fade-in";
+        if (!fullyLoaded){
+            if (result === "100"){
+                fullyLoaded = true;
+                let arry =document.getElementsByClassName("hidden");
+                arry = [].slice.call(arry);
+                for (let i=0; i<arry.length; i++){
+                    //console.log(arry[i].tagName);
+                    //console.log (i+": "+ arry[i]);
+                    console.log(i);
+                    // arry[i].className = "intro visible fade-in";
+                    // console.log(arry[i].tagName);
+                    if (arry[i].tagName !== "BUTTON"){
+                        arry[i].className = "intro visible fade-in";
+                    }
+                    else{
+                        console.log("Make Button Visible");
+                        arry[i].className = "fade-in visible";
+                    }
+                }
+                document.getElementById("blank-block").className="blank-block-loaded";
+                document.getElementById("loading").className="loaded";
+                // document.getElementById("main-title").className="title-loaded"
             }
-            else{
-              arry[i].className="fade-in visible";
-            }
-          }
-          document.getElementById("blank-block").className="blank-block-loaded";
-          document.getElementById("loading").className="loaded";
-          document.getElementById("main-title").className="title slideUp"
-
-
         }
     }
 
