@@ -92,6 +92,9 @@ class InputField{
             // console.log("wtf");
             this.putElementsInCircle();
             // this.startGenerateNewPoint = true;
+            for(let i=0; i<this.numberOfTrails; i++){
+                this.trails[i].ringRotateSpeed = Math.random()*0.02;
+            }
             // this.submitAnimation();
         };
         this.submitButtonContainer = new THREE.CSS3DObject(this.submitButtonElement);
@@ -140,22 +143,23 @@ class InputField{
     }
 
     putElementsInCircle(){
+        let duration = 3000;
         this.submitButtonContainer.scale.copy(new THREE.Vector3(0,0,0));
         let currentOffset = {x: 0, y: 0};
         let targetOffset = {x: -50, y: 5};
         let tweenMovingTrack = new TWEEN.Tween(currentOffset)
             .to(
                targetOffset
-            , 2000)
+            , duration)
             .easing(TWEEN.Easing.Cubic.InOut).onUpdate(()=>{
                     this.movingTrackX = currentOffset.x;
                     this.movingTrackY = currentOffset.y;
                 }
             ).onComplete(() => {})
             .start();
-        this.moveValue(this.inputContainer.scale, new THREE.Vector3(0,0,0), 2000, ()=>{
+        this.moveValue(this.inputContainer.scale, new THREE.Vector3(0,0,0), duration, ()=>{
         });
-        this.moveValue(this.trailGroup.scale, new THREE.Vector3(0.6, 0.6 ,0.6), 2000, ()=>{
+        this.moveValue(this.trailGroup.scale, new THREE.Vector3(0.6, 0.6 ,0.6), duration, ()=>{
             this.startGenerateNewPoint = true;
         });
     }
@@ -167,7 +171,6 @@ class InputField{
     }
 
     update(){
-        console.log(this.movingTrack);
         this.hintContainer.position.copy(this.parentCamera.position);
         this.hintContainer.rotation.copy(this.parentCamera.rotation);
         this.hintContainer.translateX(-190);
@@ -218,7 +221,7 @@ class InputField{
                 for(let i=0; i<this.numberOfTrails; i++){
                     this.moveColor(this.trails[i].point.material.color, col, 7000, ()=>{});
                     this.moveColor(this.trails[i].trailLine.material.color, col, 7000, ()=>{});
-                    this.trails[i].ringRotateSpeed = Math.random()*0.02;
+                    // this.trails[i].ringRotateSpeed = Math.random()*0.02;
                 }
                 this.startGenerateNewPoint = false;
             }
