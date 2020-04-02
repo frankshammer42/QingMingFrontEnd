@@ -571,7 +571,7 @@ function animate() {
               arry[i].className="intro visible fade-in";
             }
             else{
-              arry[i].className="button-fadeIn";
+              arry[i].className="fade-in visible";
             }
           }
           document.getElementById("blank-block").className="blank-block-loaded";

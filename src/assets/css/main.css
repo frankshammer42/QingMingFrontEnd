@@ -106,6 +106,7 @@ h1 {
 }
 
 .Button {
+  background-color:black;
   border-radius: 1px;
   border: 1px solid #dcdcdc;
   display: inline-block;
@@ -234,14 +235,14 @@ h1 {
 }
 
 /*fade in button*/
-.button-fadeIn  {
+.fade-in  {
   display: block;
-  transition-delay: 3s;
-  animation: fadeIn ease 6s;
-  -webkit-animation: fadeIn ease 6s;
-  -moz-animation: fadeIn ease 6s;
-  -o-animation: fadeIn ease 6s;
-  -ms-animation: fadeIn ease 6s;
+  /* transition-delay: 2s; */
+  animation: fadeIn ease 1s;
+  -webkit-animation: fadeIn ease 1s;
+  -moz-animation: fadeIn ease 1s;
+  -o-animation: fadeIn ease 1s;
+  -ms-animation: fadeIn ease 1s;
 }
 
 /* fade in introduction texts */
