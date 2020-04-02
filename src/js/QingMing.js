@@ -335,9 +335,9 @@ function generateSphereOffset(radius){
 }
 
 function addPoints(initPos){
-    // let initPosition = new THREE.Vector3(-10000, 0, 0);
     let offsetRadius = 100;
     let initPosition = initPos;
+    initPosition = new THREE.Vector3(0, 0, 0);
     let numberOfPoints = 1000;
     let heightGap = maxHeight/numberOfPoints;
     let maxPulseNumber = 60;
@@ -359,7 +359,7 @@ function addPoints(initPos){
     let heightNumber = 3;
     let currentSinRange = Math.floor(Math.random()*100) + Math.floor(numberOfPoints/heightNumber);
     let sinCounter = 0;
-    initPosition = initPos;
+    // initPosition = initPos;
     for (let i=0; i<numberOfPoints; i++) {
         if (sinCounter > currentSinRange){
             sinCounter = 0;
@@ -500,7 +500,7 @@ function moveCamera(target, tweenTime, finishFunction, easingFunction) {
 }
 
 function initCamMove(){
-    let topTarget = new THREE.Vector3(0, 0, 5000);
+    let topTarget = new THREE.Vector3(0, 0, 3500);
     let tweenTime = 8000;
     moveCamera(topTarget, tweenTime, ()=>{
         console.log("ff");
@@ -518,11 +518,24 @@ function moveToTop(){
 }
 
 function moveAuto(){
-    controls.autoRotate = !controls.autoRotate;
+    if (controls.autoRotate){
+        controls.autoRotate = false;
+        let button = document.getElementsByClassName("view-angle3-button")[0];
+        button.innerHTML = "环视";
+    }
+    else{
+        let freeViewTarget = new THREE.Vector3(0, 1000, 5000);
+        let tweenTime = 4000;
+        moveCamera(freeViewTarget, tweenTime, ()=>{
+            controls.autoRotate = !controls.autoRotate;
+            let button = document.getElementsByClassName("view-angle3-button")[0];
+            button.innerHTML = "停止";
+        }, TWEEN.Easing.Cubic.InOut);
+    }
 }
 
 function moveToFreeView(){
-    let freeViewTarget = new THREE.Vector3(-336, 1695, 5785);
+    let freeViewTarget = new THREE.Vector3(0, 1000, 5000);
     let tweenTime = 4000;
     moveCamera(freeViewTarget, tweenTime, ()=>console.log("ff"), TWEEN.Easing.Cubic.InOut);
 }
@@ -586,7 +599,7 @@ function addControl(){
 
 function animate() {
     TWEEN.update();
-    // console.log(controls.object.position);
+    console.log(controls.object.position);
     //---------Input
     if (inputField !== null){
         if (inputField.generateNewPoint){

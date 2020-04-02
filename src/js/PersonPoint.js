@@ -63,7 +63,7 @@ class PersonPoint {
         //Regarding Initial Movement
         this.startRotate = false;
         this.target = new THREE.Vector3(this.x, this.y, this.z);
-        this.tweenTime = 3000 + Math.random()*3000;
+        this.tweenTime = 10000 + Math.random()*2000;
         this.tweenToInitPosition();
         // For user input
         this.userInputBoard = null;
