@@ -186,20 +186,28 @@ function mouseMove(event){
 }
 
 function addBillboards(){
-  let hongShanLiTang = new Billboard(
-    new THREE.Vector3(0, 500, -15000),
-    '洪山礼堂',
+  addBillboard(0, 500, -15000, '洪山礼堂');
+  addBillboard(0, -200, -8000, '洪山路');
+  addBillboard(-12700, -200, 5000, '东三路');
+  addBillboard(8000, -200, 2000, '东四路');
+  addBillboard(-6200, 500, 8200, '武汉市公安局警务');
+  addBillboard(-6200, 400, 8200, '综合服务站');
+  addBillboard(11000, 500, 1000, '双湖派出所');
+  addBillboard(12000, 500, 11000, '湖北省科学技术');
+  addBillboard(12000, 450, 11000, '厅政务服务大厅');
+  addBillboard(20000, 500, -14000, '中国共产党湖北省');
+  addBillboard(20000, 450, -14000, '纪检委');
+}
+
+function addBillboard(p0, p1, p2, name) {
+  let billboard = new Billboard(
+    new THREE.Vector3(p0, p1, p2),
+    name,
     camera
   );
-  billBoards.push(hongShanLiTang);
-  sceneCSS.add(hongShanLiTang.container);
-  let hongShanLu = new Billboard(
-    new THREE.Vector3(0, 500, -8000),
-    '洪山路',
-    camera
-  );
-  billBoards.push(hongShanLu);
-  sceneCSS.add(hongShanLu.container);
+  billBoards.push(billboard);
+  sceneCSS.add(billboard.container);
+
 }
 
 function loadMap() {
