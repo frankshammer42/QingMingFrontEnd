@@ -186,11 +186,20 @@ function mouseMove(event){
 }
 
 function addBillboards(){
-    let content = "洪山礼堂";
-    let position = new THREE.Vector3(0, 500, -1000);
-    let billBoard = new Billboard(position, content, camera);
-    billBoards.push(billBoard);
-    sceneCSS.add(billBoard.container);
+  let hongShanLiTang = new Billboard(
+    new THREE.Vector3(0, 500, -15000),
+    '洪山礼堂',
+    camera
+  );
+  billBoards.push(hongShanLiTang);
+  sceneCSS.add(hongShanLiTang.container);
+  let hongShanLu = new Billboard(
+    new THREE.Vector3(0, 500, -8000),
+    '洪山路',
+    camera
+  );
+  billBoards.push(hongShanLu);
+  sceneCSS.add(hongShanLu.container);
 }
 
 function loadMap() {
