@@ -40,7 +40,9 @@ class InputField{
             // newTrail.zRotationAngle = Math.random()*Math.PI*2 - Math.PI;
             newTrail.xRotationAngle = Math.PI*0.5 + (Math.random()*0.1 - 0.05);
             newTrail.rotateSpeed = Math.random()*0.02 - 0.5*0.02;
-            newTrail.ringRotateSpeed = 0;
+            newTrail.ringRotateSpeedX = 0;
+            newTrail.ringRotateSpeedZ = 0;
+            newTrail.useOffset = false;
             this.trails.push(newTrail);
             this.trailGroup.add(newTrail.point);
             this.trailGroup.add(newTrail.trailLine);

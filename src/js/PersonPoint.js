@@ -52,8 +52,9 @@ class PersonPoint {
         this.trailLine.geometry.attributes.position.array[1] = this.y;
         this.trailLine.geometry.attributes.position.array[2] = this.z;
         // Rotation -> Add Speed to create smooth transition
-        this.ringRotateSpeed = Math.random() * 0.001 - 0.0005;
-        this.ringRotateCounterMax = 1000;
+        this.ringRotateSpeedX = Math.random() * 0.0012 - 0.0012/2;
+        this.ringRotateSpeedZ = Math.random() * 0.0012 - 0.0012/2;
+        this.ringRotateCounterMax = 800;
         this.ringRotateCounter = 0;
         this.xRotationAngle = 0;
         this.zRotationAngle = 0;
@@ -67,6 +68,10 @@ class PersonPoint {
         // For user input
         this.userInputBoard = null;
         this.userInput = null;
+        // For Creating Shapes
+        this.useOffset = true;
+        // this.offSet = new THREE.Vector3(Math.random()*500 - 250, 0, Math.random()*500-250);
+        this.offSet = new THREE.Vector3(0,0,0);
     }
 
     createBillboard(userInputContent, camera){
@@ -105,6 +110,11 @@ class PersonPoint {
         this.x = circlePosition.x;
         this.y = circlePosition.y + this.height;
         this.z = circlePosition.z;
+        if (this.useOffset){
+            this.x = circlePosition.x + this.offSet.x;
+            this.y = circlePosition.y + this.height;
+            this.z = circlePosition.z + this.offSet.z;
+        }
     }
 
     generateInitCirclePoint(radius, height){
@@ -119,8 +129,8 @@ class PersonPoint {
     update(){
         if (this.startRotate) {
             if (this.ringRotateCounter < this.ringRotateCounterMax){
-                this.xRotationAngle += this.ringRotateSpeed;
-                this.zRotationAngle += this.ringRotateSpeed;
+                this.xRotationAngle += this.ringRotateSpeedX;
+                this.zRotationAngle += this.ringRotateSpeedZ;
                 this.ringRotateCounter += 1;
             }
             this.theta += this.rotateSpeed;

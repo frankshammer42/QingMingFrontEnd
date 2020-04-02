@@ -21,11 +21,11 @@ let inputField = null;
 // let maxHeight = 2000;
 // let maxRadius = 2000;
 // Narrower Version with segmented Random Number
-let maxHeight = 2000;
-let maxRadius = 500;
+let maxHeight = 2500;
+let maxRadius = 1000;
 let ranges = [
-  [200,  400],
-  [600, 800]
+  [200, 400],
+  [1800, 2000]
 ];
 // Center Line
 let centerLine;
@@ -355,39 +355,55 @@ function addPoints(initPos){
     let halfWidth = width/2;
     let halfHeight = height/2;
 
+
+    let heightNumber = 3;
+    let currentSinRange = Math.floor(Math.random()*100) + Math.floor(numberOfPoints/heightNumber);
+    let sinCounter = 0;
+    initPosition = initPos;
     for (let i=0; i<numberOfPoints; i++) {
-        // let offset = generateSphereOffset(offsetRadius);
-        initPosition = initPos + 0;
-        // let recIndexes = convertIndexToRowCol(i, colNumber);
-        // let rowIndex = recIndexes[0];
-        // let colIndex = recIndexes[1];
-        // let initX = -halfWidth + colIndex*recWidthGap;
-        // let initY = halfHeight - rowIndex*recHeightGap;
-        // initPosition = new THREE.Vector3(initX, initY, 6000);
-        // let randomHeight = Math.random()*maxHeight;
+        if (sinCounter > currentSinRange){
+            sinCounter = 0;
+            currentSinRange = Math.floor(Math.random()* 100) + Math.floor(numberOfPoints/heightNumber);
+        }
+        let sinIndex = Math.PI*(sinCounter/currentSinRange);
+        let randomRadius = 0;
+        randomRadius = (Math.abs(Math.sin(sinIndex)) * maxRadius + 500)*Math.random() + 50;
         let randomHeight = i * heightGap;
         // Wide
-        // let randomRadius = Math.random()*maxRadius;
+        // let randomRadius = Math.random()*maxRadius + 400;
         // Segmented
-        let randomRadius = 0;
-        let currentRange;
-        if (pulseCounter < currentLowNumber) {
-            currentRange = ranges[0];
-        } else {
-            currentRange = ranges[1];
-        }
-        randomRadius = currentRange[0] + Math.random() * (currentRange[1] - currentRange[0]);
-        if (pulseCounter > currentPulseNumber) {
-            currentPulseNumber = pulseOffset + Math.floor(Math.random() * (maxPulseNumber - pulseOffset));
-            currentLowNumber = currentPulseNumber / 2 + Math.floor(Math.random() * (currentPulseNumber / 2)) * Math.random();
-            pulseCounter = 0;
-        }
+        // let currentRange;
+        // if (pulseCounter < currentLowNumber) {
+        //     currentRange = ranges[0];
+        // } else {
+        //     currentRange = ranges[1];
+        // }
+        // if (pulseCounter < currentLowNumber){
+        //     randomRadius = currentRange[0] + Math.random() * (currentRange[1] - currentRange[0]) + 500;
+        // }
+        // else{
+        //     randomRadius = currentRange[0] + Math.random() * (currentRange[1] - currentRange[0]);
+        // }
+        // if (pulseCounter > currentPulseNumber) {
+        //     currentPulseNumber = pulseOffset + Math.floor(Math.random() * (maxPulseNumber - pulseOffset));
+        //     currentLowNumber = currentPulseNumber / 2 + Math.floor(Math.random() * (currentPulseNumber / 2));
+        //     pulseCounter = 0;
+        // }
         // let randomRadius = currentRange[0] + Math.random()*(currentRange[1]-currentRange[0]);
+        // let randomRadius = 1000 + 500*Math.random();
         personPoint = new PersonPoint(randomRadius, randomHeight, initPosition);
+        // if (pulseCounter > currentLowNumber){
+        //     personPoint.useOffset = false;
+        // }
+        // else{
+        //     personPoint.ringRotateCounterMax = 200;
+        //
+        // }
         scene.add(personPoint.point);
         scene.add(personPoint.trailLine);
         personPoints.push(personPoint);
         pulseCounter += 1;
+        sinCounter += 1;
     }
 }
 
