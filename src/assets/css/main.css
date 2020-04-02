@@ -39,7 +39,7 @@ canvas {
 }
 
 h1 {
-  font-size: 56px;
+  font-size: 36px;
   font-family: STSongti-SC-Bold;
   color: #313030;
   letter-spacing: 0;
@@ -348,7 +348,7 @@ animation-name: slideUp;
 }
 
 .welcome-card .intro {
-  padding: 30px 205px 0;
+  padding: 12px 205px 0;
 }
 
 .welcome-card .controls {
