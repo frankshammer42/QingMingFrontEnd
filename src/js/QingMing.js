@@ -576,7 +576,7 @@ function animate() {
           }
           document.getElementById("blank-block").className="blank-block-loaded";
           document.getElementById("loading").className="loaded";
-          // document.getElementById("main-title").className="title-loaded"
+          document.getElementById("main-title").className="title slideUp"
 
 
         }

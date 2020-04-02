@@ -175,22 +175,10 @@ h1 {
   justify-content: center;
   align-items: center;
   text-align: center;
-  /* padding: 80px 0 0 0; */
-  /* transition: top 0.15s 3.2s,
-              margin-top 0.15s 3.2s,
-              transform 0.15s 3.2s;
-              transform-origin: 50% 0 */
-
 }
 
-.title-loaded{
-  /* justify-content: center;
-  align-items: center; */
-  /* text-align: center; */
-  /* padding: 80px 0 0 0; */
-  /* transition-timing-function: linear;
-  transition:0.9s;
-  transform:translateY(50%); */
+.slideUp{
+animation-name: slideUp;
 
 }
 
@@ -255,6 +243,33 @@ h1 {
   -ms-animation: fadeIn ease 2s;
 }
 
+/* slide up effect */
+@keyframes slideUp {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    transform: translate3d(0, -100%, 0);
+  }
+}
+
+@-webkit-keyframes slideUp {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, -80%, 0);
+  }
+
+}
+
+/* .slideUp {
+  animation-name: slideUp; */
+
+/* keyframe fade in effect  */
 @keyframes fadeIn{
   0% {
     opacity:0;
