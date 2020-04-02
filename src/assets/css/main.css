@@ -505,7 +505,7 @@ animation-name: slideUp;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 500;
+  z-index: 499;
 }
 
 .view-angle1-button,
@@ -624,4 +624,47 @@ animation-name: slideUp;
   background: #fff;
 }
 
+@media only screen and (max-width: 768px) {
+  .visitor-count-bar {
+    width: calc(72px + 72px + 72px + 16px + 16px);
+    text-align: center;
+    bottom: calc(40px + 16px + 16px);
+    right: 16px;
+    margin: 0;
+    left: unset;
+    min-height: unset;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .visitor-count-bar {
+    width: calc(60px + 60px + 60px + 16px + 16px);
+  }
+
+  .view-angle1-button,
+  .view-angle2-button,
+  .view-angle3-button {
+    width: 60px;
+    height: 40px;
+  }
+
+  .view-angle1-button {
+    background-image: url('/assets/images/view-angle1.png');
+    right: calc(60px + 60px + 16px + 16px + 16px);
+    bottom: 16px;
+  }
+  
+  .view-angle2-button {
+    background-image: url('/assets/images/view-angle2.png');
+    right: calc(60px + 16px + 16px);
+    bottom: 16px;
+  }
+  
+  .view-angle3-button {
+    background-image: url('/assets/images/view-angle3.png');
+    right: 16px;
+    bottom: 16px;
+  }
+  
+}
 /*************** END sharing ****************/

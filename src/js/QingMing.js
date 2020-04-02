@@ -64,6 +64,7 @@ function initVisitor() {
       let resObj = JSON.parse(this.responseText);
       console.log('Visitor count is ' + resObj.count);
       visitorCount = resObj.count;
+      document.getElementById('visitor-count-bar').innerText = visitorCount + '人正在逆时针行走'
     }
   };
   req.open('GET', '/monument-api/visitor', true);
