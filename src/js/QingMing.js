@@ -139,8 +139,8 @@ function init() {
   // Light and Model Set Up
 
 
-  getLight();
-  addSkybox();
+  // getLight();
+  // addSkybox();
   //model
   initLoadManager();
   loadModelAndMap();
