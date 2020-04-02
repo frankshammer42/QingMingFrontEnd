@@ -64,6 +64,7 @@ function initVisitor() {
       let resObj = JSON.parse(this.responseText);
       console.log('Visitor count is ' + resObj.count);
       visitorCount = resObj.count;
+      document.getElementById('visitor-count-bar').innerText = visitorCount + '人正在逆时针行走'
     }
   };
   req.open('GET', '/monument-api/visitor', true);
@@ -614,7 +615,6 @@ function animate() {
                         arry[i].className = "fade-in visible";
                     }
                 }
-                document.getElementById("blank-block").className="blank-block-loaded";
                 document.getElementById("loading").className="loaded";
                 // document.getElementById("main-title").className="title-loaded"
             }
