@@ -207,7 +207,6 @@ function addBillboard(p0, p1, p2, name) {
   );
   billBoards.push(billboard);
   sceneCSS.add(billboard.container);
-
 }
 
 function loadMap() {
@@ -578,8 +577,10 @@ function animate() {
             let newPoint = new PersonPoint(1000, maxHeight/2, inputField.trailGroup.position);
             newPoint.trailLine.material.color = new THREE.Color('#ff0000');
             newPoint.point.material.color = new THREE.Color('#ff0000');
+            newPoint.createBillboard(inputField.userInputContent, camera);
             scene.add(newPoint.point);
             scene.add(newPoint.trailLine);
+            sceneCSS.add(newPoint.userInputBoard.container);
             personPoints.push(newPoint);
             inputField.newGeneratedPoint = newPoint;
             inputField.generateNewPoint = false;

@@ -322,8 +322,6 @@ animation-name: slideUp;
   cursor:pointer;
 }
 
-
-
 @media only screen and (max-width: 768px) {
   .card {
     font-size: 15px;

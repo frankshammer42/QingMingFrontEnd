@@ -64,6 +64,19 @@ class PersonPoint {
         this.target = new THREE.Vector3(this.x, this.y, this.z);
         this.tweenTime = 3000 + Math.random()*3000;
         this.tweenToInitPosition();
+        // For user input
+        this.userInputBoard = null;
+        this.userInput = null;
+    }
+
+    createBillboard(userInputContent, camera){
+        // let currentPosition = new THREE.Vector3(this.x, this.y, this.z);
+        let currentPosition = this.initPosition;
+        this.userInput = userInputContent;
+        this.userInputBoard = new Billboard(currentPosition, this.userInput, camera);
+        this.userInputBoard.container.scale.x *= 0.0;
+        this.userInputBoard.container.scale.y *= 0.0;
+        this.userInputBoard.container.scale.z *= 0.0;
     }
 
     tweenToInitPosition(){
@@ -112,11 +125,15 @@ class PersonPoint {
             }
             this.theta += this.rotateSpeed;
             this.x = Math.cos(this.theta) * this.radius;
-            // this.y = this.y;
             this.z = Math.sin(this.theta) * this.radius;
             this.generateRotatedPosition();
+            //Update Position
             this.point.position.copy(new THREE.Vector3(this.x, this.y, this.z));
 
+            if (this.userInputBoard !== null){
+                this.userInputBoard.container.position.copy(new THREE.Vector3(this.x, this.y + 10, this.z));
+                this.userInputBoard.update();
+            }
             //Update trail
             if (this.currentTrailIndex < this.numberOfPointsPerTrail) {
                 this.currentTrailIndex += 1;

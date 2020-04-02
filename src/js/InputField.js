@@ -27,6 +27,8 @@ class InputField{
         // Input Moving Tracking
         this.movingTrackX = 0;
         this.movingTrackY = 0;
+        // User Input Check and user Input
+        this.userInputContent = null;
     }
 
     createTrails(){
@@ -89,13 +91,12 @@ class InputField{
         submitButton.id = "submit";
         this.submitButtonElement = submitButton;
         submitButton.onclick = () => {
-            // console.log("wtf");
             this.putElementsInCircle();
-            // this.startGenerateNewPoint = true;
             for(let i=0; i<this.numberOfTrails; i++){
                 this.trails[i].ringRotateSpeed = Math.random()*0.02;
             }
-            // this.submitAnimation();
+            console.log(this.inputElement.value);
+            this.userInputContent = this.inputElement.value;
         };
         this.submitButtonContainer = new THREE.CSS3DObject(this.submitButtonElement);
         this.submitButtonContainer.position.x = this.relPosition.x;
@@ -203,6 +204,11 @@ class InputField{
                     this.trailGroup.scale.x *= 0.99;
                     this.trailGroup.scale.y *= 0.99;
                     this.trailGroup.scale.z *= 0.99;
+                }
+                if (this.newGeneratedPoint.userInputBoard.container.scale.x !== 0.4){
+                    this.newGeneratedPoint.userInputBoard.container.scale.x = 0.4;
+                    this.newGeneratedPoint.userInputBoard.container.scale.y = 0.4;
+                    this.newGeneratedPoint.userInputBoard.container.scale.z = 0.4;
                 }
             }
         }
