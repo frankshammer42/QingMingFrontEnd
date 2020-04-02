@@ -229,8 +229,60 @@ h1 {
   font-size: 20px;
   padding: 0 60px 0;
   text-align: center;
+  /* background: black */
   /* padding-top:40px */
 }
+
+/*fade in button*/
+.button-fadeIn  {
+  display: block;
+  transition-delay: 3s;
+  animation: fadeIn ease 6s;
+  -webkit-animation: fadeIn ease 6s;
+  -moz-animation: fadeIn ease 6s;
+  -o-animation: fadeIn ease 6s;
+  -ms-animation: fadeIn ease 6s;
+}
+
+/* fade in introduction texts */
+.fade-in p{
+
+  animation: fadeIn ease 2s;
+  -webkit-animation: fadeIn ease 2s;
+  -moz-animation: fadeIn ease 2s;
+  -o-animation: fadeIn ease 2s;
+  -ms-animation: fadeIn ease 2s;
+}
+
+@keyframes fadeIn{
+  0% {
+    opacity:0;
+  }
+  70% {
+    opacity:0.7;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  70% {
+    opacity:0.7;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  70% {
+    opacity:0.7;
+  }
+}
+
+
+
 
 .card .intro p {
   line-height: 1.6;

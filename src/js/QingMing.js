@@ -568,10 +568,10 @@ function animate() {
             // console.log(arry[i].tagName);
             //console.log (i+": "+ arry[i]);
             if (arry[i].tagName !== "BUTTON"){
-              arry[i].className="intro visible";
+              arry[i].className="intro visible fade-in";
             }
             else{
-              arry[i].className="visible";
+              arry[i].className="button-fadeIn";
             }
           }
           document.getElementById("blank-block").className="blank-block-loaded";
