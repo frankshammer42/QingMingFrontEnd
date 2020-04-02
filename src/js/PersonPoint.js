@@ -26,8 +26,8 @@ class PersonPoint {
         this.point.position.copy(this.initPosition);
         this.point.geometry.dynamic = true;
         //Debug Trail
-        this.center = [0, height, 0];
-        this.circle = new CircleTrail(this.center, radius);
+        // this.center = [0, height, 0];
+        // this.circle = new CircleTrail(this.center, radius);
         //Dynamics
         this.rotateSpeed = -Math.random() * 0.002;
         //Trail
