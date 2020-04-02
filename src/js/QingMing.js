@@ -613,7 +613,6 @@ function animate() {
                         arry[i].className = "fade-in visible";
                     }
                 }
-                document.getElementById("blank-block").className="blank-block-loaded";
                 document.getElementById("loading").className="loaded";
                 // document.getElementById("main-title").className="title-loaded"
             }
