@@ -95,7 +95,9 @@ class InputField{
         submitButton.onclick = () => {
             this.putElementsInCircle();
             for(let i=0; i<this.numberOfTrails; i++){
-                this.trails[i].ringRotateSpeed = Math.random()*0.02;
+                this.trails[i].ringRotateSpeedX = Math.random()*0.02;
+                this.trails[i].ringRotateSpeedZ = Math.random()*0.02;
+                this.trails[i].ringRotateCounterMax = 1000;
             }
             console.log(this.inputElement.value);
             this.userInputContent = this.inputElement.value;
