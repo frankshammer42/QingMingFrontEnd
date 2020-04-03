@@ -26,8 +26,9 @@ class PersonPoint {
         this.point.position.copy(this.initPosition);
         this.point.geometry.dynamic = true;
         //Debug Trail
-        // this.center = [0, height, 0];
-        // this.circle = new CircleTrail(this.center, radius);
+        this.center = [0, height, 0];
+        this.fullTrailCircle = null;
+
         //Dynamics
         this.rotateSpeed = -Math.random() * 0.002;
         //Trail
@@ -72,6 +73,10 @@ class PersonPoint {
         this.useOffset = true;
         // this.offSet = new THREE.Vector3(Math.random()*500 - 250, 0, Math.random()*500-250);
         this.offSet = new THREE.Vector3(0,0,0);
+        // Circle Trail
+        this.useTrail = false;
+        this.fullTrailAppear = false;
+        this.fullTrailAdded = false;
     }
 
     createBillboard(userInputContent, camera){
@@ -148,6 +153,10 @@ class PersonPoint {
             if (this.currentTrailIndex < this.numberOfPointsPerTrail) {
                 this.currentTrailIndex += 1;
             } else {
+                if (this.useTrail){
+                    this.fullTrailAppear = true;
+                    this.fullTrailCircle = new CircleTrail(this.center, this.radius, this.xRotationAngle, this.zRotationAngle);
+                }
                 this.currentTrailIndex = 0;
             }
             this.trailLine.geometry.attributes.position.array[this.currentTrailIndex * 3] = this.x;
