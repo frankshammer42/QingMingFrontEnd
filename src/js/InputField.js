@@ -8,6 +8,7 @@ class InputField{
         this.parentCamera = camera;
         this.hintContainer = null;
         this.createHint();
+        this.inputDiv = null;
         this.inputElement = null;
         this.inputContainer = null;
         this.createInputField();
@@ -29,6 +30,7 @@ class InputField{
         this.movingTrackY = 0;
         // User Input Check and user Input
         this.userInputContent = null;
+
     }
 
     createTrails(){
@@ -69,13 +71,29 @@ class InputField{
     }
 
     createInputField(){
-        let inputField = document.createElement('input');
-        inputField.style.width = "800px";
-        inputField.style.height = "100px";
-        inputField.style.zIndex = "50000";
-        inputField.style.position = "relative";
+        let inputFieldDiv = document.createElement('div');
+        inputFieldDiv.className = "inputDiv";
+        inputFieldDiv.style.width = "800px";
+        inputFieldDiv.style.height = "100px";
+        inputFieldDiv.style.zIndex = "50000";
+        inputFieldDiv.style.position = "relative";
+        // inputFieldDiv.placeholder = "Type your name";
+        let inputField =  document.createElement('input');
+        inputField.className = "inputField";
+        inputField.style.position = "absolute";
+        inputField.style.width = "100%";
+        inputField.style.height = "100%";
+        inputFieldDiv.appendChild(inputField);
         this.inputElement = inputField;
-        this.inputContainer = new THREE.CSS3DObject(this.inputElement);
+
+        let line = document.createElement('div');
+        line.className = "inputLine";
+        line.style.position = "absolute";
+        line.style.width = "100%";
+        inputFieldDiv.appendChild(line);
+
+        this.inputDiv = inputFieldDiv;
+        this.inputContainer = new THREE.CSS3DObject(this.inputDiv);
         this.inputContainer.position.x = this.relPosition.x;
         this.inputContainer.position.y = this.relPosition.y;
         this.inputContainer.position.z = this.relPosition.z;
@@ -99,7 +117,7 @@ class InputField{
                 this.trails[i].ringRotateSpeedZ = Math.random()*0.02;
                 this.trails[i].ringRotateCounterMax = 1000;
             }
-            console.log(this.inputElement.value);
+            console.log(this.inputDiv.value);
             this.userInputContent = this.inputElement.value;
         };
         this.submitButtonContainer = new THREE.CSS3DObject(this.submitButtonElement);
