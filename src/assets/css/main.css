@@ -18,7 +18,6 @@ body {
 
 body,
 p,
-input,
 button {
   font-family: Songti TC, -apple-system, system-ui, BlinkMacSystemFont, Segoe UI,
     Roboto, Helvetica Neue, Fira Sans, Ubuntu, Oxygen, Oxygen Sans, Cantarell,
@@ -97,7 +96,7 @@ h1 {
 }
 
 .Button {
-  background-color:black;
+  background-color: black;
   border-radius: 1px;
   border: 1px solid #dcdcdc;
   display: inline-block;
@@ -114,10 +113,7 @@ h1 {
   width: 280px;
 }
 
-.Button:hover {
-
-
-}
+.Button:hover {}
 
 .Button:active {
   /* position:relative;
@@ -155,7 +151,6 @@ h1 {
   height: 20%;
 }
 
-
 #loading {
   opacity: 0.6;
   font-size: 16px;
@@ -168,13 +163,12 @@ h1 {
   text-align: center;
 }
 
-.slideUp{
-animation-name: slideUp;
-
+.slideUp {
+  animation-name: slideUp;
 }
 
 #blank-block .blank-block-loaded {
-  height:1%;
+  height: 1%;
   background-color: black;
   -webkit-transition-property: height;
   -webkit-transition-duration: 3s;
@@ -214,7 +208,7 @@ animation-name: slideUp;
 }
 
 /*fade in button*/
-.fade-in  {
+.fade-in {
   display: block;
   /* transition-delay: 2s; */
   animation: fadeIn ease 1s;
@@ -225,8 +219,7 @@ animation-name: slideUp;
 }
 
 /* fade in introduction texts */
-.fade-in p{
-
+.fade-in p {
   animation: fadeIn ease 2s;
   -webkit-animation: fadeIn ease 2s;
   -moz-animation: fadeIn ease 2s;
@@ -254,37 +247,38 @@ animation-name: slideUp;
   to {
     transform: translate3d(0, -80%, 0);
   }
-
 }
 
 /* .slideUp {
   animation-name: slideUp; */
-
 /* keyframe fade in effect  */
-@keyframes fadeIn{
+@keyframes fadeIn {
   0% {
-    opacity:0;
+    opacity: 0;
   }
+
   70% {
-    opacity:0.7;
+    opacity: 0.7;
   }
 }
 
 @-moz-keyframes fadeIn {
   0% {
-    opacity:0;
+    opacity: 0;
   }
+
   70% {
-    opacity:0.7;
+    opacity: 0.7;
   }
 }
 
 @-webkit-keyframes fadeIn {
   0% {
-    opacity:0;
+    opacity: 0;
   }
+
   70% {
-    opacity:0.7;
+    opacity: 0.7;
   }
 }
 
@@ -301,16 +295,15 @@ animation-name: slideUp;
   width: 70px;
   height: 70px;
   text-align: center;
-  border:0;
+  border: 0;
   font-size: 18px;
-
 }
 
-.welcome-card button:hover{
+.welcome-card button:hover {
   background-color: #707070;
   /* box-shadow:none; */
-  color:white;
-  cursor:pointer;
+  color: white;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 768px) {
@@ -483,218 +476,272 @@ animation-name: slideUp;
   position: relative;
 }
 
-<<<<<<< HEAD
-#submit{
-background: rgba(0,0,0,0.46);
-box-shadow: 0 2px 1px 0 rgba(0,0,0,0.50);
-border-radius: 15%;
-font-family: STSongti-TC-Regular;
-font-size: 36px;
-color: #FFFFFF;
-letter-spacing: 0;
-text-align: center;
-=======
-.visitor-count-bar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: 0;
-  bottom: 16px;
-  min-height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 499;
->>>>>>> 86529bacebc4eaeb3bda52d39857165310a8272d
-}
-
-.view-angle1-button,
-.view-angle2-button,
-.view-angle3-button {
-  color: #000;
-  background: #fff;
-  box-shadow: 1px 1px 3px #ccc;
-  position: absolute;
-  width: 72px;
-  box-sizing: border-box;
-  height: 48px;
-  text-align: center;
-  background-size: cover;
-  padding: 0;
-  z-index: 500;
-  border: none;
-  border-radius: 8px;
-}
-
-.view-angle1-button {
-  background-image: url('/assets/images/view-angle1.png');
-  right: calc(72px + 72px + 16px + 16px + 16px);
-  bottom: 16px;
-}
-
-.view-angle2-button {
-  background-image: url('/assets/images/view-angle2.png');
-  right: calc(72px + 16px + 16px);
-  bottom: 16px;
-}
-
-.view-angle3-button {
-  background-image: url('/assets/images/view-angle3.png');
-  right: 16px;
-  bottom: 16px;
-}
-
-.addNameHint {
-  font-size: 45px;
+#submit {
+  background: rgba(0, 0, 0, 0.56);
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.50);
+  border-radius: 15%;
+  font-family: STSongti-TC-Regular;
+  font-size: 36px;
+  color: #FFFFFF;
+  letter-spacing: 0;
   text-align: center;
 }
 
-.addNameHint:hover {
-  cursor: pointer;
+#submit:hover{
+  cursor:pointer;
+  background: rgba(0, 0, 0, 0.8);
 }
 
-.bar{
-  color:black;
-
-}
-
-/*************** END main page ****************/
-/*************** START sharing ****************/
-.share-button {
-  border-radius: 50% 50% 50% 50%;
-  position: absolute;
-  left: 16px;
-  bottom: calc(16px + 16px + 40px);
-  width: 40px;
-  height: 40px;
-  box-shadow: 1px 1px 3px #ddd;
-  border: none;
-  padding: 0;
-  box-sizing: border-box;
-  background: #fff;
-  z-index: 500;
-  cursor: pointer;
-}
-
-.share-button img {
+.inputField {
+  display: block;
   width: 100%;
-  height: 100%;
-}
-
-.input-field label {
-  color: #000;
-}
-/* label focus color */
-.input-field input[type=text]:focus + label {
-  color: #000;
-}
-/* label underline focus color */
-.input-field input[type=text]:focus {
-  border-bottom: 1px solid #ADF1D4;
-  box-shadow: 0 1px 0 0 #000;
-}
-/* valid color */
-.input-field input[type=text].valid {
-  border-bottom: 1px solid #000;
-  box-shadow: 0 1px 0 0 #000;
-}
-/* invalid color */
-.input-field input[type=text].invalid {
-  border-bottom: 1px solid #000;
-  box-shadow: 0 1px 0 0 #000;
-
-
-
-.share-controls {
-  position: absolute;
-  left: 16px;
-  bottom: calc(16px + 16px + 16px + 40px + 40px);
-  display: none;
-  flex-flow: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 500;
-}
-
-.share-controls button {
-  margin-top: 16px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50% 50% 50% 50%;
-  border: none;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 1px 1px 3px #ddd;
-  padding: 0;
-  cursor: pointer;
-}
-
-.share-controls button img {
-  width: 100%;
-  height: 100%;
-}
-
-#qr-card-backdrop {
-  display: none;
-}
-
-.qr-card {
+  border: 1px;
   border-radius: 0;
-  display: flex;
-  width: unset;
-  flex-flow: column;
-  padding: 20px;
-}
+  outline: none;
+  font-size: 2.6em;
+  opacity: 40%;
+  transition: padding .3s 0.2s ease;
 
-.qr-instruction {
-  padding: 12px;
-  background: #fff;
-}
+/*
+  &:focus {
+    padding-bottom: 5px;
 
-@media only screen and (max-width: 768px) {
-  .visitor-count-bar {
-    width: calc(72px + 72px + 72px + 16px + 16px);
-    text-align: center;
-    bottom: calc(40px + 16px + 16px);
-    right: 16px;
-    margin: 0;
-    left: unset;
-    min-height: unset;
+    &:focus+.line {
+      &:after {
+        transform: scaleX(1);
+      }
+    } */
   }
-}
 
-@media only screen and (max-width: 450px) {
+  .inputLine {
+    width: 100%;
+    height: 3px;
+    position: absolute;
+    top:100px;
+
+    background:#bdc3c7
+/*
+    &:after {
+      content: " ";
+      position: absolute;
+      float: right;
+      width: 100%;
+      height: 3px;
+      transform: scalex(0);
+      transition: transform 0.3s ease;
+      background: #1abc9c;
+    } */
+  }
+
+  .inputLabel{
+    font-size: 2.6em;
+    top: 40px;
+    left: 10px;
+    cursor:text;
+    color:grey;
+  }
+
   .visitor-count-bar {
-    width: calc(60px + 60px + 60px + 16px + 16px);
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: 0;
+    bottom: 16px;
+    min-height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 499;
   }
 
   .view-angle1-button,
   .view-angle2-button,
   .view-angle3-button {
-    width: 60px;
-    height: 40px;
+    color: #000;
+    background: #fff;
+    box-shadow: 1px 1px 3px #ccc;
+    position: absolute;
+    width: 72px;
+    box-sizing: border-box;
+    height: 48px;
+    text-align: center;
+    background-size: cover;
+    padding: 0;
+    z-index: 500;
+    border: none;
+    border-radius: 8px;
   }
 
   .view-angle1-button {
     background-image: url('/assets/images/view-angle1.png');
-    right: calc(60px + 60px + 16px + 16px + 16px);
+    right: calc(72px + 72px + 16px + 16px + 16px);
     bottom: 16px;
   }
-  
+
   .view-angle2-button {
     background-image: url('/assets/images/view-angle2.png');
-    right: calc(60px + 16px + 16px);
+    right: calc(72px + 16px + 16px);
     bottom: 16px;
   }
-  
+
   .view-angle3-button {
     background-image: url('/assets/images/view-angle3.png');
     right: 16px;
     bottom: 16px;
   }
-  
-}
-/*************** END sharing ****************/
+
+  .addNameHint {
+    font-size: 45px;
+    text-align: center;
+  }
+
+  .addNameHint:hover {
+    cursor: pointer;
+  }
+
+  .bar {
+    color: black;
+  }
+
+  /*************** END main page ****************/
+  /*************** START sharing ****************/
+  .share-button {
+    border-radius: 50% 50% 50% 50%;
+    position: absolute;
+    left: 16px;
+    bottom: calc(16px + 16px + 40px);
+    width: 40px;
+    height: 40px;
+    box-shadow: 1px 1px 3px #ddd;
+    border: none;
+    padding: 0;
+    box-sizing: border-box;
+    background: #fff;
+    z-index: 500;
+    cursor: pointer;
+  }
+
+  .share-button img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .input-field label {
+    color: #000;
+  }
+
+  /* label focus color */
+  .input-field input[type=text]:focus+label {
+    color: #000;
+  }
+
+  /* label underline focus color */
+  .input-field input[type=text]:focus {
+    border-bottom: 1px solid #ADF1D4;
+    box-shadow: 0 1px 0 0 #000;
+  }
+
+  /* valid color */
+  .input-field input[type=text].valid {
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+  }
+
+  /* invalid color */
+  .input-field input[type=text].invalid {
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+
+    .share-controls {
+      position: absolute;
+      left: 16px;
+      bottom: calc(16px + 16px + 16px + 40px + 40px);
+      display: none;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 500;
+    }
+
+    .share-controls button {
+      margin-top: 16px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50% 50% 50% 50%;
+      border: none;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 1px 1px 3px #ddd;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .share-controls button img {
+      width: 100%;
+      height: 100%;
+    }
+
+    #qr-card-backdrop {
+      display: none;
+    }
+
+    .qr-card {
+      border-radius: 0;
+      display: flex;
+      width: unset;
+      flex-flow: column;
+      padding: 20px;
+    }
+
+    .qr-instruction {
+      padding: 12px;
+      background: #fff;
+    }
+
+    @media only screen and (max-width: 768px) {
+      .visitor-count-bar {
+        width: calc(72px + 72px + 72px + 16px + 16px);
+        text-align: center;
+        bottom: calc(40px + 16px + 16px);
+        right: 16px;
+        margin: 0;
+        left: unset;
+        min-height: unset;
+      }
+    }
+
+    @media only screen and (max-width: 450px) {
+      .visitor-count-bar {
+        width: calc(60px + 60px + 60px + 16px + 16px);
+      }
+
+      .view-angle1-button,
+      .view-angle2-button,
+      .view-angle3-button {
+        width: 60px;
+        height: 40px;
+      }
+
+      .view-angle1-button {
+        background-image: url('/assets/images/view-angle1.png');
+        right: calc(60px + 60px + 16px + 16px + 16px);
+        bottom: 16px;
+      }
+
+      .view-angle2-button {
+        background-image: url('/assets/images/view-angle2.png');
+        right: calc(60px + 16px + 16px);
+        bottom: 16px;
+      }
+
+      .view-angle3-button {
+        background-image: url('/assets/images/view-angle3.png');
+        right: 16px;
+        bottom: 16px;
+      }
+    }
+
+    /*************** END sharing ****************/

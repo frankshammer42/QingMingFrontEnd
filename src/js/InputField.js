@@ -50,7 +50,7 @@ class InputField{
             this.trailGroup.add(newTrail.trailLine);
         }
     }
-  }
+
 
   createHint() {
     let button = document.createElement('div');
@@ -85,6 +85,8 @@ class InputField{
         inputField.style.width = "100%";
         inputField.style.height = "100%";
         inputField.id = "inputFieldID";
+        inputField.type="text";
+        // inputField.placeholder="what your name";
         inputFieldDiv.appendChild(inputField);
         this.inputElement = inputField;
 
@@ -99,7 +101,7 @@ class InputField{
         label.style.position = "absolute";
         label.style.width = "100%";
         label.for = "inputFieldID";
-        label.innerText = "输入名字或想说的话";
+        label.innerText = "输入你的名字和或你想说的话";
         inputFieldDiv.appendChild(label);
 
         this.inputDiv = inputFieldDiv;
@@ -114,11 +116,12 @@ class InputField{
 
     createSubmitButton(){
         let submitButton = document.createElement('button');
-        submitButton.style.width = "100px";
+        submitButton.style.width = "130px";
         submitButton.style.height = "100px";
         submitButton.style.zIndex = "50000";
         submitButton.style.position = "relative";
         submitButton.id = "submit";
+        submitButton.innerHTML="加入"
         this.submitButtonElement = submitButton;
         submitButton.onclick = () => {
             this.putElementsInCircle();
@@ -139,99 +142,10 @@ class InputField{
         this.submitButtonContainer.scale.z = 0.0;
     }
 
-    inputField.className = "input-field";
-    inputField.name = "name";
-    inputField.type = "text";
-    inputField.id = "name-input";
-
-    // let bar = document.createElement("span");
-    // bar.className="inputBar";
-    // inputField.appendChild(bar);
-    // parentDiv.appendChild(newlabel);
-
-    // let label = document.createElement("Lable");
-    // label.htmlFor = "name-input";
-    // label.innerHTML="Type in you name or your messages";
-
-    // inputField.setAttribute("id","name-input");
-    // inputField.setAttribute("label for","names");
 
 
-    update(){
-        this.hintContainer.position.copy(this.parentCamera.position);
-        this.hintContainer.rotation.copy(this.parentCamera.rotation);
-        this.hintContainer.translateX(-190);
-        this.hintContainer.translateY(80);
-        this.hintContainer.translateZ(-300);
-
-        this.submitButtonContainer.position.copy(this.parentCamera.position);
-        this.submitButtonContainer.rotation.copy(this.parentCamera.rotation);
-        this.submitButtonContainer.translateX(-90);
-        this.submitButtonContainer.translateY(83);
-        this.submitButtonContainer.translateZ(-300);
-
-        this.inputContainer.position.copy(this.parentCamera.position);
-        this.inputContainer.rotation.copy(this.parentCamera.rotation);
-        this.inputContainer.translateX(-140 + this.movingTrackX);
-        this.inputContainer.translateY(83 + this.movingTrackY);
-        this.inputContainer.translateZ(-300);
-
-        if (!this.inputFunctionFinished){
-            this.trailGroup.position.copy(camera.position);
-            this.trailGroup.rotation.copy(camera.rotation);
-            this.trailGroup.translateX(-190);
-            this.trailGroup.translateY(80);
-            this.trailGroup.translateZ(-300);
-        }
-        else{
-            this.trailGroup.position.copy(this.newGeneratedPoint.point.position);
-            if (this.newGeneratedPoint.startRotate){
-                if (this.trailGroup.scale.x > 0.01){
-                    this.trailGroup.scale.x *= 0.99;
-                    this.trailGroup.scale.y *= 0.99;
-                    this.trailGroup.scale.z *= 0.99;
-                }
-                if (this.newGeneratedPoint.userInputBoard.container.scale.x !== 0.4){
-                    this.newGeneratedPoint.userInputBoard.container.scale.x = 0.4;
-                    this.newGeneratedPoint.userInputBoard.container.scale.y = 0.4;
-                    this.newGeneratedPoint.userInputBoard.container.scale.z = 0.4;
-                }
-            }
-        }
 
 
-  createLable() {
-    let label = document.createElement("Lable");
-    label.htmlFor = "name-input";
-    label.innerHTML = "Type in you name or your messages";
-  }
-
-  createSubmitButton() {
-    let submitButton = document.createElement('button');
-    submitButton.style.width = "130px";
-    submitButton.style.height = "100px";
-    submitButton.style.zIndex = "50000";
-    submitButton.style.position = "relative";
-    submitButton.id = "submit";
-    submitButton.innerHTML="加入"
-    this.submitButtonElement = submitButton;
-    submitButton.onclick = () => {
-      // console.log("wtf");
-      this.putElementsInCircle();
-      // this.startGenerateNewPoint = true;
-      for (let i = 0; i < this.numberOfTrails; i++) {
-        this.trails[i].ringRotateSpeed = Math.random() * 0.02;
-      }
-      // this.submitAnimation();
-    };
-    this.submitButtonContainer = new THREE.CSS3DObject(this.submitButtonElement);
-    this.submitButtonContainer.position.x = this.relPosition.x;
-    this.submitButtonContainer.position.y = this.relPosition.y;
-    this.submitButtonContainer.position.z = this.relPosition.z;
-    this.submitButtonContainer.scale.x = 0.0;
-    this.submitButtonContainer.scale.y = 0.0;
-    this.submitButtonContainer.scale.z = 0.0;
-  }
 
   hintClickAnimation() {
     let inputContainerTarget = new THREE.Vector3(0.1, 0.1, 0.1);
