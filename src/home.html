@@ -48,19 +48,15 @@
 	<div class="frame">
 		<div id="welcome-page" class="welcome-page">
 			<div class="card-backdrop">
-
-				<div id="blank-block" > </div>
 				<div class="card welcome-card">
 					<div class="title" id="main-title">
 						<h1>清明 </h1>
 					</div>
-
 					<div class="intro hidden">
 						<p>截至今天，2020年4月4日，中国已有xxxx人因为新冠肺炎去世。还有多少在统计数据之外、或间接因新冠肺炎去世的人，我们甚至无从得知。春天来了，疫情正在平息，可逝去的生命不会再回来，失去亲人的痛楚也不会停止。</p>
 						<p>今天是清明节，本该是我们祭奠死者的日子。可是因为疫情，大部分人甚至都不能去实地进行祭扫。所以我们在这里发起“逆时针行走”线上祭奠活动。我们带你回到武汉洪山礼堂前——曾在2020年1月召开武汉市和湖北省两会的地方。你可以在这里祭奠死者。每个参与祭奠的你都会留下自己的轨迹，集体行走的轨迹将构建出一个线上纪念碑；不久之后，它会永久矗立在各大地图网站上的武汉洪山礼堂前。</p>
 						<p>希望痛苦和眼泪，问责和反思，都不要被遗忘。</p>
 					</div>
-
 				<div id="loading"> 0% </div>
 				<div class="controls">
 					<button class="hidden" onclick="enter()">进入</button>
@@ -96,14 +92,17 @@
 				<div class="qr-instruction">请使用微信扫描二维码并分享</div>
 			</div>
 		</div>
-		<button class="view-angle1-button" onclick="enableViewAngle1()">
-			鸟瞰
+		<div id="visitor-count-bar" class="visitor-count-bar">
+			xx人正在逆时针行走
+		</div>
+		<button class="view-angle1-button" onclick="moveToFreeView()">
+			静视
 		</button>
-		<button class="view-angle2-button" onclick="enableViewAngle2()">
-			化身
+		<button class="view-angle2-button" onclick="moveToTop()">
+			俯视
 		</button>
-		<button class="view-angle3-button" onclick="enableViewAngle3()">
-			旁观
+		<button class="view-angle3-button" onclick="moveAuto()">
+			环视
 		</button>
 		<div id="info-card-backdrop" class="card-backdrop" onclick="closeInfoCard()">
 			<div class="card info-card" onclick="preventEvent(event)">

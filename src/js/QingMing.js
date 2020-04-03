@@ -21,11 +21,11 @@ let inputField = null;
 // let maxHeight = 2000;
 // let maxRadius = 2000;
 // Narrower Version with segmented Random Number
-let maxHeight = 2000;
-let maxRadius = 500;
+let maxHeight = 2500;
+let maxRadius = 1000;
 let ranges = [
-  [200,  400],
-  [600, 800]
+  [200, 400],
+  [1800, 2000]
 ];
 // Center Line
 let centerLine;
@@ -64,6 +64,7 @@ function initVisitor() {
       let resObj = JSON.parse(this.responseText);
       console.log('Visitor count is ' + resObj.count);
       visitorCount = resObj.count;
+      document.getElementById('visitor-count-bar').innerText = visitorCount + '人正在逆时针行走'
     }
   };
   req.open('GET', '/monument-api/visitor', true);
@@ -186,20 +187,27 @@ function mouseMove(event){
 }
 
 function addBillboards(){
-  let hongShanLiTang = new Billboard(
-    new THREE.Vector3(0, 500, -15000),
-    '洪山礼堂',
+  addBillboard(0, 500, -15000, '洪山礼堂');
+  addBillboard(0, -200, -8000, '洪山路');
+  addBillboard(-12700, -200, 5000, '东三路');
+  addBillboard(8000, -200, 2000, '东四路');
+  addBillboard(-6200, 500, 8200, '武汉市公安局警务');
+  addBillboard(-6200, 400, 8200, '综合服务站');
+  addBillboard(11000, 500, 1000, '双湖派出所');
+  addBillboard(12000, 500, 11000, '湖北省科学技术');
+  addBillboard(12000, 450, 11000, '厅政务服务大厅');
+  addBillboard(20000, 500, -14000, '中国共产党湖北省');
+  addBillboard(20000, 450, -14000, '纪检委');
+}
+
+function addBillboard(p0, p1, p2, name) {
+  let billboard = new Billboard(
+    new THREE.Vector3(p0, p1, p2),
+    name,
     camera
   );
-  billBoards.push(hongShanLiTang);
-  sceneCSS.add(hongShanLiTang.container);
-  let hongShanLu = new Billboard(
-    new THREE.Vector3(0, 500, -8000),
-    '洪山路',
-    camera
-  );
-  billBoards.push(hongShanLu);
-  sceneCSS.add(hongShanLu.container);
+  billBoards.push(billboard);
+  sceneCSS.add(billboard.container);
 }
 
 function loadMap() {
@@ -327,9 +335,9 @@ function generateSphereOffset(radius){
 }
 
 function addPoints(initPos){
-    // let initPosition = new THREE.Vector3(-10000, 0, 0);
     let offsetRadius = 100;
     let initPosition = initPos;
+    initPosition = new THREE.Vector3(0, 0, 0);
     let numberOfPoints = 1000;
     let heightGap = maxHeight/numberOfPoints;
     let maxPulseNumber = 60;
@@ -347,39 +355,55 @@ function addPoints(initPos){
     let halfWidth = width/2;
     let halfHeight = height/2;
 
+
+    let heightNumber = 3;
+    let currentSinRange = Math.floor(Math.random()*100) + Math.floor(numberOfPoints/heightNumber);
+    let sinCounter = 0;
+    // initPosition = initPos;
     for (let i=0; i<numberOfPoints; i++) {
-        // let offset = generateSphereOffset(offsetRadius);
-        initPosition = initPos + 0;
-        // let recIndexes = convertIndexToRowCol(i, colNumber);
-        // let rowIndex = recIndexes[0];
-        // let colIndex = recIndexes[1];
-        // let initX = -halfWidth + colIndex*recWidthGap;
-        // let initY = halfHeight - rowIndex*recHeightGap;
-        // initPosition = new THREE.Vector3(initX, initY, 6000);
-        // let randomHeight = Math.random()*maxHeight;
+        if (sinCounter > currentSinRange){
+            sinCounter = 0;
+            currentSinRange = Math.floor(Math.random()* 100) + Math.floor(numberOfPoints/heightNumber);
+        }
+        let sinIndex = Math.PI*(sinCounter/currentSinRange);
+        let randomRadius = 0;
+        randomRadius = (Math.abs(Math.sin(sinIndex)) * maxRadius + 500)*Math.random() + 50;
         let randomHeight = i * heightGap;
         // Wide
-        // let randomRadius = Math.random()*maxRadius;
+        // let randomRadius = Math.random()*maxRadius + 400;
         // Segmented
-        let randomRadius = 0;
-        let currentRange;
-        if (pulseCounter < currentLowNumber) {
-            currentRange = ranges[0];
-        } else {
-            currentRange = ranges[1];
-        }
-        randomRadius = currentRange[0] + Math.random() * (currentRange[1] - currentRange[0]);
-        if (pulseCounter > currentPulseNumber) {
-            currentPulseNumber = pulseOffset + Math.floor(Math.random() * (maxPulseNumber - pulseOffset));
-            currentLowNumber = currentPulseNumber / 2 + Math.floor(Math.random() * (currentPulseNumber / 2)) * Math.random();
-            pulseCounter = 0;
-        }
+        // let currentRange;
+        // if (pulseCounter < currentLowNumber) {
+        //     currentRange = ranges[0];
+        // } else {
+        //     currentRange = ranges[1];
+        // }
+        // if (pulseCounter < currentLowNumber){
+        //     randomRadius = currentRange[0] + Math.random() * (currentRange[1] - currentRange[0]) + 500;
+        // }
+        // else{
+        //     randomRadius = currentRange[0] + Math.random() * (currentRange[1] - currentRange[0]);
+        // }
+        // if (pulseCounter > currentPulseNumber) {
+        //     currentPulseNumber = pulseOffset + Math.floor(Math.random() * (maxPulseNumber - pulseOffset));
+        //     currentLowNumber = currentPulseNumber / 2 + Math.floor(Math.random() * (currentPulseNumber / 2));
+        //     pulseCounter = 0;
+        // }
         // let randomRadius = currentRange[0] + Math.random()*(currentRange[1]-currentRange[0]);
+        // let randomRadius = 1000 + 500*Math.random();
         personPoint = new PersonPoint(randomRadius, randomHeight, initPosition);
+        // if (pulseCounter > currentLowNumber){
+        //     personPoint.useOffset = false;
+        // }
+        // else{
+        //     personPoint.ringRotateCounterMax = 200;
+        //
+        // }
         scene.add(personPoint.point);
         scene.add(personPoint.trailLine);
         personPoints.push(personPoint);
         pulseCounter += 1;
+        sinCounter += 1;
     }
 }
 
@@ -476,7 +500,7 @@ function moveCamera(target, tweenTime, finishFunction, easingFunction) {
 }
 
 function initCamMove(){
-    let topTarget = new THREE.Vector3(0, 0, 5000);
+    let topTarget = new THREE.Vector3(0, 0, 3500);
     let tweenTime = 8000;
     moveCamera(topTarget, tweenTime, ()=>{
         console.log("ff");
@@ -494,11 +518,24 @@ function moveToTop(){
 }
 
 function moveAuto(){
-    controls.autoRotate = !controls.autoRotate;
+    if (controls.autoRotate){
+        controls.autoRotate = false;
+        let button = document.getElementsByClassName("view-angle3-button")[0];
+        button.innerHTML = "环视";
+    }
+    else{
+        let freeViewTarget = new THREE.Vector3(0, 1000, 5000);
+        let tweenTime = 4000;
+        moveCamera(freeViewTarget, tweenTime, ()=>{
+            controls.autoRotate = !controls.autoRotate;
+            let button = document.getElementsByClassName("view-angle3-button")[0];
+            button.innerHTML = "停止";
+        }, TWEEN.Easing.Cubic.InOut);
+    }
 }
 
 function moveToFreeView(){
-    let freeViewTarget = new THREE.Vector3(-336, 1695, 5785);
+    let freeViewTarget = new THREE.Vector3(0, 1000, 5000);
     let tweenTime = 4000;
     moveCamera(freeViewTarget, tweenTime, ()=>console.log("ff"), TWEEN.Easing.Cubic.InOut);
 }
@@ -562,7 +599,7 @@ function addControl(){
 
 function animate() {
     TWEEN.update();
-    // console.log(controls.object.position);
+    console.log(controls.object.position);
     //---------Input
     if (inputField !== null){
         if (inputField.generateNewPoint){
@@ -570,8 +607,10 @@ function animate() {
             let newPoint = new PersonPoint(1000, maxHeight/2, inputField.trailGroup.position);
             newPoint.trailLine.material.color = new THREE.Color('#ff0000');
             newPoint.point.material.color = new THREE.Color('#ff0000');
+            newPoint.createBillboard(inputField.userInputContent, camera);
             scene.add(newPoint.point);
             scene.add(newPoint.trailLine);
+            sceneCSS.add(newPoint.userInputBoard.container);
             personPoints.push(newPoint);
             inputField.newGeneratedPoint = newPoint;
             inputField.generateNewPoint = false;
@@ -605,7 +644,6 @@ function animate() {
                         arry[i].className = "fade-in visible";
                     }
                 }
-                document.getElementById("blank-block").className="blank-block-loaded";
                 document.getElementById("loading").className="loaded";
                 // document.getElementById("main-title").className="title-loaded"
             }

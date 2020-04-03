@@ -1,47 +1,54 @@
 //TODO: Add css
 //TODO: How to incorporate canvas size into consideration
-class InputField {
-  constructor(relPosition, content, camera) {
-    this.relPosition = relPosition;
-    this.content = content;
-    this.buttonElement = null;
-    this.parentCamera = camera;
-    this.hintContainer = null;
-    this.createHint();
-    this.inputElement = null;
-    this.inputContainer = null;
-    this.createInputField();
-    this.submitButtonElement = null;
-    this.submitButtonContainer = null;
-    this.createSubmitButton();
-    this.numberOfTrails = 100;
-    this.trailGroup = new THREE.Group();
-    this.trails = [];
-    this.createTrails();
-    //Control variables
-    this.startGenerateNewPoint = false;
-    this.generateNewPoint = false;
-    this.inputFunctionFinished = false;
-    // Follow Point
-    this.newGeneratedPoint = null;
-    // Input Moving Tracking
-    this.movingTrackX = 0;
-    this.movingTrackY = 0;
-  }
+class InputField{
+    constructor(relPosition, content, camera){
+        this.relPosition = relPosition;
+        this.content = content;
+        this.buttonElement = null;
+        this.parentCamera = camera;
+        this.hintContainer = null;
+        this.createHint();
+        this.inputDiv = null;
+        this.inputElement = null;
+        this.inputContainer = null;
+        this.createInputField();
+        this.submitButtonElement = null;
+        this.submitButtonContainer = null;
+        this.createSubmitButton();
+        this.numberOfTrails = 100;
+        this.trailGroup = new THREE.Group();
+        this.trails = [];
+        this.createTrails();
+        //Control variables
+        this.startGenerateNewPoint = false;
+        this.generateNewPoint = false;
+        this.inputFunctionFinished = false;
+        // Follow Point
+        this.newGeneratedPoint = null;
+        // Input Moving Tracking
+        this.movingTrackX = 0;
+        this.movingTrackY = 0;
+        // User Input Check and user Input
+        this.userInputContent = null;
 
-  createTrails() {
-    for (let i = 0; i < this.numberOfTrails; i++) {
-      let randomScale = 1000;
-      let randomInit = new THREE.Vector3(Math.random() * randomScale - randomScale / 2, Math.random() * randomScale - randomScale / 2, Math.random() * randomScale - randomScale / 2);
-      let newTrail = new PersonPoint(16, 13.5, randomInit);
-      // newTrail.xRotationAngle = Math.random()*Math.PI*2 - Math.PI;
-      // newTrail.zRotationAngle = Math.random()*Math.PI*2 - Math.PI;
-      newTrail.xRotationAngle = Math.PI * 0.5 + (Math.random() * 0.1 - 0.05);
-      newTrail.rotateSpeed = Math.random() * 0.02 - 0.5 * 0.02;
-      newTrail.ringRotateSpeed = 0;
-      this.trails.push(newTrail);
-      this.trailGroup.add(newTrail.point);
-      this.trailGroup.add(newTrail.trailLine);
+    }
+
+    createTrails(){
+        for (let i=0; i<this.numberOfTrails; i++){
+            let randomScale = 1000;
+            let randomInit = new THREE.Vector3(Math.random()*randomScale - randomScale/2, Math.random()*randomScale - randomScale/2, Math.random()*randomScale - randomScale/2);
+            let newTrail = new PersonPoint(16, 13.5, randomInit);
+            // newTrail.xRotationAngle = Math.random()*Math.PI*2 - Math.PI;
+            // newTrail.zRotationAngle = Math.random()*Math.PI*2 - Math.PI;
+            newTrail.xRotationAngle = Math.PI*0.5 + (Math.random()*0.1 - 0.05);
+            newTrail.rotateSpeed = Math.random()*0.02 - 0.5*0.02;
+            newTrail.ringRotateSpeedX = 0;
+            newTrail.ringRotateSpeedZ = 0;
+            newTrail.useOffset = false;
+            this.trails.push(newTrail);
+            this.trailGroup.add(newTrail.point);
+            this.trailGroup.add(newTrail.trailLine);
+        }
     }
   }
 
@@ -64,9 +71,73 @@ class InputField {
     this.hintContainer.scale.z = 0.1;
   }
 
-  createInputField() {
-    let inputField = document.createElement('input');
+    createInputField(){
+        let inputFieldDiv = document.createElement('div');
+        inputFieldDiv.className = "inputDiv";
+        inputFieldDiv.style.width = "800px";
+        inputFieldDiv.style.height = "100px";
+        inputFieldDiv.style.zIndex = "50000";
+        inputFieldDiv.style.position = "relative";
+        // inputFieldDiv.placeholder = "Type your name";
+        let inputField =  document.createElement('input');
+        inputField.className = "inputField";
+        inputField.style.position = "absolute";
+        inputField.style.width = "100%";
+        inputField.style.height = "100%";
+        inputField.id = "inputFieldID";
+        inputFieldDiv.appendChild(inputField);
+        this.inputElement = inputField;
 
+        let line = document.createElement('div');
+        line.className = "inputLine";
+        line.style.position = "absolute";
+        line.style.width = "100%";
+        inputFieldDiv.appendChild(line);
+
+        let label = document.createElement('LABEL');
+        label.className = "inputLabel";
+        label.style.position = "absolute";
+        label.style.width = "100%";
+        label.for = "inputFieldID";
+        label.innerText = "输入名字或想说的话";
+        inputFieldDiv.appendChild(label);
+
+        this.inputDiv = inputFieldDiv;
+        this.inputContainer = new THREE.CSS3DObject(this.inputDiv);
+        this.inputContainer.position.x = this.relPosition.x;
+        this.inputContainer.position.y = this.relPosition.y;
+        this.inputContainer.position.z = this.relPosition.z;
+        this.inputContainer.scale.x = 0;
+        this.inputContainer.scale.y = 0.1;
+        this.inputContainer.scale.z = 0.1;
+    }
+
+    createSubmitButton(){
+        let submitButton = document.createElement('button');
+        submitButton.style.width = "100px";
+        submitButton.style.height = "100px";
+        submitButton.style.zIndex = "50000";
+        submitButton.style.position = "relative";
+        submitButton.id = "submit";
+        this.submitButtonElement = submitButton;
+        submitButton.onclick = () => {
+            this.putElementsInCircle();
+            for(let i=0; i<this.numberOfTrails; i++){
+                this.trails[i].ringRotateSpeedX = Math.random()*0.02;
+                this.trails[i].ringRotateSpeedZ = Math.random()*0.02;
+                this.trails[i].ringRotateCounterMax = 1000;
+            }
+            console.log(this.inputDiv.value);
+            this.userInputContent = this.inputElement.value;
+        };
+        this.submitButtonContainer = new THREE.CSS3DObject(this.submitButtonElement);
+        this.submitButtonContainer.position.x = this.relPosition.x;
+        this.submitButtonContainer.position.y = this.relPosition.y;
+        this.submitButtonContainer.position.z = this.relPosition.z;
+        this.submitButtonContainer.scale.x = 0.0;
+        this.submitButtonContainer.scale.y = 0.0;
+        this.submitButtonContainer.scale.z = 0.0;
+    }
 
     inputField.className = "input-field";
     inputField.name = "name";
@@ -86,19 +157,47 @@ class InputField {
     // inputField.setAttribute("label for","names");
 
 
-    inputField.style.width = "800px";
-    inputField.style.height = "100px";
-    inputField.style.zIndex = "50000";
-    inputField.style.position = "relative";
-    this.inputElement = inputField;
-    this.inputContainer = new THREE.CSS3DObject(this.inputElement);
-    this.inputContainer.position.x = this.relPosition.x;
-    this.inputContainer.position.y = this.relPosition.y;
-    this.inputContainer.position.z = this.relPosition.z;
-    this.inputContainer.scale.x = 0;
-    this.inputContainer.scale.y = 0.1;
-    this.inputContainer.scale.z = 0.1;
-  }
+    update(){
+        this.hintContainer.position.copy(this.parentCamera.position);
+        this.hintContainer.rotation.copy(this.parentCamera.rotation);
+        this.hintContainer.translateX(-190);
+        this.hintContainer.translateY(80);
+        this.hintContainer.translateZ(-300);
+
+        this.submitButtonContainer.position.copy(this.parentCamera.position);
+        this.submitButtonContainer.rotation.copy(this.parentCamera.rotation);
+        this.submitButtonContainer.translateX(-90);
+        this.submitButtonContainer.translateY(83);
+        this.submitButtonContainer.translateZ(-300);
+
+        this.inputContainer.position.copy(this.parentCamera.position);
+        this.inputContainer.rotation.copy(this.parentCamera.rotation);
+        this.inputContainer.translateX(-140 + this.movingTrackX);
+        this.inputContainer.translateY(83 + this.movingTrackY);
+        this.inputContainer.translateZ(-300);
+
+        if (!this.inputFunctionFinished){
+            this.trailGroup.position.copy(camera.position);
+            this.trailGroup.rotation.copy(camera.rotation);
+            this.trailGroup.translateX(-190);
+            this.trailGroup.translateY(80);
+            this.trailGroup.translateZ(-300);
+        }
+        else{
+            this.trailGroup.position.copy(this.newGeneratedPoint.point.position);
+            if (this.newGeneratedPoint.startRotate){
+                if (this.trailGroup.scale.x > 0.01){
+                    this.trailGroup.scale.x *= 0.99;
+                    this.trailGroup.scale.y *= 0.99;
+                    this.trailGroup.scale.z *= 0.99;
+                }
+                if (this.newGeneratedPoint.userInputBoard.container.scale.x !== 0.4){
+                    this.newGeneratedPoint.userInputBoard.container.scale.x = 0.4;
+                    this.newGeneratedPoint.userInputBoard.container.scale.y = 0.4;
+                    this.newGeneratedPoint.userInputBoard.container.scale.z = 0.4;
+                }
+            }
+        }
 
 
   createLable() {
