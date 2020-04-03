@@ -196,16 +196,16 @@ function mouseMove(event){
 function addBillboards(){
   let roadY = -450;
   addBillboard(0, 200, -15000, '洪山礼堂');
-  addBillboard(0, roadY, -8000, '洪山路');
+  addBillboard(0, roadY, -8200, '洪山路');
   addBillboard(-13000, roadY, 0, '东三路');
   addBillboard(8300, roadY, 2000, '东四路');
   addBillboard(-6300, 300, 8200, '武汉市公安局警务');
-  addBillboard(-6550, 100, 8200, '综合服务站');
+  addBillboard(-6550, 50, 8200, '综合服务站');
   addBillboard(11000, 1500, 1500, '双湖派出所');
   addBillboard(12000, 500, 11000, '湖北省科学技术');
-  addBillboard(12000, 300, 11000, '厅政务服务大厅');
+  addBillboard(12000, 250, 11000, '厅政务服务大厅');
   addBillboard(185000, 300, -14000, '中国共产党湖');
-  addBillboard(185000, 100, -14000, '北省纪检委');
+  addBillboard(185000, 50, -14000, '北省纪检委');
 }
 
 function addBillboard(p0, p1, p2, name) {
