@@ -86,6 +86,7 @@ class InputField{
         inputField.style.height = "100%";
         inputField.id = "inputFieldID";
         inputField.type="text";
+        inputField.placeholder="输入名字或你想说的话";
         // inputField.placeholder="what your name";
         inputFieldDiv.appendChild(inputField);
         this.inputElement = inputField;
@@ -96,13 +97,13 @@ class InputField{
         line.style.width = "100%";
         inputFieldDiv.appendChild(line);
 
-        let label = document.createElement('LABEL');
-        label.className = "inputLabel";
-        label.style.position = "absolute";
-        label.style.width = "100%";
-        label.for = "inputFieldID";
-        label.innerText = "输入你的名字和或你想说的话";
-        inputFieldDiv.appendChild(label);
+        // let label = document.createElement('LABEL');
+        // label.className = "inputLabel";
+        // label.style.position = "absolute";
+        // label.style.width = "100%";
+        // label.for = "inputFieldID";
+        // label.innerText = "";
+        // inputFieldDiv.appendChild(label);
 
         this.inputDiv = inputFieldDiv;
         this.inputContainer = new THREE.CSS3DObject(this.inputDiv);
