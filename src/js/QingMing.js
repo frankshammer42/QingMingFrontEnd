@@ -56,7 +56,7 @@ let visitorCount = 0;
 // for intro progress check
 let fullyLoaded = false;
 // For Optimization
-let maxNumberOfPoints = 500;
+let maxNumberOfPoints = 800;
 
 
 function initVisitor() {
