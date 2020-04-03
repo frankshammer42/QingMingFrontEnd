@@ -215,9 +215,9 @@ function addBillboard(p0, p1, p2, name) {
     name,
     camera
   );
-  billboard.container.scale.x = 3;
-  billboard.container.scale.y = 3;
-  billboard.container.scale.z = 3;
+  billboard.container.scale.x = 4;
+  billboard.container.scale.y = 4;
+  billboard.container.scale.z = 4;
   billBoards.push(billboard);
   sceneCSS.add(billboard.container);
 }
@@ -644,7 +644,6 @@ function addControl(){
 
 function animate() {
     TWEEN.update();
-    console.log(controls.object.position);
     //---------Input
     if (inputField !== null){
         if (inputField.generateNewPoint){
