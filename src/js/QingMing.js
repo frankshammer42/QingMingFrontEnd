@@ -196,10 +196,11 @@ function mouseMove(event){
 }
 
 function addBillboards(){
+  let roadY = -450;
   addBillboard(0, 500, -15000, '洪山礼堂');
-  addBillboard(0, -200, -8000, '洪山路');
-  addBillboard(-12700, -200, 5000, '东三路');
-  addBillboard(8000, -200, 2000, '东四路');
+  addBillboard(0, roadY, -8000, '洪山路');
+  addBillboard(-13000, roadY, 5000, '东三路');
+  addBillboard(8500, roadY, 2000, '东四路');
   addBillboard(-6200, 500, 8200, '武汉市公安局警务');
   addBillboard(-6200, 400, 8200, '综合服务站');
   addBillboard(11000, 500, 1000, '双湖派出所');
