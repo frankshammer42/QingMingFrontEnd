@@ -30,7 +30,10 @@ class InputField{
         this.movingTrackY = 0;
         // User Input Check and user Input
         this.userInputContent = null;
-
+        // Different Screen Offset
+        // this.screenOffset = new THREE.Vector3(190, -80, 0);
+        this.screenOffset = new THREE.Vector3(20, 0, 0);
+        this.buttonOffset = new THREE.Vector3(0,0,0);
     }
 
     createTrails(){
@@ -51,25 +54,24 @@ class InputField{
         }
     }
 
-
-  createHint() {
-    let button = document.createElement('div');
-    button.innerHTML = this.content;
-    button.className = "addNameHint";
-    button.style.width = "300px";
-    button.style.height = "300px";
-    button.onclick = () => {
-      this.hintClickAnimation();
-    };
-    this.buttonElement = button;
-    this.hintContainer = new THREE.CSS3DObject(this.buttonElement);
-    this.hintContainer.position.x = this.relPosition.x;
-    this.hintContainer.position.y = this.relPosition.y;
-    this.hintContainer.position.z = this.relPosition.z;
-    this.hintContainer.scale.x = 0.1;
-    this.hintContainer.scale.y = 0.1;
-    this.hintContainer.scale.z = 0.1;
-  }
+    createHint() {
+        let button = document.createElement('div');
+        button.innerHTML = this.content;
+        button.className = "addNameHint";
+        button.style.width = "300px";
+        button.style.height = "300px";
+        button.onclick = () => {
+                                   this.hintClickAnimation();
+                                   };
+        this.buttonElement = button;
+        this.hintContainer = new THREE.CSS3DObject(this.buttonElement);
+        this.hintContainer.position.x = this.relPosition.x;
+        this.hintContainer.position.y = this.relPosition.y;
+        this.hintContainer.position.z = this.relPosition.z;
+        this.hintContainer.scale.x = 0.1;
+        this.hintContainer.scale.y = 0.1;
+        this.hintContainer.scale.z = 0.1;
+    }
 
     createInputField(){
         let inputFieldDiv = document.createElement('div');
@@ -142,7 +144,7 @@ class InputField{
         this.submitButtonContainer.scale.z = 0.0;
     }
 
-  hintClickAnimation() {
+    hintClickAnimation() {
     let inputContainerTarget = new THREE.Vector3(0.1, 0.1, 0.1);
     let hintContainerTarget = new THREE.Vector3(0.2, 0.2, 0.2);
     this.moveValue(this.inputContainer.scale, inputContainerTarget, 2000, () => {
@@ -153,7 +155,7 @@ class InputField{
     // this.moveValue(this.hintContainer.scale, new THREE.Vector3(0.0,0.1,0.1), 2000, ()=>{});
   }
 
-  moveValue(toMove, target, tweenTime, finishFunction) {
+    moveValue(toMove, target, tweenTime, finishFunction) {
     let deepTripPosition = new TWEEN.Tween(toMove)
       .to({
         x: target.x,
@@ -168,109 +170,109 @@ class InputField{
       .start();
   }
 
-  moveColor(toMove, target, tweenTime, finishFunction) {
-    let deepTripPosition = new TWEEN.Tween(toMove)
-      .to({
-        r: target.r,
-        g: target.g,
-        b: target.b
-      }, tweenTime)
-      .easing(TWEEN.Easing.Cubic.InOut).onUpdate(function() {}).onComplete(() => finishFunction())
-      .start();
-  }
-
-  putElementsInCircle() {
-    let duration = 3000;
-    this.submitButtonContainer.scale.copy(new THREE.Vector3(0, 0, 0));
-    let currentOffset = {
-      x: 0,
-      y: 0
-    };
-    let targetOffset = {
-      x: -50,
-      y: 5
-    };
-    let tweenMovingTrack = new TWEEN.Tween(currentOffset)
-      .to(
-        targetOffset, duration)
-      .easing(TWEEN.Easing.Cubic.InOut).onUpdate(() => {
-        this.movingTrackX = currentOffset.x;
-        this.movingTrackY = currentOffset.y;
-      }).onComplete(() => {})
-      .start();
-    this.moveValue(this.inputContainer.scale, new THREE.Vector3(0, 0, 0), duration, () => {});
-    this.moveValue(this.trailGroup.scale, new THREE.Vector3(0.6, 0.6, 0.6), duration, () => {
-      this.startGenerateNewPoint = true;
-    });
-  }
-
-  scaleDownFinished() {
-    console.log("called finished");
-    this.generateNewPoint = true;
-    this.inputFunctionFinished = true;
-  }
-
-  update() {
-    this.hintContainer.position.copy(this.parentCamera.position);
-    this.hintContainer.rotation.copy(this.parentCamera.rotation);
-    this.hintContainer.translateX(-190);
-    this.hintContainer.translateY(80);
-    this.hintContainer.translateZ(-300);
-
-    this.submitButtonContainer.position.copy(this.parentCamera.position);
-    this.submitButtonContainer.rotation.copy(this.parentCamera.rotation);
-    this.submitButtonContainer.translateX(-90);
-    this.submitButtonContainer.translateY(83);
-    this.submitButtonContainer.translateZ(-300);
-
-    this.inputContainer.position.copy(this.parentCamera.position);
-    this.inputContainer.rotation.copy(this.parentCamera.rotation);
-    this.inputContainer.translateX(-140 + this.movingTrackX);
-    this.inputContainer.translateY(83 + this.movingTrackY);
-    this.inputContainer.translateZ(-300);
-
-    if (!this.inputFunctionFinished) {
-      this.trailGroup.position.copy(camera.position);
-      this.trailGroup.rotation.copy(camera.rotation);
-      this.trailGroup.translateX(-190);
-      this.trailGroup.translateY(80);
-      this.trailGroup.translateZ(-300);
-    } else {
-      this.trailGroup.position.copy(this.newGeneratedPoint.point.position);
-      if (this.newGeneratedPoint.startRotate) {
-        if (this.trailGroup.scale.x > 0.01) {
-          this.trailGroup.scale.x *= 0.99;
-          this.trailGroup.scale.y *= 0.99;
-          this.trailGroup.scale.z *= 0.99;
-        }
-        if (this.newGeneratedPoint.userInputBoard.container.scale.x !== 0.4){
-          this.newGeneratedPoint.userInputBoard.container.scale.x = 0.6;
-          this.newGeneratedPoint.userInputBoard.container.scale.y = 0.6;
-          this.newGeneratedPoint.userInputBoard.container.scale.z = 0.6;
-        }
-      }
+    moveColor(toMove, target, tweenTime, finishFunction) {
+        let deepTripPosition = new TWEEN.Tween(toMove)
+          .to({
+            r: target.r,
+            g: target.g,
+            b: target.b
+          }, tweenTime)
+          .easing(TWEEN.Easing.Cubic.InOut).onUpdate(function() {}).onComplete(() => finishFunction())
+          .start();
     }
 
-    // this.inputContainer.scale.x = 0;
-    if (!this.inputFunctionFinished) {
-      for (let i = 0; i < this.numberOfTrails; i++) {
-        this.trails[i].update();
-      }
-    }
-
-    if (!this.inputFunctionFinished) {
-      if (this.startGenerateNewPoint) {
-        let col = new THREE.Color('#ff0000');
-        this.moveValue(this.trailGroup.scale, new THREE.Vector3(0.15, 0.15, 0.15), 7000, () => {
-          this.scaleDownFinished()
+    putElementsInCircle() {
+        let duration = 3000;
+        this.submitButtonContainer.scale.copy(new THREE.Vector3(0, 0, 0));
+        let currentOffset = {
+          x: 0,
+          y: 0
+        };
+        let targetOffset = {
+          x: -50,
+          y: 5
+        };
+        let tweenMovingTrack = new TWEEN.Tween(currentOffset)
+          .to(
+            targetOffset, duration)
+          .easing(TWEEN.Easing.Cubic.InOut).onUpdate(() => {
+            this.movingTrackX = currentOffset.x;
+            this.movingTrackY = currentOffset.y;
+          }).onComplete(() => {})
+          .start();
+        this.moveValue(this.inputContainer.scale, new THREE.Vector3(0, 0, 0), duration, () => {});
+        this.moveValue(this.trailGroup.scale, new THREE.Vector3(0.6, 0.6, 0.6), duration, () => {
+          this.startGenerateNewPoint = true;
         });
-        for (let i = 0; i < this.numberOfTrails; i++) {
-          this.moveColor(this.trails[i].point.material.color, col, 7000, () => {});
-          this.moveColor(this.trails[i].trailLine.material.color, col, 7000, () => {});
-          // this.trails[i].ringRotateSpeed = Math.random()*0.02;
-        }
-        this.startGenerateNewPoint = false;
-      }
     }
+
+    scaleDownFinished() {
+        console.log("called finished");
+        this.generateNewPoint = true;
+        this.inputFunctionFinished = true;
+    }
+
+    update() {
+        this.hintContainer.position.copy(this.parentCamera.position);
+        this.hintContainer.rotation.copy(this.parentCamera.rotation);
+        this.hintContainer.translateX(-190 + this.screenOffset.x);
+        this.hintContainer.translateY(80 + this.screenOffset.y);
+        this.hintContainer.translateZ(-300);
+
+        this.submitButtonContainer.position.copy(this.parentCamera.position);
+        this.submitButtonContainer.rotation.copy(this.parentCamera.rotation);
+        this.submitButtonContainer.translateX(-90 + this.screenOffset.x + this.buttonOffset.x);
+        this.submitButtonContainer.translateY(83 + this.screenOffset.y + this.buttonOffset.y);
+        this.submitButtonContainer.translateZ(-300);
+
+        this.inputContainer.position.copy(this.parentCamera.position);
+        this.inputContainer.rotation.copy(this.parentCamera.rotation);
+        this.inputContainer.translateX(-140 + this.movingTrackX + this.screenOffset.x);
+        this.inputContainer.translateY(83 + this.movingTrackY + this.screenOffset.y);
+        this.inputContainer.translateZ(-300);
+
+        if (!this.inputFunctionFinished) {
+          this.trailGroup.position.copy(camera.position);
+          this.trailGroup.rotation.copy(camera.rotation);
+          this.trailGroup.translateX(-190 + this.screenOffset.x);
+          this.trailGroup.translateY(80 + this.screenOffset.y);
+          this.trailGroup.translateZ(-300);
+        } else {
+          this.trailGroup.position.copy(this.newGeneratedPoint.point.position);
+          if (this.newGeneratedPoint.startRotate) {
+            if (this.trailGroup.scale.x > 0.01) {
+              this.trailGroup.scale.x *= 0.99;
+              this.trailGroup.scale.y *= 0.99;
+              this.trailGroup.scale.z *= 0.99;
+            }
+            if (this.newGeneratedPoint.userInputBoard.container.scale.x !== 0.4){
+              this.newGeneratedPoint.userInputBoard.container.scale.x = 0.6;
+              this.newGeneratedPoint.userInputBoard.container.scale.y = 0.6;
+              this.newGeneratedPoint.userInputBoard.container.scale.z = 0.6;
+            }
+          }
+        }
+
+        // this.inputContainer.scale.x = 0;
+        if (!this.inputFunctionFinished) {
+          for (let i = 0; i < this.numberOfTrails; i++) {
+            this.trails[i].update();
+          }
+        }
+
+        if (!this.inputFunctionFinished) {
+          if (this.startGenerateNewPoint) {
+            let col = new THREE.Color('#ff0000');
+            this.moveValue(this.trailGroup.scale, new THREE.Vector3(0.15, 0.15, 0.15), 7000, () => {
+              this.scaleDownFinished()
+            });
+            for (let i = 0; i < this.numberOfTrails; i++) {
+              this.moveColor(this.trails[i].point.material.color, col, 7000, () => {});
+              this.moveColor(this.trails[i].trailLine.material.color, col, 7000, () => {});
+              // this.trails[i].ringRotateSpeed = Math.random()*0.02;
+            }
+            this.startGenerateNewPoint = false;
+          }
+        }
   }
 }
