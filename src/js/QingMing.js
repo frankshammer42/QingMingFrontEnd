@@ -264,6 +264,19 @@ function loadModelAndMap() {
 
 function enter() {
     // document.getElementById("welcome-page").className = 'fade-out';
+    let audio = new Audio('/assets/sound/ambient-cho.mp3');
+    if (typeof audio.loop == 'boolean')
+    {
+        audio.loop = true;
+    }
+    else
+    {
+        audio.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+    }
+    audio.play();
     document.getElementById("welcome-page").style.display = 'none';
     let vector = new THREE.Vector3( mouse.x, mouse.y, -1).unproject( camera );
     // vector.z -= 1000;

@@ -84,9 +84,9 @@ class PersonPoint {
         let currentPosition = this.initPosition;
         this.userInput = userInputContent;
         this.userInputBoard = new Billboard(currentPosition, this.userInput, camera);
-        this.userInputBoard.container.scale.x *= 1.0;
-        this.userInputBoard.container.scale.y *= 1.0;
-        this.userInputBoard.container.scale.z *= 1.0;
+        this.userInputBoard.container.scale.x *= 0;
+        this.userInputBoard.container.scale.y *= 0;
+        this.userInputBoard.container.scale.z *= 0;
     }
 
     tweenToInitPosition(){
