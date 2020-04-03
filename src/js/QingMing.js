@@ -56,8 +56,10 @@ let visitorCount = 0;
 // for intro progress check
 let fullyLoaded = false;
 // For Optimization
-let maxNumberOfPoints = 800;
-
+let maxNumberOfPoints = 500;
+// For Audio
+let bg = new Audio('/assets/sound/bg.mp3');
+let clickSound = new Audio('/assets/sound/click.mp3');
 
 function initVisitor() {
   let req = new XMLHttpRequest();
@@ -160,6 +162,7 @@ function addNameInput(offset, buttonOffset){
     inputField.screenOffset.x = offset.x;
     inputField.buttonOffset.x = buttonOffset.x;
     inputField.buttonOffset.y = buttonOffset.y;
+    inputField.clickSound = clickSound;
     sceneCSS.add(inputField.hintContainer);
     sceneCSS.add(inputField.inputContainer);
     sceneCSS.add(inputField.submitButtonContainer);
@@ -259,19 +262,19 @@ function loadModelAndMap() {
 
 function enter() {
     // document.getElementById("welcome-page").className = 'fade-out';
-    let audio = new Audio('/assets/sound/ambient-cho.mp3');
-    if (typeof audio.loop == 'boolean')
+    if (typeof bg.loop == 'boolean')
     {
-        audio.loop = true;
+        bg.loop = true;
     }
     else
     {
-        audio.addEventListener('ended', function() {
+        bg.addEventListener('ended', function() {
             this.currentTime = 0;
             this.play();
         }, false);
     }
-    audio.play();
+    bg.play();
+    clickSound.play();
     document.getElementById("welcome-page").style.display = 'none';
     // let vector = new THREE.Vector3( mouse.x, mouse.y, -1).unproject( camera );
     addPoints(new THREE.Vector3(0,0,0), 700);

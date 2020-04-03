@@ -34,6 +34,7 @@ class InputField{
         // this.screenOffset = new THREE.Vector3(190, -80, 0);
         this.screenOffset = new THREE.Vector3(20, 0, 0);
         this.buttonOffset = new THREE.Vector3(0,0,0);
+        this.clickSound = null;
     }
 
     createTrails(){
@@ -61,8 +62,9 @@ class InputField{
         button.style.width = "300px";
         button.style.height = "300px";
         button.onclick = () => {
-                                   this.hintClickAnimation();
-                                   };
+            this.hintClickAnimation();
+            this.clickSound.play();
+        };
         this.buttonElement = button;
         this.hintContainer = new THREE.CSS3DObject(this.buttonElement);
         this.hintContainer.position.x = this.relPosition.x;
@@ -134,6 +136,7 @@ class InputField{
                 this.trails[i].ringRotateCounterMax = 1000;
             }
             this.userInputContent = this.inputElement.value;
+            this.clickSound.play();
         };
         this.submitButtonContainer = new THREE.CSS3DObject(this.submitButtonElement);
         this.submitButtonContainer.position.x = this.relPosition.x;
