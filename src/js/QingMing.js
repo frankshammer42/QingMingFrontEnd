@@ -162,7 +162,7 @@ function addNameInput(offset, buttonOffset){
     inputField.screenOffset.x = offset.x;
     inputField.buttonOffset.x = buttonOffset.x;
     inputField.buttonOffset.y = buttonOffset.y;
-    inputField.clickSound = clickSound;
+    inputField.clickSound = new Audio("/assets/sound/click-short.mp3");
     sceneCSS.add(inputField.hintContainer);
     sceneCSS.add(inputField.inputContainer);
     sceneCSS.add(inputField.submitButtonContainer);
@@ -282,6 +282,10 @@ function enter() {
     let buttonOffset = new THREE.Vector3(0,0,0);
     if (window.innerWidth < 1400){
         offset.x = 150;
+        if (window.innerWidth < 380){
+            buttonOffset.x = -13;
+            buttonOffset.y = -12;
+        }
     }
     addNameInput(offset, buttonOffset);
     initCamMove();
@@ -620,6 +624,10 @@ function onWindowResize() {
       console.log("wtf");
       if (inputField !== null){
           inputField.screenOffset.x = 130;
+          if (window.innerWidth < 380){
+              inputField.buttonOffset.x = -13;
+              inputField.buttonOffset.y = -12;
+          }
       }
   }
   else{
