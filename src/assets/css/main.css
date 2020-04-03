@@ -239,10 +239,10 @@ h1 {
 
 .fade-out{
   animation: fadeOut ease 2s;
-  -webkit-animation: fadeOut ease 2s;
-  -moz-animation: fadeOut ease 2s;
-  -o-animation: fadeOut ease 2s;
-  -ms-animation: fadeOut ease 2s;
+  -webkit-animation: fadeOut;
+  -moz-animation: fadeOut;
+  -o-animation: fadeOut;
+  -ms-animation: fadeOut;;
 }
 
 /* slide up effect */
@@ -549,8 +549,8 @@ h1 {
   border-radius: 0;
   outline: none;
   font-size: 3.2em;
-  padding-left:3px;
-  padding-right:3px;
+  padding-left:1px;
+  padding-right:1px;
   /* opacity: 10%; */
   transition: padding 0.3s 0.2s ease;
 }
