@@ -542,6 +542,56 @@ h1 {
   color: grey;
 }
 
+.visitor-count-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: 0;
+  bottom: 16px;
+  min-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 499;
+}
+
+.view-angle1-button,
+.view-angle2-button,
+.view-angle3-button {
+  color: #000;
+  background: #fff;
+  box-shadow: 1px 1px 3px #ccc;
+  position: absolute;
+  width: 72px;
+  box-sizing: border-box;
+  height: 48px;
+  text-align: center;
+  background-size: cover;
+  padding: 0;
+  z-index: 500;
+  border: none;
+  border-radius: 8px;
+}
+
+.view-angle1-button {
+  background-image: url('/assets/images/jing-shi.png');
+  right: calc(60px + 60px + 16px + 16px + 16px);
+  bottom: 16px;
+}
+
+.view-angle2-button {
+  background-image: url('/assets/images/fu-shi.png');
+  right: calc(60px + 16px + 16px);
+  bottom: 16px;
+}
+
+.view-angle3-button {
+  background-image: url('/assets/images/huan-shi.png');
+  right: 16px;
+  bottom: 16px;
+}
+
 @media only screen and (max-width: 768px) {
   .visitor-count-bar {
     text-align: center;
@@ -550,58 +600,6 @@ h1 {
     margin: 0;
     left: unset;
     min-height: unset;
-  }
-
-  .visitor-count-bar {
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: 0;
-    bottom: 16px;
-    min-height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 499;
-  }
-}
-
-@media only screen and (max-width: 450px) {
-  .view-angle1-button,
-  .view-angle2-button,
-  .view-angle3-button {
-    color: #000;
-    background: #fff;
-    box-shadow: 1px 1px 3px #ccc;
-    position: absolute;
-    width: 72px;
-    box-sizing: border-box;
-    height: 48px;
-    text-align: center;
-    background-size: cover;
-    padding: 0;
-    z-index: 500;
-    border: none;
-    border-radius: 8px;
-  }
-
-  .view-angle1-button {
-    background-image: url('/assets/images/jing-shi.png');
-    right: calc(60px + 60px + 16px + 16px + 16px);
-    bottom: 16px;
-  }
-
-  .view-angle2-button {
-    background-image: url('/assets/images/fu-shi.png');
-    right: calc(60px + 16px + 16px);
-    bottom: 16px;
-  }
-
-  .view-angle3-button {
-    background-image: url('/assets/images/huan-shi.png');
-    right: 16px;
-    bottom: 16px;
   }
 }
 
@@ -718,7 +716,6 @@ h1 {
 
 @media only screen and (max-width: 768px) {
   .visitor-count-bar {
-    width: calc(72px + 72px + 72px + 16px + 16px);
     text-align: center;
     bottom: calc(40px + 16px + 16px);
     right: 16px;
@@ -729,10 +726,6 @@ h1 {
 }
 
 @media only screen and (max-width: 450px) {
-  .visitor-count-bar {
-    width: calc(60px + 60px + 60px + 16px + 16px);
-  }
-
   .view-angle1-button,
   .view-angle2-button,
   .view-angle3-button {
@@ -741,19 +734,16 @@ h1 {
   }
 
   .view-angle1-button {
-    background-image: url('/assets/images/view-angle1.png');
     right: calc(60px + 60px + 16px + 16px + 16px);
     bottom: 16px;
   }
 
   .view-angle2-button {
-    background-image: url('/assets/images/view-angle2.png');
     right: calc(60px + 16px + 16px);
     bottom: 16px;
   }
 
   .view-angle3-button {
-    background-image: url('/assets/images/view-angle3.png');
     right: 16px;
     bottom: 16px;
   }
