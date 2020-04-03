@@ -122,7 +122,7 @@ class InputField{
         submitButton.style.zIndex = "50000";
         submitButton.style.position = "relative";
         submitButton.id = "submit";
-        submitButton.innerHTML="加入"
+        submitButton.innerHTML="加入";
         this.submitButtonElement = submitButton;
         submitButton.onclick = () => {
             this.putElementsInCircle();
@@ -131,7 +131,6 @@ class InputField{
                 this.trails[i].ringRotateSpeedZ = Math.random()*0.02;
                 this.trails[i].ringRotateCounterMax = 1000;
             }
-            console.log(this.inputDiv.value);
             this.userInputContent = this.inputElement.value;
         };
         this.submitButtonContainer = new THREE.CSS3DObject(this.submitButtonElement);
@@ -142,11 +141,6 @@ class InputField{
         this.submitButtonContainer.scale.y = 0.0;
         this.submitButtonContainer.scale.z = 0.0;
     }
-
-
-
-
-
 
   hintClickAnimation() {
     let inputContainerTarget = new THREE.Vector3(0.1, 0.1, 0.1);
