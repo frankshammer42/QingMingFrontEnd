@@ -144,14 +144,6 @@ function init() {
   controls.maxPolarAngle = Math.PI/2;
   controls.target.set(0, maxHeight*0.25, 0);
 
-  // Center Line
-  // let start = new THREE.Vector3(0, 52000, 0);
-  // let end = new THREE.Vector3(0, 0, 0);
-  // centerLine = new Line(start, end, 2, 2000);
-  // scene.add(centerLine.line);
-  // Light and Model Set Up
-
-
   getLight();
   addSkybox();
   //model
@@ -163,8 +155,11 @@ function init() {
   document.addEventListener("mousemove", mouseMove);
 }
 
-function addNameInput(){
+function addNameInput(offset, buttonOffset){
     inputField = new InputField(new THREE.Vector3(0, 0, 50000), "加入祭奠", camera);
+    inputField.screenOffset.x = offset.x;
+    inputField.buttonOffset.x = buttonOffset.x;
+    inputField.buttonOffset.y = buttonOffset.y;
     sceneCSS.add(inputField.hintContainer);
     sceneCSS.add(inputField.inputContainer);
     sceneCSS.add(inputField.submitButtonContainer);
@@ -236,7 +231,7 @@ function loadMap() {
     plane.rotation.x = Math.PI + Math.PI / 2;
     scene.add(plane);
     //Add Control Panel
-    addControl();
+    // addControl();
 }
 
 function loadModelAndMap() {
@@ -278,12 +273,14 @@ function enter() {
     }
     audio.play();
     document.getElementById("welcome-page").style.display = 'none';
-    let vector = new THREE.Vector3( mouse.x, mouse.y, -1).unproject( camera );
-    // vector.z -= 1000;
-    // vector.z -= 100;
-    console.log(vector);
-    addPoints(vector, 700);
-    addNameInput();
+    // let vector = new THREE.Vector3( mouse.x, mouse.y, -1).unproject( camera );
+    addPoints(new THREE.Vector3(0,0,0), 700);
+    let offset = new THREE.Vector3(0,0,0);
+    let buttonOffset = new THREE.Vector3(0,0,0);
+    if (window.innerWidth < 1400){
+        offset.x = 150;
+    }
+    addNameInput(offset, buttonOffset);
     initCamMove();
 }
 
@@ -616,9 +613,21 @@ function resetModelMap(){
 }
 
 function onWindowResize() {
+  if (window.innerWidth < 1400){
+      console.log("wtf");
+      if (inputField !== null){
+          inputField.screenOffset.x = 130;
+      }
+  }
+  else{
+      if (inputField !== null){
+          inputField.screenOffset.x = 0;
+      }
+  }
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  rendererCSS.setSize(window.innerWidth, window.innerHeight);
 }
 
 function addControl(){
@@ -658,6 +667,9 @@ function addControl(){
 }
 
 function animate() {
+    // console.log(window.innerWidth);
+    // console.log(window.innerHeight);
+
     TWEEN.update();
     //---------Input
     if (inputField !== null){
@@ -690,16 +702,10 @@ function animate() {
                 let arry =document.getElementsByClassName("hidden");
                 arry = [].slice.call(arry);
                 for (let i=0; i<arry.length; i++){
-                    //console.log(arry[i].tagName);
-                    //console.log (i+": "+ arry[i]);
-                    console.log(i);
-                    // arry[i].className = "intro visible fade-in";
-                    // console.log(arry[i].tagName);
                     if (arry[i].tagName !== "BUTTON"){
                         arry[i].className = "intro visible fade-in";
                     }
                     else{
-                        console.log("Make Button Visible");
                         arry[i].className = "fade-in visible";
                     }
                 }
