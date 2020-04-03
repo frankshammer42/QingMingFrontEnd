@@ -710,9 +710,22 @@ h1 {
   padding: 20px;
 }
 
+.qr-card img {
+  width: 68vh;
+  max-width: 600px;
+}
+
+@media (orientation: portrait) {
+  .qr-card img {
+    width: 90vw;
+    max-width: 600px;
+  }
+}
+
 .qr-instruction {
   padding: 12px;
   background: #fff;
+  text-align: center;
 }
 
 @media only screen and (max-width: 768px) {
