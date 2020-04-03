@@ -142,6 +142,7 @@ function init() {
   controls.minDistance = 50;
   controls.maxDistance = 8000;
   controls.maxPolarAngle = Math.PI/2;
+  controls.target.set(0, maxHeight*0.25, 0);
 
   // Center Line
   // let start = new THREE.Vector3(0, 52000, 0);
@@ -151,8 +152,8 @@ function init() {
   // Light and Model Set Up
 
 
-  // getLight();
-  // addSkybox();
+  getLight();
+  addSkybox();
   //model
   initLoadManager();
   loadModelAndMap();
