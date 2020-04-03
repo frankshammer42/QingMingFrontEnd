@@ -83,6 +83,7 @@ class InputField{
         inputField.style.position = "absolute";
         inputField.style.width = "100%";
         inputField.style.height = "100%";
+        inputFiled.id = "inputFieldID";
         inputFieldDiv.appendChild(inputField);
         this.inputElement = inputField;
 
@@ -91,6 +92,14 @@ class InputField{
         line.style.position = "absolute";
         line.style.width = "100%";
         inputFieldDiv.appendChild(line);
+
+        let label = document.createElement('LABEL');
+        label.className = "inputLabel";
+        label.style.position = "absolute";
+        label.style.width = "100%";
+        label.for = "inputFieldID";
+        label.value = "输入名字或想说的话";
+        inputFieldDiv.appendChild(label);
 
         this.inputDiv = inputFieldDiv;
         this.inputContainer = new THREE.CSS3DObject(this.inputDiv);
