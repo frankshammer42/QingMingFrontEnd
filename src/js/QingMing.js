@@ -56,7 +56,7 @@ let visitorCount = 0;
 // for intro progress check
 let fullyLoaded = false;
 // For Optimization
-let maxNumberOfPoints = 800;
+let maxNumberOfPoints = 500;
 
 
 function initVisitor() {
@@ -74,6 +74,12 @@ function initVisitor() {
 }
 
 initVisitor();
+
+function resetSize() {
+  document.getElementById('frame').style.height = window.innerHeight + 'px';
+}
+window.addEventListener("resize", resetSize);
+resetSize();
 
 //Main Loop------------------------------------------------------
 init();
