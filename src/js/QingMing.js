@@ -690,6 +690,7 @@ function animate() {
             newPoint.trailLine.material.color = new THREE.Color('#ff0000');
             newPoint.point.material.color = new THREE.Color('#ff0000');
             newPoint.createBillboard(inputField.userInputContent, camera);
+            newPoint.tweenTime = 6000 + Math.random()*2000;
             scene.add(newPoint.point);
             scene.add(newPoint.trailLine);
             sceneCSS.add(newPoint.userInputBoard.container);
