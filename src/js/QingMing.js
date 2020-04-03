@@ -21,8 +21,8 @@ let inputField = null;
 // let maxHeight = 2000;
 // let maxRadius = 2000;
 // Narrower Version with segmented Random Number
-let maxHeight = 2500;
-let maxRadius = 1000;
+let maxHeight = 4000 * 0.8;
+let maxRadius = 1000 * 0.8;
 let ranges = [
   [200, 400],
   [1800, 2000]
@@ -55,6 +55,8 @@ let mouse;
 let visitorCount = 0;
 // for intro progress check
 let fullyLoaded = false;
+// For Optimization
+let maxNumberOfPoints = 500;
 
 
 function initVisitor() {
@@ -72,6 +74,12 @@ function initVisitor() {
 }
 
 initVisitor();
+
+function resetSize() {
+  document.getElementById('frame').style.height = window.innerHeight + 'px';
+}
+window.addEventListener("resize", resetSize);
+resetSize();
 
 //Main Loop------------------------------------------------------
 init();
@@ -132,7 +140,7 @@ function init() {
   //Orbit Controls
   controls = new THREE.OrbitControls(camera, container);
   controls.minDistance = 50;
-  controls.maxDistance = 20000;
+  controls.maxDistance = 8000;
   controls.maxPolarAngle = Math.PI/2;
 
   // Center Line
@@ -206,6 +214,9 @@ function addBillboard(p0, p1, p2, name) {
     name,
     camera
   );
+  billboard.container.scale.x = 3;
+  billboard.container.scale.y = 3;
+  billboard.container.scale.z = 3;
   billBoards.push(billboard);
   sceneCSS.add(billboard.container);
 }
@@ -255,7 +266,7 @@ function enter() {
     // vector.z -= 1000;
     // vector.z -= 100;
     console.log(vector);
-    addPoints(vector);
+    addPoints(vector, 700);
     addNameInput();
     initCamMove();
 }
@@ -334,12 +345,20 @@ function generateSphereOffset(radius){
     return randomOffset;
 }
 
-function addPoints(initPos){
+function addPoints(initPos, numberOfPoints){
+    let pointsNumber = 0;
+    let remainNumber = 0;
+    if (numberOfPoints > maxNumberOfPoints){
+        pointsNumber = maxNumberOfPoints;
+        remainNumber =  numberOfPoints - maxNumberOfPoints;
+    }
+    else{
+        pointsNumber = numberOfPoints;
+    }
     let offsetRadius = 100;
     let initPosition = initPos;
     initPosition = new THREE.Vector3(0, 0, 0);
-    let numberOfPoints = 1000;
-    let heightGap = maxHeight/numberOfPoints;
+    let heightGap = maxHeight/pointsNumber;
     let maxPulseNumber = 60;
     let pulseOffset = maxPulseNumber/2;
     let currentPulseNumber = pulseOffset + Math.floor(Math.random()*(maxPulseNumber-pulseOffset));
@@ -356,14 +375,16 @@ function addPoints(initPos){
     let halfHeight = height/2;
 
 
-    let heightNumber = 3;
-    let currentSinRange = Math.floor(Math.random()*100) + Math.floor(numberOfPoints/heightNumber);
-    let sinCounter = 0;
     // initPosition = initPos;
-    for (let i=0; i<numberOfPoints; i++) {
+
+    let heightNumber = 3;
+    let currentSinRange = Math.floor(Math.random()*100) + Math.floor(pointsNumber/heightNumber);
+    let sinCounter = 0;
+
+    for (let i=0; i<pointsNumber; i++) {
         if (sinCounter > currentSinRange){
             sinCounter = 0;
-            currentSinRange = Math.floor(Math.random()* 100) + Math.floor(numberOfPoints/heightNumber);
+            currentSinRange = Math.floor(Math.random()* 100) + Math.floor(pointsNumber/heightNumber);
         }
         let sinIndex = Math.PI*(sinCounter/currentSinRange);
         let randomRadius = 0;
@@ -405,46 +426,69 @@ function addPoints(initPos){
         pulseCounter += 1;
         sinCounter += 1;
     }
+
+    currentSinRange = Math.floor(Math.random()*100) + Math.floor(remainNumber/heightNumber);
+    sinCounter = 0;
+    heightGap = maxHeight/remainNumber;
+    for (let i=0; i<remainNumber; i++){
+        if (sinCounter > currentSinRange){
+            sinCounter = 0;
+            currentSinRange = Math.floor(Math.random()* 100) + Math.floor(pointsNumber/heightNumber);
+        }
+        let sinIndex = Math.PI*(sinCounter/currentSinRange);
+        let randomRadius = 0;
+        randomRadius = (Math.abs(Math.sin(sinIndex)) * maxRadius + 500)*Math.random() + 50;
+        let randomHeight = i * heightGap;
+        let center = [0, randomHeight, 0];
+        let xRot = Math.random()*0.5 - 0.25;
+        let zRot = Math.random()*0.5 - 0.25;
+        let materialColor = Math.floor(200 + Math.random() * 20).toString();
+        let color = new THREE.Color("rgb(" + materialColor + "," + materialColor + "," + materialColor + ")");
+        let lineWidth = Math.random()*3;
+        let circleTrail = new CircleTrail(center, randomRadius, xRot, zRot, color, lineWidth);
+        scene.add(circleTrail.circleTrailGroup);
+        sinCounter += 1;
+    }
 }
 
 function getLight() {
-  dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
-  dirLight.color.setHSL(0.1, 1, 0.95);
-  dirLight.position.set(848, -3955, -1749);
-  dirLight.position.multiplyScalar(50);
-  scene.add(dirLight);
-  dirLight.castShadow = true;
-  dirLight.shadowMapWidth = dirLight.shadowMapHeight = 1024 * 2;
+    dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+    dirLight.color.setHSL(0.1, 1, 0.95);
+    dirLight.position.set(848, -3955, -1749);
+    dirLight.position.multiplyScalar(50);
+    scene.add(dirLight);
+    dirLight.castShadow = true;
+    dirLight.shadowMapWidth = dirLight.shadowMapHeight = 1024 * 2;
 
-  dirLight.shadowCameraFar = 3500;
-  dirLight.shadowBias = -0.000001;
-  dirLight.shadowDarkness = 0.35;
-  scene.add(dirLight);
+    dirLight.shadowCameraFar = 3500;
+    dirLight.shadowBias = -0.000001;
+    dirLight.shadowDarkness = 0.35;
+    scene.add(dirLight);
 
-  //tyis is the amibient light
-  ambientLight = new THREE.AmbientLight(0x111111, 5.5);
-  ambientLight.position.set(2100, 20000, 6000);
-  scene.add(ambientLight);
+    //tyis is the amibient light
+    ambientLight = new THREE.AmbientLight(0x111111, 5.5);
+    ambientLight.position.set(2100, 20000, 6000);
+    scene.add(ambientLight);
 
-  //this is the fill light
-  fillLight = new THREE.DirectionalLight(0x111111, 1.2);
-  fillLight.position.set(100, 0, -9900);
+    //this is the fill light
+    fillLight = new THREE.DirectionalLight(0x111111, 1.2);
+    fillLight.position.set(100, 0, -9900);
 
-  //this is the back light
-  backLight = new THREE.DirectionalLight(0xffffff, 1.5);
-  backLight.position.set(-3072, 4868, 2000).normalize();
+    //this is the back light
+    backLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    backLight.position.set(-3072, 4868, 2000).normalize();
 
-  // light.castShadow = true;
-  // light.shadow.camera.near = 0.1;
-  // light.shadow.camera.far = 500;
+    // light.castShadow = true;
+    // light.shadow.camera.near = 0.1;
+    // light.shadow.camera.far = 500;
 
-  scene.add(fillLight);
-  scene.add(backLight);
-  scene.add(ambientLight);
+    scene.add(fillLight);
+    scene.add(backLight);
+    scene.add(ambientLight);
 
-  //this is the fog
-  scene.fog = new THREE.Fog(0xdedede, 100, 80000);
-  renderer.setClearColor(scene.fog.color, 1);
+    //this is the fog
+    scene.fog = new THREE.Fog(0xdedede, 100, 80000);
+    renderer.setClearColor(scene.fog.color, 1);
 
 }
 
@@ -500,7 +544,7 @@ function moveCamera(target, tweenTime, finishFunction, easingFunction) {
 }
 
 function initCamMove(){
-    let topTarget = new THREE.Vector3(0, 0, 3500);
+    let topTarget = new THREE.Vector3(0, 2000, 3500);
     let tweenTime = 8000;
     moveCamera(topTarget, tweenTime, ()=>{
         console.log("ff");
@@ -511,7 +555,7 @@ function moveToTop(){
     let topTarget = new THREE.Vector3(0, 3000, 3000);
     let tweenTime = 2000;
     moveCamera(topTarget, tweenTime, ()=>{
-        topTarget = new THREE.Vector3(0, 3000, 0);
+        topTarget = new THREE.Vector3(0, 6000, 0);
         tweenTime = 3000;
         moveCamera(topTarget, tweenTime, ()=>{"whatever"}, TWEEN.Easing.Cubic.InOut);
     }, TWEEN.Easing.Linear.None);
@@ -524,7 +568,7 @@ function moveAuto(){
         button.innerHTML = "环视";
     }
     else{
-        let freeViewTarget = new THREE.Vector3(0, 1000, 5000);
+        let freeViewTarget = new THREE.Vector3(0, 3000, 5000);
         let tweenTime = 4000;
         moveCamera(freeViewTarget, tweenTime, ()=>{
             controls.autoRotate = !controls.autoRotate;
@@ -535,7 +579,7 @@ function moveAuto(){
 }
 
 function moveToFreeView(){
-    let freeViewTarget = new THREE.Vector3(0, 1000, 5000);
+    let freeViewTarget = new THREE.Vector3(0, 3000, 5000);
     let tweenTime = 4000;
     moveCamera(freeViewTarget, tweenTime, ()=>console.log("ff"), TWEEN.Easing.Cubic.InOut);
 }
