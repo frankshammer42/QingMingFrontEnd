@@ -462,9 +462,9 @@ function addPoints(initPos, numberOfPoints){
         let center = [0, randomHeight, 0];
         let xRot = Math.random()*0.5 - 0.25;
         let zRot = Math.random()*0.5 - 0.25;
-        let materialColor = Math.floor(200 + Math.random() * 20).toString();
+        let materialColor = Math.floor(100 + Math.random() * 20).toString();
         let color = new THREE.Color("rgb(" + materialColor + "," + materialColor + "," + materialColor + ")");
-        let lineWidth = Math.random()*3;
+        let lineWidth = Math.random();
         let circleTrail = new CircleTrail(center, randomRadius, xRot, zRot, color, lineWidth);
         scene.add(circleTrail.circleTrailGroup);
         sinCounter += 1;
