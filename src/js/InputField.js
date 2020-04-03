@@ -243,6 +243,11 @@ class InputField{
           this.trailGroup.scale.y *= 0.99;
           this.trailGroup.scale.z *= 0.99;
         }
+        if (this.newGeneratedPoint.userInputBoard.container.scale.x !== 0.4){
+          this.newGeneratedPoint.userInputBoard.container.scale.x = 0.6;
+          this.newGeneratedPoint.userInputBoard.container.scale.y = 0.6;
+          this.newGeneratedPoint.userInputBoard.container.scale.z = 0.6;
+        }
       }
     }
 
