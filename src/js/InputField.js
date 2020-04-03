@@ -83,7 +83,7 @@ class InputField{
         inputField.style.position = "absolute";
         inputField.style.width = "100%";
         inputField.style.height = "100%";
-        inputFiled.id = "inputFieldID";
+        inputField.id = "inputFieldID";
         inputFieldDiv.appendChild(inputField);
         this.inputElement = inputField;
 
@@ -98,7 +98,7 @@ class InputField{
         label.style.position = "absolute";
         label.style.width = "100%";
         label.for = "inputFieldID";
-        label.value = "输入名字或想说的话";
+        label.innerText = "输入名字或想说的话";
         inputFieldDiv.appendChild(label);
 
         this.inputDiv = inputFieldDiv;
