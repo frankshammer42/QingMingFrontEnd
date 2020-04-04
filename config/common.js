@@ -79,6 +79,10 @@ module.exports = {
       {
         from: 'src/assets',
         to: 'assets'
+      },
+      {
+        from: 'src/root',
+        to: '.'
       }
     ]),
     new HtmlWebpackPlugin({
