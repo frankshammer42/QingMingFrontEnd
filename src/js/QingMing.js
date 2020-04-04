@@ -162,7 +162,7 @@ function init() {
 }
 
 function addNameInput(offset, buttonOffset) {
-  inputField = new InputField(new THREE.Vector3(0, 0, 50000), "加入行走", camera);
+  inputField = new InputField(new THREE.Vector3(0, 0, 50000), "加入祭奠", camera);
   inputField.screenOffset.x = offset.x;
   inputField.buttonOffset.x = buttonOffset.x;
   inputField.buttonOffset.y = buttonOffset.y;
