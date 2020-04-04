@@ -227,7 +227,8 @@ function addBillboard(p0, p1, p2, name) {
 
 function loadMap() {
   let geometry = new THREE.PlaneGeometry(90000 * 1.7, 90000 * 1.4, 32);
-  let texture = new THREE.TextureLoader(loadManager).load('/assets/textures/map.png');
+  // let texture = new THREE.TextureLoader(loadManager).load('/assets/textures/map.png');
+  let texture = new THREE.TextureLoader(loadManager).load('/assets/textures/map4.png');
   let material = new THREE.MeshBasicMaterial({
     map: texture,
     color: 0xffffff
