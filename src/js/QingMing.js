@@ -655,8 +655,8 @@ function onWindowResize() {
       if (inputField !== null) {
         inputField.screenOffset.x = 130;
         if (window.innerWidth < 380) {
-          inputField.buttonOffset.x = -13;
-          inputField.buttonOffset.y = -12;
+          inputField.buttonOffset.x = -15;
+          inputField.buttonOffset.y = -14;
         }
       }
     } else {
@@ -721,7 +721,6 @@ function animate() {
       newPoint.createBillboard(inputField.userInputContent, camera);
       newPoint.tweenTime = 6000 + Math.random() * 2000;
       newPoint.trailLine.material.linewidth = 3;
-
       scene.add(newPoint.point);
       scene.add(newPoint.trailLine);
       sceneCSS.add(newPoint.userInputBoard.container);
