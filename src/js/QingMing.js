@@ -583,6 +583,11 @@ function initCamMove() {
 }
 
 function moveToTop() {
+  if (controls.autoRotate){
+    controls.autoRotate = false;
+    let button = document.getElementsByClassName("view-angle3-button")[0];
+    button.innerHTML = "环视";
+  }
   let topTarget = new THREE.Vector3(0, 3000, 3000);
   let tweenTime = 2000;
   moveCamera(topTarget, tweenTime, () => {
@@ -611,6 +616,11 @@ function moveAuto() {
 }
 
 function moveToFreeView() {
+  if (controls.autoRotate){
+    controls.autoRotate = false;
+    let button = document.getElementsByClassName("view-angle3-button")[0];
+    button.innerHTML = "环视";
+  }
   let freeViewTarget = new THREE.Vector3(0, 3000, 5000);
   let tweenTime = 4000;
   moveCamera(freeViewTarget, tweenTime, () => console.log("ff"), TWEEN.Easing.Cubic.InOut);
