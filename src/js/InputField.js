@@ -35,6 +35,8 @@ class InputField{
         this.screenOffset = new THREE.Vector3(20, 0, 0);
         this.buttonOffset = new THREE.Vector3(0,0,0);
         this.clickSound = null;
+        //
+        this.appearText = false;
     }
 
     createTrails(){
@@ -70,9 +72,9 @@ class InputField{
         this.hintContainer.position.x = this.relPosition.x;
         this.hintContainer.position.y = this.relPosition.y;
         this.hintContainer.position.z = this.relPosition.z;
-        this.hintContainer.scale.x = 0.1;
-        this.hintContainer.scale.y = 0.1;
-        this.hintContainer.scale.z = 0.1;
+        this.hintContainer.scale.x = 0.0;
+        this.hintContainer.scale.y = 0.0;
+        this.hintContainer.scale.z = 0.0;
     }
 
     createInputField(){
@@ -135,7 +137,7 @@ class InputField{
                 this.trails[i].ringRotateSpeedZ = Math.random()*0.02;
                 this.trails[i].ringRotateCounterMax = 1000;
             }
-            this.userInputContent = this.inputElement.value;
+            this.userInputContent = this.inputElement.value.slice(0, 10);
             this.clickSound.play();
         };
         this.submitButtonContainer = new THREE.CSS3DObject(this.submitButtonElement);
@@ -148,15 +150,15 @@ class InputField{
     }
 
     hintClickAnimation() {
-    let inputContainerTarget = new THREE.Vector3(0.1, 0.1, 0.1);
-    let hintContainerTarget = new THREE.Vector3(0.2, 0.2, 0.2);
-    this.moveValue(this.inputContainer.scale, inputContainerTarget, 2000, () => {
-      this.moveValue(this.submitButtonContainer.scale, inputContainerTarget, 1500, () => {});
-    });
-    this.buttonElement.innerHTML = "";
-    this.moveValue(this.trailGroup.scale, hintContainerTarget, 2000, () => {});
+      let inputContainerTarget = new THREE.Vector3(0.1, 0.1, 0.1);
+      let hintContainerTarget = new THREE.Vector3(0.2, 0.2, 0.2);
+      this.moveValue(this.inputContainer.scale, inputContainerTarget, 2000, () => {
+                                                                                          this.moveValue(this.submitButtonContainer.scale, inputContainerTarget, 1500, () => {});
+                                                                                          });
+      this.buttonElement.innerHTML = "";
+      this.moveValue(this.trailGroup.scale, hintContainerTarget, 2000, () => {});
     // this.moveValue(this.hintContainer.scale, new THREE.Vector3(0.0,0.1,0.1), 2000, ()=>{});
-  }
+    }
 
     moveValue(toMove, target, tweenTime, finishFunction) {
     let deepTripPosition = new TWEEN.Tween(toMove)
@@ -260,6 +262,11 @@ class InputField{
         if (!this.inputFunctionFinished) {
           for (let i = 0; i < this.numberOfTrails; i++) {
             this.trails[i].update();
+          }
+          if (this.trails[0].startRotate && !this.appearText){
+              this.appearText = true;
+              let targetScale = new THREE.Vector3(0.1, 0.1, 0.1);
+              this.moveValue(this.hintContainer.scale, targetScale, 2000, ()=>{});
           }
         }
 
