@@ -4,6 +4,7 @@ class Billboard{
         this.content = content;
         this.container = null;
         this.camera = camera;
+        this.detailsElement = null;
         this.createBoard();
     }
 
@@ -17,6 +18,7 @@ class Billboard{
         let details = document.createElement( 'div' );
         details.className = 'details';
         details.innerHTML = this.content;
+        this.detailsElement = details;
         board.appendChild( details );
         this.element = board;
         this.container = new THREE.CSS3DObject(this.element);
