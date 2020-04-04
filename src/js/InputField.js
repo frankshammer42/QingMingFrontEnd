@@ -135,6 +135,7 @@ class InputField{
             }
         };
         req.open('POST', '/monument-api/visitor', true);
+        req.setRequestHeader("Content-Type", "application/json");
         // let data = new FormData();
         let data = {"name": content};
         let dataJSON = JSON.stringify(data);
