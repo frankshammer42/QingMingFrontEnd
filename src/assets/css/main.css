@@ -193,8 +193,16 @@ h1 {
 }
 
 .card header {
+  font-size: 36px;
+  font-weight: 700;
   font-size: 160%;
   padding: 10px 0 10px 0;
+}
+
+@media only screen and (max-width: 450px) {
+  .card header {
+    font-size: 32px;
+  }
 }
 
 .card .intro {
