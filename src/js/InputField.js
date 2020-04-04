@@ -37,6 +37,8 @@ class InputField{
         this.clickSound = null;
         //
         this.appearText = false;
+        //
+        this.alreadyHinted = false;
     }
 
     createTrails(){
@@ -64,8 +66,11 @@ class InputField{
         button.style.width = "300px";
         button.style.height = "300px";
         button.onclick = () => {
-            this.hintClickAnimation();
-            this.clickSound.play();
+            if (!this.alreadyHinted){
+                this.hintClickAnimation();
+                this.clickSound.play();
+                this.alreadyHinted = true;
+            }
         };
         this.buttonElement = button;
         this.hintContainer = new THREE.CSS3DObject(this.buttonElement);
@@ -170,8 +175,8 @@ class InputField{
       let inputContainerTarget = new THREE.Vector3(0.1, 0.1, 0.1);
       let hintContainerTarget = new THREE.Vector3(0.2, 0.2, 0.2);
       this.moveValue(this.inputContainer.scale, inputContainerTarget, 2000, () => {
-                                                                                          this.moveValue(this.submitButtonContainer.scale, inputContainerTarget, 1500, () => {});
-                                                                                          });
+                                                          this.moveValue(this.submitButtonContainer.scale, inputContainerTarget, 1500, () => {});
+                                                                                      });
       this.buttonElement.innerHTML = "";
       this.moveValue(this.trailGroup.scale, hintContainerTarget, 2000, () => {});
     // this.moveValue(this.hintContainer.scale, new THREE.Vector3(0.0,0.1,0.1), 2000, ()=>{});
