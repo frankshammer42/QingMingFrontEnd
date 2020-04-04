@@ -97,7 +97,7 @@ class InputField{
         inputField.style.height = "100%";
         inputField.id = "inputFieldID";
         inputField.type="text";
-        inputField.placeholder="你的名字";
+        inputField.placeholder= '你的"名字"';
         // inputField.placeholder="what your name";
         inputFieldDiv.appendChild(inputField);
         this.inputElement = inputField;
@@ -270,10 +270,11 @@ class InputField{
               this.trailGroup.scale.y *= 0.99;
               this.trailGroup.scale.z *= 0.99;
             }
-            if (this.newGeneratedPoint.userInputBoard.container.scale.x !== 0.4){
+            if (this.newGeneratedPoint.userInputBoard.container.scale.x !== 0.6){
               this.newGeneratedPoint.userInputBoard.container.scale.x = 0.6;
               this.newGeneratedPoint.userInputBoard.container.scale.y = 0.6;
               this.newGeneratedPoint.userInputBoard.container.scale.z = 0.6;
+              this.newGeneratedPoint.userInputBoard.detailsElement.style.fontWeight = 900;
             }
           }
         }
