@@ -144,12 +144,12 @@ class InputField{
 
     createSubmitButton(){
         let submitButton = document.createElement('button');
-        submitButton.style.width = "130px";
+        submitButton.style.width = "180px";
         submitButton.style.height = "100px";
         submitButton.style.zIndex = "50000";
         submitButton.style.position = "relative";
         submitButton.id = "submit";
-        submitButton.innerHTML="加入";
+        submitButton.innerHTML="加入行走";
         this.submitButtonElement = submitButton;
         submitButton.onclick = () => {
             this.putElementsInCircle();
