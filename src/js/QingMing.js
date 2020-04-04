@@ -57,6 +57,7 @@ let visitorCount = 0;
 let fullyLoaded = false;
 // For Optimization
 let maxNumberOfPoints = 500;
+let defaultPoint = 700;
 // For Audio
 let bg = new Audio('/assets/sound/bg.mp3');
 let clickSound = new Audio('/assets/sound/click.mp3');
@@ -171,14 +172,14 @@ function addNameInput(offset, buttonOffset) {
 
 function initLoadManager() {
   loadManager.onStart = function(url, itemsLoaded, itemsTotal) {
-    console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
+    // console.log('Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
   };
   loadManager.onLoad = function() {
     loadProgress = 100;
-    console.log('Loading complete!');
+    // console.log('Loading complete!');
   };
   loadManager.onProgress = function(url, itemsLoaded, itemsTotal) {
-    console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
+    // console.log('Loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.');
   };
   loadManager.onError = function(url) {
     console.log('There was an error loading ' + url);
@@ -255,7 +256,7 @@ function loadModelAndMap() {
     function(xhr) {
       loadProgress = Math.floor((xhr.loaded / xhr.total) * 0.5 * 100);
       document.getElementById("loading").innerHTML = loadProgress.toString();
-      console.log((xhr.loaded / xhr.total * 100) + '% model loaded');
+      // console.log((xhr.loaded / xhr.total * 100) + '% model loaded');
     }
   );
 }
@@ -284,7 +285,15 @@ function enter() {
   bg.play();
   clickSound.play();
   // let vector = new THREE.Vector3( mouse.x, mouse.y, -1).unproject( camera );
-  addPoints(new THREE.Vector3(0, 0, 0), 700);
+  let numberOfPoints = 0;
+  if (visitorCount !== null && visitorCount !== 0){
+      numberOfPoints = visitorCount;
+  }
+  else{
+      console.log("Use Default");
+      numberOfPoints = defaultPoint;
+  }
+  addPoints(new THREE.Vector3(0, 0, 0), numberOfPoints);
   let offset = new THREE.Vector3(0, 0, 0);
   let buttonOffset = new THREE.Vector3(0, 0, 0);
   if (window.innerWidth < 1400) {
@@ -578,7 +587,6 @@ function initCamMove() {
   let topTarget = new THREE.Vector3(0, 2000, 3500);
   let tweenTime = 8000;
   moveCamera(topTarget, tweenTime, () => {
-    console.log("ff");
   }, TWEEN.Easing.Linear.None);
 }
 

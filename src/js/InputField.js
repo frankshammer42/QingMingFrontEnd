@@ -168,9 +168,6 @@ class InputField{
         z: target.z
       }, tweenTime)
       .easing(TWEEN.Easing.Cubic.InOut).onUpdate(function() {
-        console.log(
-          'wtf'
-        );
       }).onComplete(() => finishFunction())
       .start();
   }
