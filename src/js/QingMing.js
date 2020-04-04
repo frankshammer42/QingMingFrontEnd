@@ -61,6 +61,9 @@ let defaultPoint = 700;
 // For Audio
 let bg = new Audio('/assets/sound/bg.mp3');
 let clickSound = new Audio('/assets/sound/click.mp3');
+// let iphoneX button offset
+let xOffset = -16.8;
+let yOffset = -16;
 
 function initVisitor() {
   let req = new XMLHttpRequest();
@@ -299,8 +302,8 @@ function enter() {
   if (window.innerWidth < 1400) {
     offset.x = 150;
     if (window.innerWidth < 380) {
-      buttonOffset.x = -13;
-      buttonOffset.y = -12;
+      buttonOffset.x = xOffset;
+      buttonOffset.y = yOffset;
     }
   }
 
@@ -650,13 +653,12 @@ function resetModelMap() {
 }
 
 function onWindowResize() {
-
     if (window.innerWidth < 1400) {
       if (inputField !== null) {
         inputField.screenOffset.x = 130;
         if (window.innerWidth < 380) {
-          inputField.buttonOffset.x = -15;
-          inputField.buttonOffset.y = -14;
+          inputField.buttonOffset.x = xOffset;
+          inputField.buttonOffset.y = yOffset;
         }
       }
     } else {

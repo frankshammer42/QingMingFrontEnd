@@ -562,7 +562,9 @@ animation: spinAround 20s linear infinite;
 }
 
 .inputField::placeholder{
-  opacity: 60%;
+  /*opacity: 95%;*/
+  color: rgba(0,0,0,0.7);
+  padding-left: 3px;
 }
 
 .inputField:focus{
