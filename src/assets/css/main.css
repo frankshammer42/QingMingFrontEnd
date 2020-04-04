@@ -346,8 +346,8 @@ h1 {
   ;
   box-shadow:none;
   border: 1px dashed rgba(0, 0, 0, 0.5);
-  color:rgba(0,0,0,0.8);
-  /* font-weight: bold; */
+  color:rgba(0,0,0,0.7);
+  font-weight: bold;
   /* color: white; */
   cursor: pointer;
 }
@@ -546,7 +546,7 @@ animation: spinAround 20s linear infinite;
 }
 
 .inputField {
-  background-color: rgba(255,255,255,0);
+  background-color: rgba(255,255,255,0.65);
   display: block;
   width: 100%;
   border: 1px;
@@ -587,28 +587,10 @@ animation: spinAround 20s linear infinite;
   position: absolute;
   top: 100px;
 
-  background: #bdc3c7;
+  background: #6d6d6d;
 }
 
-  /* .inputLine : after {
-      content: " ";
-      position: absolute;
-      float: right;
-      width: 100%;
-      height: 3px;
-      transform: scalex(0);
-      transition: transform 0.3s ease;
-      background: #1abc9c;
-    } */
 
-
-  .inputLabel {
-  font-size: 2.6em;
-  top: 40px;
-  left: 10px;
-  cursor: text;
-  color: grey;
-}
 
 .visitor-count-bar {
   position: absolute;
