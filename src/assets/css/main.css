@@ -552,7 +552,7 @@ h1 {
 .inputField::placeholder{
   /*opacity: 95%;*/
   color: rgba(0,0,0,0.7);
-  padding-left: 3px;
+  padding-left: 8px;
 }
 
 .inputField:focus {

@@ -130,9 +130,11 @@ class InputField{
             }
         };
         req.open('POST', '/monument-api/visitor', true);
-        let data = new FormData();
-        data.name = content;
-        req.send(data);
+        // let data = new FormData();
+        let data = {"name": content};
+        let dataJSON = JSON.stringify(data);
+        // data.name = content;
+        req.send(dataJSON);
     }
 
     createSubmitButton(){
