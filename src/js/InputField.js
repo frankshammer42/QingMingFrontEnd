@@ -121,6 +121,20 @@ class InputField{
         this.inputContainer.scale.z = 0.1;
     }
 
+    postName(content){
+        let req = new XMLHttpRequest();
+        req.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                let resObj = JSON.parse(this.responseText);
+                console.log(resObj);
+            }
+        };
+        req.open('POST', '/monument-api/visitor', true);
+        let data = new FormData();
+        data.name = content;
+        req.send(data);
+    }
+
     createSubmitButton(){
         let submitButton = document.createElement('button');
         submitButton.style.width = "130px";
@@ -138,6 +152,7 @@ class InputField{
                 this.trails[i].ringRotateCounterMax = 1000;
             }
             this.userInputContent = this.inputElement.value.slice(0, 10);
+            this.postName(this.userInputContent);
             this.clickSound.play();
         };
         this.submitButtonContainer = new THREE.CSS3DObject(this.submitButtonElement);
