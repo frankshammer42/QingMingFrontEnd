@@ -546,7 +546,7 @@ animation: spinAround 20s linear infinite;
 }
 
 .inputField {
-  background-color: rgba(255,255,255,0.65);
+  background-color: #e5ebefbf ;
   display: block;
   width: 100%;
   border: 1px;
@@ -583,7 +583,7 @@ animation: spinAround 20s linear infinite;
 
   .inputLine {
   width: 100%;
-  height: 5px;
+  height: 2px;
   position: absolute;
   top: 100px;
 
