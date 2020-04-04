@@ -157,7 +157,6 @@ function init() {
   document.addEventListener("mousemove", mouseMove);
 }
 
-
 function addNameInput(offset, buttonOffset) {
   inputField = new InputField(new THREE.Vector3(0, 0, 50000), "加入祭奠", camera);
   inputField.screenOffset.x = offset.x;
@@ -195,7 +194,6 @@ function mouseMove(event) {
 }
 
 function addBillboards() {
-
   let roadY = -450;
   addBillboard(0, 200, -15000, '洪山礼堂');
   addBillboard(0, roadY, -8200, '洪山路');
@@ -484,277 +482,287 @@ function addPoints(initPos, numberOfPoints) {
 
   }
 
-  function getLight() {
-    dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
-    dirLight.color.setHSL(0.1, 1, 0.95);
-    dirLight.position.set(848, -3955, -1749);
-    dirLight.position.multiplyScalar(50);
-    scene.add(dirLight);
-    dirLight.castShadow = true;
-    dirLight.shadowMapWidth = dirLight.shadowMapHeight = 1024 * 2;
+function getLight() {
+  dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+  dirLight.color.setHSL(0.1, 1, 0.95);
+  dirLight.position.set(848, -3955, -1749);
+  dirLight.position.multiplyScalar(50);
+  scene.add(dirLight);
+  dirLight.castShadow = true;
+  dirLight.shadowMapWidth = dirLight.shadowMapHeight = 1024 * 2;
 
-    dirLight.shadowCameraFar = 3500;
-    dirLight.shadowBias = -0.000001;
-    dirLight.shadowDarkness = 0.35;
-    scene.add(dirLight);
+  dirLight.shadowCameraFar = 3500;
+  dirLight.shadowBias = -0.000001;
+  dirLight.shadowDarkness = 0.35;
+  scene.add(dirLight);
 
-    //tyis is the amibient light
-    ambientLight = new THREE.AmbientLight(0x111111, 5.5);
-    ambientLight.position.set(2100, 20000, 6000);
-    scene.add(ambientLight);
+  //tyis is the amibient light
+  ambientLight = new THREE.AmbientLight(0x111111, 5.5);
+  ambientLight.position.set(2100, 20000, 6000);
+  scene.add(ambientLight);
 
-    //this is the fill light
-    fillLight = new THREE.DirectionalLight(0x111111, 1.2);
-    fillLight.position.set(100, 0, -9900);
+  //this is the fill light
+  fillLight = new THREE.DirectionalLight(0x111111, 1.2);
+  fillLight.position.set(100, 0, -9900);
 
-    //this is the back light
-    backLight = new THREE.DirectionalLight(0xffffff, 1.5);
-    backLight.position.set(-3072, 4868, 2000).normalize();
+  //this is the back light
+  backLight = new THREE.DirectionalLight(0xffffff, 1.5);
+  backLight.position.set(-3072, 4868, 2000).normalize();
 
-    // light.castShadow = true;
-    // light.shadow.camera.near = 0.1;
-    // light.shadow.camera.far = 500;
+  // light.castShadow = true;
+  // light.shadow.camera.near = 0.1;
+  // light.shadow.camera.far = 500;
 
-    scene.add(fillLight);
-    scene.add(backLight);
-    scene.add(ambientLight);
+  scene.add(fillLight);
+  scene.add(backLight);
+  scene.add(ambientLight);
 
-    //this is the fog
-    // scene.fog = new THREE.Fog(0xdedede, 100, 80000);
-    // renderer.setClearColor(scene.fog.color, 1);
+  //this is the fog
+  // scene.fog = new THREE.Fog(0xdedede, 100, 80000);
+  // renderer.setClearColor(scene.fog.color, 1);
 
-  }
+}
 
-  function addSkybox() {
-    let vertexShader = document.getElementById('vertexShader').textContent;
-    let fragmentShader = document.getElementById('fragmentShader').textContent;
-    let uniforms = {
-      topColor: {
-        type: "c",
-        value: new THREE.Color(0xcad4db)
-      },
-      bottomColor: {
-        type: "c",
-        value: new THREE.Color(0xf0f4f7)
-      },
-      offset: {
-        type: "f",
-        value: 33
-      },
-      exponent: {
-        type: "f",
-        value: 0.6
-      }
-    };
-    //uniforms.topColor.value.copy( hemiLight.color );
-
-    //scene.fog.color.copy( uniforms.bottomColor.value );
-
-    let skyGeo = new THREE.SphereGeometry(80000 * 1.2, 640 * 1.2, 300 * 1.2);
-    let skyMat = new THREE.ShaderMaterial({
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
-      uniforms: uniforms,
-      side: THREE.BackSide
-    });
-
-    let sky = new THREE.Mesh(skyGeo, skyMat);
-    //  sky.position.z-=10000;
-    //  console.log(sky.position.y)
-    scene.add(sky);
-
-  }
-
-  function moveCamera(target, tweenTime, finishFunction, easingFunction) {
-    let deepTripPosition = new TWEEN.Tween(controls.object.position)
-      .to({
-        x: target.x,
-        y: target.y,
-        z: target.z
-      }, tweenTime)
-      .easing(easingFunction).onUpdate(function() {}).onComplete(() => finishFunction())
-      .start();
-  }
-
-  function initCamMove() {
-    let topTarget = new THREE.Vector3(0, 2000, 3500);
-    let tweenTime = 8000;
-    moveCamera(topTarget, tweenTime, () => {
-      console.log("ff");
-    }, TWEEN.Easing.Linear.None);
-  }
-
-  function moveToTop() {
-    let topTarget = new THREE.Vector3(0, 3000, 3000);
-    let tweenTime = 2000;
-    moveCamera(topTarget, tweenTime, () => {
-      topTarget = new THREE.Vector3(0, 6000, 0);
-      tweenTime = 3000;
-      moveCamera(topTarget, tweenTime, () => {
-        "whatever"
-      }, TWEEN.Easing.Cubic.InOut);
-    }, TWEEN.Easing.Linear.None);
-  }
-
-  function moveAuto() {
-    if (controls.autoRotate) {
-      controls.autoRotate = false;
-      let button = document.getElementsByClassName("view-angle3-button")[0];
-      button.innerHTML = "环视";
-    } else {
-      let freeViewTarget = new THREE.Vector3(0, 3000, 5000);
-      let tweenTime = 4000;
-      moveCamera(freeViewTarget, tweenTime, () => {
-        controls.autoRotate = !controls.autoRotate;
-        let button = document.getElementsByClassName("view-angle3-button")[0];
-        button.innerHTML = "停止";
-      }, TWEEN.Easing.Cubic.InOut);
+function addSkybox() {
+  let vertexShader = document.getElementById('vertexShader').textContent;
+  let fragmentShader = document.getElementById('fragmentShader').textContent;
+  let uniforms = {
+    topColor: {
+      type: "c",
+      value: new THREE.Color(0xcad4db)
+    },
+    bottomColor: {
+      type: "c",
+      value: new THREE.Color(0xf0f4f7)
+    },
+    offset: {
+      type: "f",
+      value: 33
+    },
+    exponent: {
+      type: "f",
+      value: 0.6
     }
-  }
+  };
+  //uniforms.topColor.value.copy( hemiLight.color );
 
-  function moveToFreeView() {
+  //scene.fog.color.copy( uniforms.bottomColor.value );
+
+  let skyGeo = new THREE.SphereGeometry(80000 * 1.2, 640 * 1.2, 300 * 1.2);
+  let skyMat = new THREE.ShaderMaterial({
+    vertexShader: vertexShader,
+    fragmentShader: fragmentShader,
+    uniforms: uniforms,
+    side: THREE.BackSide
+  });
+
+  let sky = new THREE.Mesh(skyGeo, skyMat);
+  //  sky.position.z-=10000;
+  //  console.log(sky.position.y)
+  scene.add(sky);
+
+}
+
+function moveCamera(target, tweenTime, finishFunction, easingFunction) {
+  let deepTripPosition = new TWEEN.Tween(controls.object.position)
+    .to({
+      x: target.x,
+      y: target.y,
+      z: target.z
+    }, tweenTime)
+    .easing(easingFunction).onUpdate(function() {}).onComplete(() => finishFunction())
+    .start();
+}
+
+function initCamMove() {
+  let topTarget = new THREE.Vector3(0, 2000, 3500);
+  let tweenTime = 8000;
+  moveCamera(topTarget, tweenTime, () => {
+    console.log("ff");
+  }, TWEEN.Easing.Linear.None);
+}
+
+function moveToTop() {
+  if (controls.autoRotate){
+    controls.autoRotate = false;
+    let button = document.getElementsByClassName("view-angle3-button")[0];
+    button.innerHTML = "环视";
+  }
+  let topTarget = new THREE.Vector3(0, 3000, 3000);
+  let tweenTime = 2000;
+  moveCamera(topTarget, tweenTime, () => {
+    topTarget = new THREE.Vector3(0, 6000, 0);
+    tweenTime = 3000;
+    moveCamera(topTarget, tweenTime, () => {
+      "whatever"
+    }, TWEEN.Easing.Cubic.InOut);
+  }, TWEEN.Easing.Linear.None);
+}
+
+function moveAuto() {
+  if (controls.autoRotate) {
+    controls.autoRotate = false;
+    let button = document.getElementsByClassName("view-angle3-button")[0];
+    button.innerHTML = "环视";
+  } else {
     let freeViewTarget = new THREE.Vector3(0, 3000, 5000);
     let tweenTime = 4000;
-    moveCamera(freeViewTarget, tweenTime, () => console.log("ff"), TWEEN.Easing.Cubic.InOut);
+    moveCamera(freeViewTarget, tweenTime, () => {
+      controls.autoRotate = !controls.autoRotate;
+      let button = document.getElementsByClassName("view-angle3-button")[0];
+      button.innerHTML = "停止";
+    }, TWEEN.Easing.Cubic.InOut);
   }
+}
 
-  function moveModelMap() {
-    model.position.x = moveAroundOffset.x + initModelPos.x;
-    model.position.y = moveAroundOffset.y + initModelPos.y;
-    model.position.z = moveAroundOffset.z + initModelPos.z;
-    plane.position.x = moveAroundOffset.x + initMapPos.x;
-    plane.position.y = moveAroundOffset.y + initMapPos.y;
-    plane.position.z = moveAroundOffset.z + initMapPos.z;
+function moveToFreeView() {
+  if (controls.autoRotate){
+    controls.autoRotate = false;
+    let button = document.getElementsByClassName("view-angle3-button")[0];
+    button.innerHTML = "环视";
   }
+  let freeViewTarget = new THREE.Vector3(0, 3000, 5000);
+  let tweenTime = 4000;
+  moveCamera(freeViewTarget, tweenTime, () => console.log("ff"), TWEEN.Easing.Cubic.InOut);
+}
 
-  function resetModelMap() {
-    console.log("reset");
-    model.position = initModelPos;
-    plane.position = initMapPos;
-  }
+function moveModelMap() {
+  model.position.x = moveAroundOffset.x + initModelPos.x;
+  model.position.y = moveAroundOffset.y + initModelPos.y;
+  model.position.z = moveAroundOffset.z + initModelPos.z;
+  plane.position.x = moveAroundOffset.x + initMapPos.x;
+  plane.position.y = moveAroundOffset.y + initMapPos.y;
+  plane.position.z = moveAroundOffset.z + initMapPos.z;
+}
 
-  function onWindowResize() {
+function resetModelMap() {
+  console.log("reset");
+  model.position = initModelPos;
+  plane.position = initMapPos;
+}
 
-      if (window.innerWidth < 1400) {
-        console.log("wtf");
-        if (inputField !== null) {
-          inputField.screenOffset.x = 130;
-          if (window.innerWidth < 380) {
-            inputField.buttonOffset.x = -13;
-            inputField.buttonOffset.y = -12;
-          }
-        }
-      } else {
-        if (inputField !== null) {
-          inputField.screenOffset.x = 0;
-        } 
-      }
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      rendererCSS.setSize(window.innerWidth, window.innerHeight);
-    }
+function onWindowResize() {
 
-    function addControl() {
-      let options = {
-        Top: moveToTop,
-        Around: moveToFreeView,
-        Auto: moveAuto,
-        Move: moveModelMap,
-        Reset: resetModelMap
-      };
-      let gui = new dat.GUI();
-      let position = gui.addFolder('Position');
-      position.add(plane.position, 'x', -10000, 10000).name('PositionX').listen();
-      position.add(plane.position, 'y', -1000, 1000).name('PositionY').listen();
-      position.add(plane.position, 'z', -10000, 10000).name('PositionZ').listen();
-      let rotation = gui.addFolder('Rotation');
-      position.add(plane.rotation, 'x', 0, Math.PI).name('rotateX').listen();
-      position.add(plane.rotation, 'y', 0, Math.PI).name('rotateY').listen();
-      position.add(plane.rotation, 'z', 0, Math.PI).name('rotateZ').listen();
-      let scale = gui.addFolder('Scale');
-      scale.add(plane.scale, 'x', 0, 3).name('ScaleX').listen();
-      scale.add(plane.scale, 'y', 0, 3).name('Scaley').listen();
-      let move = gui.addFolder('MoveAround');
-      move.add(moveAroundOffset, 'x', -30000, 30000).name('MoveAroundX').listen();
-      move.add(moveAroundOffset, 'y', -30000, 30000).name('MoveAroundY').listen();
-      move.add(moveAroundOffset, 'z', -30000, 30000).name('MoveAroundZ').listen();
-      position.open();
-      rotation.open();
-      scale.open();
-      move.open();
-      //Create View Options
-      gui.add(options, 'Top');
-      gui.add(options, 'Around');
-      gui.add(options, 'Auto');
-      gui.add(options, 'Move');
-      gui.add(options, 'Reset');
-    }
-
-    function animate() {
-      // console.log(window.innerWidth);
-      // console.log(window.innerHeight);
-
-      TWEEN.update();
-      //---------Input
+    if (window.innerWidth < 1400) {
       if (inputField !== null) {
-        if (inputField.generateNewPoint) {
-          console.log("Get a new point");
-          let newPoint = new PersonPoint(1000, maxHeight / 2, inputField.trailGroup.position);
-          newPoint.trailLine.material.color = new THREE.Color('#ff0000');
-          newPoint.point.material.color = new THREE.Color('#ff0000');
-          newPoint.createBillboard(inputField.userInputContent, camera);
-          scene.add(newPoint.point);
-          scene.add(newPoint.trailLine);
-          sceneCSS.add(newPoint.userInputBoard.container);
-          personPoints.push(newPoint);
-          inputField.newGeneratedPoint = newPoint;
-          inputField.generateNewPoint = false;
+        inputField.screenOffset.x = 130;
+        if (window.innerWidth < 380) {
+          inputField.buttonOffset.x = -13;
+          inputField.buttonOffset.y = -12;
         }
       }
-      //---------Progress
-      if (displayLoadProgress < loadProgress && displayLoadProgress < 100) {
-        displayLoadProgress += Math.random() * 5;
-        if (displayLoadProgress > 100) {
-          displayLoadProgress = 100;
-        }
-        let result = displayLoadProgress.toFixed(0);
-        let progress = document.getElementById("loading");
-        progress.innerHTML = result + "%";
-        if (!fullyLoaded) {
-          if (result === "100") {
-            fullyLoaded = true;
-            let arry = document.getElementsByClassName("hidden");
-            arry = [].slice.call(arry);
-            for (let i = 0; i < arry.length; i++) {
-              if (arry[i].tagName !== "BUTTON") {
-                arry[i].className = "intro visible fade-in";
-              } else {
-                arry[i].className = "fade-in visible";
-              }
+    } else {
+      if (inputField !== null) {
+        inputField.screenOffset.x = 0;
+      }
+    }
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    rendererCSS.setSize(window.innerWidth, window.innerHeight);
+}
+
+function addControl() {
+  let options = {
+    Top: moveToTop,
+    Around: moveToFreeView,
+    Auto: moveAuto,
+    Move: moveModelMap,
+    Reset: resetModelMap
+  };
+  let gui = new dat.GUI();
+  let position = gui.addFolder('Position');
+  position.add(plane.position, 'x', -10000, 10000).name('PositionX').listen();
+  position.add(plane.position, 'y', -1000, 1000).name('PositionY').listen();
+  position.add(plane.position, 'z', -10000, 10000).name('PositionZ').listen();
+  let rotation = gui.addFolder('Rotation');
+  position.add(plane.rotation, 'x', 0, Math.PI).name('rotateX').listen();
+  position.add(plane.rotation, 'y', 0, Math.PI).name('rotateY').listen();
+  position.add(plane.rotation, 'z', 0, Math.PI).name('rotateZ').listen();
+  let scale = gui.addFolder('Scale');
+  scale.add(plane.scale, 'x', 0, 3).name('ScaleX').listen();
+  scale.add(plane.scale, 'y', 0, 3).name('Scaley').listen();
+  let move = gui.addFolder('MoveAround');
+  move.add(moveAroundOffset, 'x', -30000, 30000).name('MoveAroundX').listen();
+  move.add(moveAroundOffset, 'y', -30000, 30000).name('MoveAroundY').listen();
+  move.add(moveAroundOffset, 'z', -30000, 30000).name('MoveAroundZ').listen();
+  position.open();
+  rotation.open();
+  scale.open();
+  move.open();
+  //Create View Options
+  gui.add(options, 'Top');
+  gui.add(options, 'Around');
+  gui.add(options, 'Auto');
+  gui.add(options, 'Move');
+  gui.add(options, 'Reset');
+}
+
+function animate() {
+  // console.log(window.innerWidth);
+  // console.log(window.innerHeight);
+
+  TWEEN.update();
+  //---------Input
+  if (inputField !== null) {
+    if (inputField.generateNewPoint) {
+      console.log("Get a new point");
+      let newPoint = new PersonPoint(1000, maxHeight / 2, inputField.trailGroup.position);
+      newPoint.trailLine.material.color = new THREE.Color('#ff0000');
+      newPoint.point.material.color = new THREE.Color('#ff0000');
+      newPoint.createBillboard(inputField.userInputContent, camera);
+      newPoint.tweenTime = 6000 + Math.random() * 2000;
+      scene.add(newPoint.point);
+      scene.add(newPoint.trailLine);
+      sceneCSS.add(newPoint.userInputBoard.container);
+      personPoints.push(newPoint);
+      inputField.newGeneratedPoint = newPoint;
+      inputField.generateNewPoint = false;
+    }
+  }
+    //---------Progress
+    if (displayLoadProgress < loadProgress && displayLoadProgress < 100) {
+      displayLoadProgress += Math.random() * 5;
+      if (displayLoadProgress > 100) {
+        displayLoadProgress = 100;
+      }
+      let result = displayLoadProgress.toFixed(0);
+      let progress = document.getElementById("loading");
+      progress.innerHTML = result + "%";
+      if (!fullyLoaded) {
+        if (result === "100") {
+          fullyLoaded = true;
+          let arry = document.getElementsByClassName("hidden");
+          arry = [].slice.call(arry);
+          for (let i = 0; i < arry.length; i++) {
+            if (arry[i].tagName !== "BUTTON") {
+              arry[i].className = "intro visible fade-in";
+            } else {
+              arry[i].className = "fade-in visible";
             }
-            document.getElementById("loading").className = "loaded";
-            // document.getElementById("main-title").className="title-loaded"
           }
+          document.getElementById("loading").className = "loaded";
+          // document.getElementById("main-title").className="title-loaded"
         }
       }
-      //---------Cloud
-      for (let i = 0; i < personPoints.length; i++) {
-        personPoints[i].update();
-      }
-      //---------Billboards
-      for (let i = 0; i < billBoards.length; i++) {
-        billBoards[i].update();
-      }
-      controls.update();
-      if (inputField !== null) {
-        inputField.update();
-      }
-      requestAnimationFrame(animate);
-      render();
     }
+    //---------Cloud
+    for (let i = 0; i < personPoints.length; i++) {
+      personPoints[i].update();
+    }
+    //---------Billboards
+    for (let i = 0; i < billBoards.length; i++) {
+      billBoards[i].update();
+    }
+    controls.update();
+    if (inputField !== null) {
+      inputField.update();
+    }
+    requestAnimationFrame(animate);
+    render();
+  }
 
-    function render() {
-      renderer.render(scene, camera);
-      rendererCSS.render(sceneCSS, camera);
-    }
+function render() {
+  renderer.render(scene, camera);
+  rendererCSS.render(sceneCSS, camera);
+}
