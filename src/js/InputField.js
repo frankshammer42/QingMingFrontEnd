@@ -92,7 +92,7 @@ class InputField{
         inputField.style.height = "100%";
         inputField.id = "inputFieldID";
         inputField.type="text";
-        inputField.placeholder="输入名字或你想说的话";
+        inputField.placeholder="你的名字";
         // inputField.placeholder="what your name";
         inputFieldDiv.appendChild(inputField);
         this.inputElement = inputField;
