@@ -172,7 +172,7 @@ function init() {
 function addNameInput(offset, buttonOffset) {
   inputField = new InputField(
     new THREE.Vector3(0, 0, 50000),
-    pageLang === 'zh' ? '加入祭奠' : 'Join',
+    pageLang === 'zh' ? '加入祭奠' : 'JOIN',
     camera
   );
   inputField.screenOffset.x = offset.x;

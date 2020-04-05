@@ -97,7 +97,7 @@ class InputField{
         inputField.style.height = "100%";
         inputField.id = "inputFieldID";
         inputField.type="text";
-        inputField.placeholder= pageLang === 'zh' ? '你的"名字"' : 'Your Name';
+        inputField.placeholder= pageLang === 'zh' ? '你的“名字”' : 'Your 	‘Name’';
         // inputField.placeholder="what your name";
         inputFieldDiv.appendChild(inputField);
         this.inputElement = inputField;
