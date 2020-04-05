@@ -57,7 +57,7 @@ let visitorCount = 0;
 let fullyLoaded = false;
 // For Optimization
 let maxNumberOfPoints = 500;
-let defaultPoint = 700;
+let defaultPoint = 1500;
 // For Audio
 let bg = new Audio('/assets/sound/bg.mp3');
 let clickSound = new Audio('/assets/sound/click.mp3');
@@ -483,7 +483,7 @@ function addPoints(initPos, numberOfPoints) {
         let center = [0, randomHeight, 0];
         let xRot = Math.random() * 0.5 - 0.25;
         let zRot = Math.random() * 0.5 - 0.25;
-        let materialColor = Math.floor(100 + Math.random() * 20).toString();
+        let materialColor = Math.floor( Math.random() * 150).toString();
         let color = new THREE.Color("rgb(" + materialColor + "," + materialColor + "," + materialColor + ")");
         let lineWidth = Math.random();
         let circleTrail = new CircleTrail(center, randomRadius, xRot, zRot, color, lineWidth);
