@@ -193,8 +193,16 @@ h1 {
 }
 
 .card header {
+  font-size: 36px;
+  font-weight: 700;
   font-size: 160%;
   padding: 10px 0 10px 0;
+}
+
+@media only screen and (max-width: 450px) {
+  .card header {
+    font-size: 32px;
+  }
 }
 
 .card .intro {
@@ -314,7 +322,6 @@ h1 {
 .welcome-card .intro p {
   line-height: 1.6;
   color: #000000;
-  opacity: 0.6;
 }
 
 .welcome-card button {
@@ -382,6 +389,10 @@ h1 {
 
 .welcome-card .intro {
   padding: 12px 205px 0;
+}
+
+.welcome-card .intro b {
+  cursor: pointer;
 }
 
 .welcome-card .controls {
@@ -523,7 +534,7 @@ h1 {
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.5);
   border-radius: 15%;
   font-family: Helvetica, sans-serif;
-  font-size: 32px;
+  font-size: 29px;
   color: #ffffff;
   letter-spacing: 0;
   text-align: center;

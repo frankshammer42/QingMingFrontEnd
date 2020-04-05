@@ -72,7 +72,10 @@ function initVisitor() {
       let resObj = JSON.parse(this.responseText);
       console.log('Visitor count is ' + resObj.count);
       visitorCount = resObj.count;
-      document.getElementById('visitor-count-bar').innerText = visitorCount + '人正在逆时针行走'
+      document.getElementById('visitor-count-bar').innerText =
+        pageLang === 'zh'
+          ? visitorCount + '人正在逆时针行走'
+          : visitorCount + ' people are walking counterclockwise';
     }
   };
   req.open('GET', '/monument-api/visitor', true);
@@ -84,7 +87,7 @@ initVisitor();
 function resetSize() {
   document.getElementById('frame').style.height = window.innerHeight + 'px';
 }
-window.addEventListener("resize", resetSize);
+window.addEventListener('resize', resetSize);
 resetSize();
 
 //Main Loop------------------------------------------------------
@@ -93,7 +96,7 @@ animate();
 
 //Scene Related Function-------------------------------------------------------------------------------------------------------
 function reset_scene() {
-  console.log("Reset the Scene");
+  console.log('Reset the Scene');
   for (let i = scene.children.length - 1; i >= 0; i--) {
     let obj = scene.children[i];
     scene.remove(obj);
@@ -104,7 +107,12 @@ function init() {
   raycaster = new THREE.Raycaster();
   container = document.getElementById('container');
   // camera
-  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
+  camera = new THREE.PerspectiveCamera(
+    45,
+    window.innerWidth / window.innerHeight,
+    1,
+    10000
+  );
   camera.position.x = -7965.66;
   camera.position.y = 514.81;
   camera.position.z = -532.06;
@@ -130,13 +138,13 @@ function init() {
   renderer.gammaInput = true;
   renderer.gammaOutput = true;
   renderer.domElement.style.top = 0;
-  renderer.domElement.style.zIndex = "1"; // required
+  renderer.domElement.style.zIndex = '1'; // required
   container.appendChild(renderer.domElement);
   window.addEventListener('resize', onWindowResize, false);
 
   //Create CSS container for billboarding
   sceneCSS = new THREE.Scene();
-  containerCSS = document.getElementById("containerCSS");
+  containerCSS = document.getElementById('containerCSS');
   rendererCSS = new THREE.CSS3DRenderer();
   rendererCSS.setSize(window.innerWidth, window.innerHeight);
   rendererCSS.domElement.style.position = 'absolute';
@@ -158,15 +166,19 @@ function init() {
   // addPoints();
   addBillboards();
   // addNameInput();
-  document.addEventListener("mousemove", mouseMove);
+  document.addEventListener('mousemove', mouseMove);
 }
 
 function addNameInput(offset, buttonOffset) {
-  inputField = new InputField(new THREE.Vector3(0, 0, 50000), "加入行走", camera);
+  inputField = new InputField(
+    new THREE.Vector3(0, 0, 50000),
+    pageLang === 'zh' ? '加入祭奠' : 'JOIN',
+    camera
+  );
   inputField.screenOffset.x = offset.x;
   inputField.buttonOffset.x = buttonOffset.x;
   inputField.buttonOffset.y = buttonOffset.y;
-  inputField.clickSound = new Audio("/assets/sound/click-short.mp3");
+  inputField.clickSound = new Audio('/assets/sound/click-short.mp3');
   sceneCSS.add(inputField.hintContainer);
   sceneCSS.add(inputField.inputContainer);
   sceneCSS.add(inputField.submitButtonContainer);
@@ -194,7 +206,8 @@ function mouseMove(event) {
   mouse.set(
     (event.clientX / window.innerWidth) * 2 - 1,
     -(event.clientY / window.innerHeight) * 2 + 1,
-    0.5);
+    0.5
+  );
 }
 
 function addBillboards() {
@@ -213,11 +226,7 @@ function addBillboards() {
 }
 
 function addBillboard(p0, p1, p2, name) {
-  let billboard = new Billboard(
-    new THREE.Vector3(p0, p1, p2),
-    name,
-    camera
-  );
+  let billboard = new Billboard(new THREE.Vector3(p0, p1, p2), name, camera);
   billboard.container.scale.x = 4;
   billboard.container.scale.y = 4;
   billboard.container.scale.z = 4;
@@ -228,14 +237,20 @@ function addBillboard(p0, p1, p2, name) {
 function loadMap() {
   let geometry = new THREE.PlaneGeometry(90000 * 1.7, 90000 * 1.4, 32);
   // let texture = new THREE.TextureLoader(loadManager).load('/assets/textures/map.png');
-  let texture = new THREE.TextureLoader(loadManager).load('/assets/textures/map5.png');
+  let texture = new THREE.TextureLoader(loadManager).load(
+    '/assets/textures/map5.png'
+  );
   let material = new THREE.MeshBasicMaterial({
     map: texture,
     color: 0xffffff
     //  side: THREE.DoubleSide
   });
   plane = new THREE.Mesh(geometry, material);
-  plane.position.set(2883 + moveAroundOffset.x, -370, -6822 + moveAroundOffset.z);
+  plane.position.set(
+    2883 + moveAroundOffset.x,
+    -370,
+    -6822 + moveAroundOffset.z
+  );
   plane.rotation.x = Math.PI + Math.PI / 2;
   scene.add(plane);
   //Add Control Panel
@@ -259,7 +274,7 @@ function loadModelAndMap() {
     },
     function(xhr) {
       loadProgress = Math.floor((xhr.loaded / xhr.total) * 0.5 * 100);
-      document.getElementById("loading").innerHTML = loadProgress.toString();
+      document.getElementById('loading').innerHTML = loadProgress.toString();
       // console.log((xhr.loaded / xhr.total * 100) + '% model loaded');
     }
   );
@@ -271,31 +286,34 @@ function enter() {
   var timer = setInterval(function() {
     if (op <= 0.01) {
       clearInterval(timer);
-      document.getElementById("welcome-page").style.display = 'none';
+      document.getElementById('welcome-page').style.display = 'none';
     }
     op -= op * 0.1;
-    document.getElementById("card-backdrop").style.opacity = op;
+    document.getElementById('card-backdrop').style.opacity = op;
   }, 30);
 
   //play sound
   if (typeof bg.loop == 'boolean') {
     bg.loop = true;
   } else {
-    bg.addEventListener('ended', function() {
-      this.currentTime = 0;
-      this.play();
-    }, false);
+    bg.addEventListener(
+      'ended',
+      function() {
+        this.currentTime = 0;
+        this.play();
+      },
+      false
+    );
   }
   bg.play();
   clickSound.play();
   // let vector = new THREE.Vector3( mouse.x, mouse.y, -1).unproject( camera );
   let numberOfPoints = 0;
-  if (visitorCount !== null && visitorCount !== 0){
-      numberOfPoints = visitorCount;
-  }
-  else{
-      console.log("Use Default");
-      numberOfPoints = defaultPoint;
+  if (visitorCount !== null && visitorCount !== 0) {
+    numberOfPoints = visitorCount;
+  } else {
+    console.log('Use Default');
+    numberOfPoints = defaultPoint;
   }
   addPoints(new THREE.Vector3(0, 0, 0), numberOfPoints);
   let offset = new THREE.Vector3(0, 0, 0);
@@ -313,7 +331,7 @@ function enter() {
 }
 
 function showInfoCard() {
-  document.getElementById("info-card-backdrop").style.display = 'flex';
+  document.getElementById('info-card-backdrop').style.display = 'flex';
 }
 
 function closeInfoCard() {
@@ -325,7 +343,7 @@ function closeQrCard() {
 }
 
 function toggleShareControls() {
-  let elem = document.getElementById("share-controls");
+  let elem = document.getElementById('share-controls');
   elem.style.display = elem.style.display === 'flex' ? 'none' : 'flex';
 }
 
@@ -333,21 +351,28 @@ function shareTo(website) {
   console.log('Sharing to ' + website);
   switch (website) {
     case 'WEIBO':
-      const url1 = 'http://service.weibo.com/share/share.php?url=' +
+      const url1 =
+        'http://service.weibo.com/share/share.php?url=' +
         encodeURIComponent(window.location.href) +
-        '&sharesource=weibo&title=' + encodedText();
+        '&sharesource=weibo&title=' +
+        encodedText();
       window.open(url1, '_blank');
       break;
     case 'WECHAT':
-      document.getElementById("qr-card-backdrop").style.display = 'flex';
+      document.getElementById('qr-card-backdrop').style.display = 'flex';
       break;
     case 'FACEBOOK':
-      let url3 = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href);
+      let url3 =
+        'https://www.facebook.com/sharer/sharer.php?u=' +
+        encodeURIComponent(window.location.href);
       window.open(url3, '_blank');
       break;
     case 'TWITTER':
-      let url4 = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(window.location.href) +
-        '&text=' + encodedText();
+      let url4 =
+        'https://twitter.com/intent/tweet?url=' +
+        encodeURIComponent(window.location.href) +
+        '&text=' +
+        encodedText();
       window.open(url4, '_blank');
       break;
     default:
@@ -356,7 +381,11 @@ function shareTo(website) {
 }
 
 function encodedText() {
-  return encodeURIComponent('#清明# 我正在和' + visitorCount + '人一同逆时针行走纪念逝者');
+  return encodeURIComponent(
+    pageLang === 'zh'
+      ? '#清明# 我正在和' + visitorCount + '人一同逆时针行走纪念逝者'
+      : '#qingming# #清明# an online counterclockwise walk to commemorate COVID-19 victims'
+  );
 }
 
 function preventEvent(event) {
@@ -380,7 +409,11 @@ function convertIndexToRowCol(index, widthNum) {
 }
 
 function generateSphereOffset(radius) {
-  let randomDirection = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+  let randomDirection = new THREE.Vector3(
+    Math.random() - 0.5,
+    Math.random() - 0.5,
+    Math.random() - 0.5
+  ).normalize();
   let radius3 = Math.random() * 350 + 1;
   let randomOffset = randomDirection.multiplyScalar(radius3);
   return randomOffset;
@@ -401,8 +434,11 @@ function addPoints(initPos, numberOfPoints) {
   let heightGap = maxHeight / pointsNumber;
   let maxPulseNumber = 60;
   let pulseOffset = maxPulseNumber / 2;
-  let currentPulseNumber = pulseOffset + Math.floor(Math.random() * (maxPulseNumber - pulseOffset));
-  let currentLowNumber = currentPulseNumber / 2 + Math.floor(Math.random() * (currentPulseNumber / 2)) * Math.random();
+  let currentPulseNumber =
+      pulseOffset + Math.floor(Math.random() * (maxPulseNumber - pulseOffset));
+  let currentLowNumber =
+      currentPulseNumber / 2 +
+      Math.floor(Math.random() * (currentPulseNumber / 2)) * Math.random();
   let pulseCounter = 0;
   //For Initial Rectangles
   let recWidthGap = 0.1;
@@ -414,21 +450,24 @@ function addPoints(initPos, numberOfPoints) {
   let halfWidth = width / 2;
   let halfHeight = height / 2;
 
-
   // initPosition = initPos;
 
   let heightNumber = 3;
-  let currentSinRange = Math.floor(Math.random() * 100) + Math.floor(pointsNumber / heightNumber);
+  let currentSinRange =
+      Math.floor(Math.random() * 100) + Math.floor(pointsNumber / heightNumber);
   let sinCounter = 0;
 
   for (let i = 0; i < pointsNumber; i++) {
     if (sinCounter > currentSinRange) {
       sinCounter = 0;
-      currentSinRange = Math.floor(Math.random() * 100) + Math.floor(pointsNumber / heightNumber);
+      currentSinRange =
+          Math.floor(Math.random() * 100) +
+          Math.floor(pointsNumber / heightNumber);
     }
     let sinIndex = Math.PI * (sinCounter / currentSinRange);
     let randomRadius = 0;
-    randomRadius = (Math.abs(Math.sin(sinIndex)) * maxRadius + 500) * Math.random() + 50;
+    randomRadius =
+        (Math.abs(Math.sin(sinIndex)) * maxRadius + 500) * Math.random() + 50;
     let randomHeight = i * heightGap;
     // Wide
     // let randomRadius = Math.random()*maxRadius + 400;
@@ -467,33 +506,31 @@ function addPoints(initPos, numberOfPoints) {
     sinCounter += 1;
   }
 
-
-      currentSinRange = Math.floor(Math.random() * 100) + Math.floor(remainNumber / heightNumber);
-      sinCounter = 0;
-      heightGap = maxHeight / remainNumber;
-      for (let i = 0; i < remainNumber; i++) {
-        if (sinCounter > currentSinRange) {
-          sinCounter = 0;
-          currentSinRange = Math.floor(Math.random() * 100) + Math.floor(pointsNumber / heightNumber);
-        }
-        let sinIndex = Math.PI * (sinCounter / currentSinRange);
-        let randomRadius = 0;
-        randomRadius = (Math.abs(Math.sin(sinIndex)) * maxRadius + 500) * Math.random() + 50;
-        let randomHeight = i * heightGap;
-        let center = [0, randomHeight, 0];
-        let xRot = Math.random() * 0.5 - 0.25;
-        let zRot = Math.random() * 0.5 - 0.25;
-        let materialColor = Math.floor( Math.random() * 150).toString();
-        let color = new THREE.Color("rgb(" + materialColor + "," + materialColor + "," + materialColor + ")");
-        let lineWidth = Math.random();
-        let circleTrail = new CircleTrail(center, randomRadius, xRot, zRot, color, lineWidth);
-        scene.add(circleTrail.circleTrailGroup);
-        sinCounter += 1;
-
+  currentSinRange = Math.floor(Math.random() * 100) + Math.floor(remainNumber / heightNumber);
+  sinCounter = 0;
+  heightGap = maxHeight / remainNumber;
+    for (let i = 0; i < remainNumber; i++) {
+      if (sinCounter > currentSinRange) {
+        sinCounter = 0;
+        currentSinRange = Math.floor(Math.random() * 100) + Math.floor(pointsNumber / heightNumber);
       }
+      let sinIndex = Math.PI * (sinCounter / currentSinRange);
+      let randomRadius = 0;
+      randomRadius = (Math.abs(Math.sin(sinIndex)) * maxRadius + 500) * Math.random() + 50;
+      let randomHeight = i * heightGap;
+      let center = [0, randomHeight, 0];
+      let xRot = Math.random() * 0.5 - 0.25;
+      let zRot = Math.random() * 0.5 - 0.25;
+      let materialColor = Math.floor(Math.random()*255).toString();
+      console.log("wtf");
+      let color = new THREE.Color("rgb(" + materialColor + "," + materialColor + "," + materialColor + ")");
+      let lineWidth = Math.random();
+      let circleTrail = new CircleTrail(center, randomRadius, xRot, zRot, color, lineWidth);
+      scene.add(circleTrail.circleTrailGroup);
+      sinCounter += 1;
+    }
 
-
-  }
+}
 
 function getLight() {
   dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
@@ -533,7 +570,6 @@ function getLight() {
   //this is the fog
   // scene.fog = new THREE.Fog(0xdedede, 100, 80000);
   // renderer.setClearColor(scene.fog.color, 1);
-
 }
 
 function addSkybox() {
@@ -541,19 +577,19 @@ function addSkybox() {
   let fragmentShader = document.getElementById('fragmentShader').textContent;
   let uniforms = {
     topColor: {
-      type: "c",
+      type: 'c',
       value: new THREE.Color(0xcad4db)
     },
     bottomColor: {
-      type: "c",
+      type: 'c',
       value: new THREE.Color(0xf0f4f7)
     },
     offset: {
-      type: "f",
+      type: 'f',
       value: 33
     },
     exponent: {
-      type: "f",
+      type: 'f',
       value: 0.6
     }
   };
@@ -573,69 +609,92 @@ function addSkybox() {
   //  sky.position.z-=10000;
   //  console.log(sky.position.y)
   scene.add(sky);
-
 }
 
 function moveCamera(target, tweenTime, finishFunction, easingFunction) {
   let deepTripPosition = new TWEEN.Tween(controls.object.position)
-    .to({
-      x: target.x,
-      y: target.y,
-      z: target.z
-    }, tweenTime)
-    .easing(easingFunction).onUpdate(function() {}).onComplete(() => finishFunction())
+    .to(
+      {
+        x: target.x,
+        y: target.y,
+        z: target.z
+      },
+      tweenTime
+    )
+    .easing(easingFunction)
+    .onUpdate(function() {})
+    .onComplete(() => finishFunction())
     .start();
 }
 
 function initCamMove() {
   let topTarget = new THREE.Vector3(0, 2000, 3500);
   let tweenTime = 8000;
-  moveCamera(topTarget, tweenTime, () => {
-  }, TWEEN.Easing.Linear.None);
+  moveCamera(topTarget, tweenTime, () => {}, TWEEN.Easing.Linear.None);
 }
 
 function moveToTop() {
-  if (controls.autoRotate){
+  if (controls.autoRotate) {
     controls.autoRotate = false;
-    let button = document.getElementsByClassName("view-angle3-button")[0];
-    button.innerHTML = "环视";
+    let button = document.getElementsByClassName('view-angle3-button')[0];
+    button.innerHTML = pageLang === 'zh' ? '环视' : 'Orbit';
   }
   let topTarget = new THREE.Vector3(0, 3000, 3000);
   let tweenTime = 2000;
-  moveCamera(topTarget, tweenTime, () => {
-    topTarget = new THREE.Vector3(0, 6000, 0);
-    tweenTime = 3000;
-    moveCamera(topTarget, tweenTime, () => {
-      "whatever"
-    }, TWEEN.Easing.Cubic.InOut);
-  }, TWEEN.Easing.Linear.None);
+  moveCamera(
+    topTarget,
+    tweenTime,
+    () => {
+      topTarget = new THREE.Vector3(0, 6000, 0);
+      tweenTime = 3000;
+      moveCamera(
+        topTarget,
+        tweenTime,
+        () => {
+          'whatever';
+        },
+        TWEEN.Easing.Cubic.InOut
+      );
+    },
+    TWEEN.Easing.Linear.None
+  );
 }
 
 function moveAuto() {
   if (controls.autoRotate) {
     controls.autoRotate = false;
-    let button = document.getElementsByClassName("view-angle3-button")[0];
-    button.innerHTML = "环视";
+    let button = document.getElementsByClassName('view-angle3-button')[0];
+    button.innerHTML = pageLang === 'zh' ? '环视' : 'Orbit';
   } else {
     let freeViewTarget = new THREE.Vector3(0, 3000, 5000);
     let tweenTime = 4000;
-    moveCamera(freeViewTarget, tweenTime, () => {
-      controls.autoRotate = !controls.autoRotate;
-      let button = document.getElementsByClassName("view-angle3-button")[0];
-      button.innerHTML = "停止";
-    }, TWEEN.Easing.Cubic.InOut);
+    moveCamera(
+      freeViewTarget,
+      tweenTime,
+      () => {
+        controls.autoRotate = !controls.autoRotate;
+        let button = document.getElementsByClassName('view-angle3-button')[0];
+        button.innerHTML = pageLang === 'zh' ? '停止' : 'Stop';
+      },
+      TWEEN.Easing.Cubic.InOut
+    );
   }
 }
 
 function moveToFreeView() {
-  if (controls.autoRotate){
+  if (controls.autoRotate) {
     controls.autoRotate = false;
-    let button = document.getElementsByClassName("view-angle3-button")[0];
-    button.innerHTML = "环视";
+    let button = document.getElementsByClassName('view-angle3-button')[0];
+    button.innerHTML = pageLang === 'zh' ? '环视' : 'Orbit';
   }
   let freeViewTarget = new THREE.Vector3(0, 3000, 5000);
   let tweenTime = 4000;
-  moveCamera(freeViewTarget, tweenTime, () => console.log("ff"), TWEEN.Easing.Cubic.InOut);
+  moveCamera(
+    freeViewTarget,
+    tweenTime,
+    () => console.log('ff'),
+    TWEEN.Easing.Cubic.InOut
+  );
 }
 
 function moveModelMap() {
@@ -648,29 +707,29 @@ function moveModelMap() {
 }
 
 function resetModelMap() {
-  console.log("reset");
+  console.log('reset');
   model.position = initModelPos;
   plane.position = initMapPos;
 }
 
 function onWindowResize() {
-    if (window.innerWidth < 1400) {
-      if (inputField !== null) {
-        inputField.screenOffset.x = 130;
-        if (window.innerWidth < 380) {
-          inputField.buttonOffset.x = xOffset;
-          inputField.buttonOffset.y = yOffset;
-        }
-      }
-    } else {
-      if (inputField !== null) {
-        inputField.screenOffset.x = 0;
+  if (window.innerWidth < 1400) {
+    if (inputField !== null) {
+      inputField.screenOffset.x = 130;
+      if (window.innerWidth < 380) {
+        inputField.buttonOffset.x = xOffset;
+        inputField.buttonOffset.y = yOffset;
       }
     }
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    rendererCSS.setSize(window.innerWidth, window.innerHeight);
+  } else {
+    if (inputField !== null) {
+      inputField.screenOffset.x = 0;
+    }
+  }
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  rendererCSS.setSize(window.innerWidth, window.innerHeight);
 }
 
 function addControl() {
@@ -683,20 +742,53 @@ function addControl() {
   };
   let gui = new dat.GUI();
   let position = gui.addFolder('Position');
-  position.add(plane.position, 'x', -10000, 10000).name('PositionX').listen();
-  position.add(plane.position, 'y', -1000, 1000).name('PositionY').listen();
-  position.add(plane.position, 'z', -10000, 10000).name('PositionZ').listen();
+  position
+    .add(plane.position, 'x', -10000, 10000)
+    .name('PositionX')
+    .listen();
+  position
+    .add(plane.position, 'y', -1000, 1000)
+    .name('PositionY')
+    .listen();
+  position
+    .add(plane.position, 'z', -10000, 10000)
+    .name('PositionZ')
+    .listen();
   let rotation = gui.addFolder('Rotation');
-  position.add(plane.rotation, 'x', 0, Math.PI).name('rotateX').listen();
-  position.add(plane.rotation, 'y', 0, Math.PI).name('rotateY').listen();
-  position.add(plane.rotation, 'z', 0, Math.PI).name('rotateZ').listen();
+  position
+    .add(plane.rotation, 'x', 0, Math.PI)
+    .name('rotateX')
+    .listen();
+  position
+    .add(plane.rotation, 'y', 0, Math.PI)
+    .name('rotateY')
+    .listen();
+  position
+    .add(plane.rotation, 'z', 0, Math.PI)
+    .name('rotateZ')
+    .listen();
   let scale = gui.addFolder('Scale');
-  scale.add(plane.scale, 'x', 0, 3).name('ScaleX').listen();
-  scale.add(plane.scale, 'y', 0, 3).name('Scaley').listen();
+  scale
+    .add(plane.scale, 'x', 0, 3)
+    .name('ScaleX')
+    .listen();
+  scale
+    .add(plane.scale, 'y', 0, 3)
+    .name('Scaley')
+    .listen();
   let move = gui.addFolder('MoveAround');
-  move.add(moveAroundOffset, 'x', -30000, 30000).name('MoveAroundX').listen();
-  move.add(moveAroundOffset, 'y', -30000, 30000).name('MoveAroundY').listen();
-  move.add(moveAroundOffset, 'z', -30000, 30000).name('MoveAroundZ').listen();
+  move
+    .add(moveAroundOffset, 'x', -30000, 30000)
+    .name('MoveAroundX')
+    .listen();
+  move
+    .add(moveAroundOffset, 'y', -30000, 30000)
+    .name('MoveAroundY')
+    .listen();
+  move
+    .add(moveAroundOffset, 'z', -30000, 30000)
+    .name('MoveAroundZ')
+    .listen();
   position.open();
   rotation.open();
   scale.open();
@@ -717,8 +809,12 @@ function animate() {
   //---------Input
   if (inputField !== null) {
     if (inputField.generateNewPoint) {
-      console.log("Get a new point");
-      let newPoint = new PersonPoint(1000, maxHeight / 2, inputField.trailGroup.position);
+      console.log('Get a new point');
+      let newPoint = new PersonPoint(
+        1000,
+        maxHeight / 2,
+        inputField.trailGroup.position
+      );
       newPoint.trailLine.material.color = new THREE.Color('#ff0000');
       newPoint.point.material.color = new THREE.Color('#ff0000');
       newPoint.createBillboard(inputField.userInputContent, camera);
@@ -732,47 +828,47 @@ function animate() {
       inputField.generateNewPoint = false;
     }
   }
-    //---------Progress
-    if (displayLoadProgress < loadProgress && displayLoadProgress < 100) {
-      displayLoadProgress += Math.random() * 5;
-      if (displayLoadProgress > 100) {
-        displayLoadProgress = 100;
-      }
-      let result = displayLoadProgress.toFixed(0);
-      let progress = document.getElementById("loading");
-      progress.innerHTML = result + "%";
-      if (!fullyLoaded) {
-        if (result === "100") {
-          fullyLoaded = true;
-          let arry = document.getElementsByClassName("hidden");
-          arry = [].slice.call(arry);
-          for (let i = 0; i < arry.length; i++) {
-            if (arry[i].tagName !== "BUTTON") {
-              arry[i].className = "intro visible fade-in";
-            } else {
-              arry[i].className = "fade-in visible";
-            }
+  //---------Progress
+  if (displayLoadProgress < loadProgress && displayLoadProgress < 100) {
+    displayLoadProgress += Math.random() * 5;
+    if (displayLoadProgress > 100) {
+      displayLoadProgress = 100;
+    }
+    let result = displayLoadProgress.toFixed(0);
+    let progress = document.getElementById('loading');
+    progress.innerHTML = result + '%';
+    if (!fullyLoaded) {
+      if (result === '100') {
+        fullyLoaded = true;
+        let arry = document.getElementsByClassName('hidden');
+        arry = [].slice.call(arry);
+        for (let i = 0; i < arry.length; i++) {
+          if (arry[i].tagName !== 'BUTTON') {
+            arry[i].className = 'intro visible fade-in';
+          } else {
+            arry[i].className = 'fade-in visible';
           }
-          document.getElementById("loading").className = "loaded";
-          // document.getElementById("main-title").className="title-loaded"
         }
+        document.getElementById('loading').className = 'loaded';
+        // document.getElementById("main-title").className="title-loaded"
       }
     }
-    //---------Cloud
-    for (let i = 0; i < personPoints.length; i++) {
-      personPoints[i].update();
-    }
-    //---------Billboards
-    for (let i = 0; i < billBoards.length; i++) {
-      billBoards[i].update();
-    }
-    controls.update();
-    if (inputField !== null) {
-      inputField.update();
-    }
-    requestAnimationFrame(animate);
-    render();
   }
+  //---------Cloud
+  for (let i = 0; i < personPoints.length; i++) {
+    personPoints[i].update();
+  }
+  //---------Billboards
+  for (let i = 0; i < billBoards.length; i++) {
+    billBoards[i].update();
+  }
+  controls.update();
+  if (inputField !== null) {
+    inputField.update();
+  }
+  requestAnimationFrame(animate);
+  render();
+}
 
 function render() {
   renderer.render(scene, camera);

@@ -79,10 +79,22 @@ module.exports = {
       {
         from: 'src/assets',
         to: 'assets'
+      },
+      {
+        from: 'src/root',
+        to: '.'
+      },
+      {
+        from: 'src/index-en.html',
+        to: '.'
+      },
+      {
+        from: 'src/index-zh.html',
+        to: '.'
       }
     ]),
     new HtmlWebpackPlugin({
-      template: './src/home.html'
+      template: './src/index-zh.html'
     }),
     new webpack.ProvidePlugin({
       THREE: 'three'

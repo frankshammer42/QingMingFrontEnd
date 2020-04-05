@@ -97,7 +97,7 @@ class InputField{
         inputField.style.height = "100%";
         inputField.id = "inputFieldID";
         inputField.type="text";
-        inputField.placeholder= '你的"名字"';
+        inputField.placeholder= pageLang === 'zh' ? '你的“名字”' : 'Your 	‘Name’';
         // inputField.placeholder="what your name";
         inputFieldDiv.appendChild(inputField);
         this.inputElement = inputField;
@@ -135,6 +135,7 @@ class InputField{
             }
         };
         req.open('POST', '/monument-api/visitor', true);
+        req.setRequestHeader("Content-Type", "application/json");
         // let data = new FormData();
         let data = {"name": content};
         let dataJSON = JSON.stringify(data);
@@ -144,12 +145,12 @@ class InputField{
 
     createSubmitButton(){
         let submitButton = document.createElement('button');
-        submitButton.style.width = "130px";
+        submitButton.style.width = "180px";
         submitButton.style.height = "100px";
         submitButton.style.zIndex = "50000";
         submitButton.style.position = "relative";
         submitButton.id = "submit";
-        submitButton.innerHTML="加入";
+        submitButton.innerHTML= pageLang === 'zh' ? "加入行走" : 'Join';
         this.submitButtonElement = submitButton;
         submitButton.onclick = () => {
             this.putElementsInCircle();
