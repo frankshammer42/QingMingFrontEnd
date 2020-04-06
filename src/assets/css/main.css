@@ -401,10 +401,12 @@ header.credits {
   height: 100%;
   left: 0;
   top: 0;
+  z-index: 1000;
 }
 
 .welcome-card {
   padding: 20px 0 20px;
+  z-index:1000;
 }
 
 .welcome-card .intro {
@@ -421,6 +423,7 @@ header.credits {
   justify-content: center;
   align-items: center;
   padding: 30px;
+
 }
 
 .name-input,
@@ -626,6 +629,29 @@ header.credits {
   top: 100px;
 
   background: #6d6d6d;
+}
+
+.language-options{
+  position: absolute;
+  right: 16px;
+  top: 50px;
+  width: 100px;
+  z-index: 100;
+}
+
+.active-lang{
+  color:black;
+  font-size:14px;
+  padding-left:5px;
+
+}
+
+.inactive-lang{
+  color:grey;
+  font-weight: lighter;
+  font-size:14px;
+  text-decoration:none;
+  padding-left:5px;
 }
 
 .visitor-count-bar {
