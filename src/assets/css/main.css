@@ -354,7 +354,7 @@ header.credits {
   border: 1.5px dashed rgba(0, 0, 0, 0.5);
   color: rgba(0, 0, 0, 0.7);
   padding: 0;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
 }
