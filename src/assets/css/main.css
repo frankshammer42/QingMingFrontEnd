@@ -218,6 +218,22 @@ h1 {
   /* padding-top:40px */
 }
 
+header.credits {
+  font-size: 105%;
+}
+
+.credit-title {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 0px;
+}
+
+.credit-names {
+  font-size: 14px;
+  margin-top: 6px;
+  margin-bottom: 25px;
+}
+
 /*fade in button*/
 .fade-in {
   display: block;
@@ -337,6 +353,10 @@ h1 {
   font-size: 18px;
   border: 1.5px dashed rgba(0, 0, 0, 0.5);
   color: rgba(0, 0, 0, 0.7);
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .welcome-card button:hover {
