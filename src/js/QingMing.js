@@ -21,7 +21,7 @@ let inputField = null;
 // let maxHeight = 2000;
 // let maxRadius = 2000;
 // Narrower Version with segmented Random Number
-let maxHeight = 4000 * 0.8;
+let maxHeight = 5000 * 0.8;
 let maxRadius = 1000 * 0.8;
 let ranges = [
   [200, 400],
