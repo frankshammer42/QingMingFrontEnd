@@ -15,7 +15,7 @@ class PersonPoint {
         this.position = new Float32Array(3);
         this.pointGeometry.addAttribute("position", new THREE.BufferAttribute(this.position, 3));
         this.pointMaterial = new THREE.PointsMaterial({
-            size: Math.random()*3,
+            size: Math.random() * 3,
             sizeAttenuation: false,
             color: pointColor
         });
@@ -30,13 +30,13 @@ class PersonPoint {
         this.fullTrailCircle = null;
 
         //Dynamics
-        this.rotateSpeed = -Math.random() * 0.002;
+        this.rotateSpeed = -Math.random() * 0.009;
         //Trail
         this.numberOfPointsPerTrail = 1000 + Math.floor(Math.random() * 100);
         this.trailLineGeometry = new THREE.BufferGeometry();
         this.trailLinePosition = new Float32Array(this.numberOfPointsPerTrail * 3);
         // this.trailLineMaterial = new THREE.LineBasicMaterial({color: 0x000000, linewidth: 3});
-        this.trailLineMaterial = new THREE.LineBasicMaterial({color: pointColor, linewidth: 3*Math.random()});
+        this.trailLineMaterial = new THREE.LineBasicMaterial({color: pointColor, linewidth: 3 * Math.random()});
         this.trailLineMaterial.transparent = true;
         this.trailLineMaterial.opacity = Math.random() * 0.5 + 0.2;
         this.trailLineGeometry.addAttribute("position", new THREE.BufferAttribute(this.trailLinePosition, 3));
@@ -53,8 +53,8 @@ class PersonPoint {
         this.trailLine.geometry.attributes.position.array[1] = this.y;
         this.trailLine.geometry.attributes.position.array[2] = this.z;
         // Rotation -> Add Speed to create smooth transition
-        this.ringRotateSpeedX = Math.random() * 0.0012 - 0.0012/2;
-        this.ringRotateSpeedZ = Math.random() * 0.0012 - 0.0012/2;
+        this.ringRotateSpeedX = Math.random() * 0.0012 - 0.0012 / 2;
+        this.ringRotateSpeedZ = Math.random() * 0.0012 - 0.0012 / 2;
         this.ringRotateCounterMax = 800;
         this.ringRotateCounter = 0;
         this.xRotationAngle = 0;
@@ -64,7 +64,7 @@ class PersonPoint {
         //Regarding Initial Movement
         this.startRotate = false;
         this.target = new THREE.Vector3(this.x, this.y, this.z);
-        this.tweenTime = 10000 + Math.random()*2000;
+        this.tweenTime = 10000 + Math.random() * 2000;
         this.tweenToInitPosition();
         // For user input
         this.userInputBoard = null;
@@ -72,14 +72,13 @@ class PersonPoint {
         // For Creating Shapes
         this.useOffset = true;
         // this.offSet = new THREE.Vector3(Math.random()*500 - 250, 0, Math.random()*500-250);
-        this.offSet = new THREE.Vector3(0,0,0);
+        this.offSet = new THREE.Vector3(0, 0, 0);
         // Circle Trail
-        this.useTrail = false;
+        this.useAnimateFullTrail = true;
         this.fullTrailAppear = false;
-        this.fullTrailAdded = false;
     }
 
-    createBillboard(userInputContent, camera){
+    createBillboard(userInputContent, camera) {
         // let currentPosition = new THREE.Vector3(this.x, this.y, this.z);
         let currentPosition = this.initPosition;
         this.userInput = userInputContent;
@@ -89,40 +88,45 @@ class PersonPoint {
         this.userInputBoard.container.scale.z *= 0;
     }
 
-    tweenToInitPosition(){
-        let deepTripPosition = new TWEEN.Tween( this.point.position )
-            .to( {
+    tweenToInitPosition() {
+        let deepTripPosition = new TWEEN.Tween(this.point.position)
+            .to({
                 x: this.target.x,
                 y: this.target.y,
                 z: this.target.z
             }, this.tweenTime)
-            .easing( TWEEN.Easing.Cubic.InOut ).onUpdate( function () {
-            }).onComplete(() => this.startRotate = true)
+            .easing(TWEEN.Easing.Cubic.InOut).onUpdate(()=>{
+                if (this.userInputBoard !== null){
+                    this.userInputBoard.container.position.copy(new THREE.Vector3(this.point.position.x, this.point.position.y + 10, this.point.position.z));
+                    this.userInputBoard.update();
+                }
+            }
+            ).onComplete(() => this.startRotate = true)
             .start();
     }
 
-    vectorAdd(v1, v2){
-        return new THREE.Vector3(v1.x+v2.x, v1.y+v2.y, v1.z+v2.z);
+    vectorAdd(v1, v2) {
+        return new THREE.Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
     }
 
-    generateRotatedPosition(){
+    generateRotatedPosition() {
         let circlePosition = new THREE.Vector3(this.x, 0, this.z);
         let finalMatrix = new THREE.Matrix4();
         let rotationMatrix = new THREE.Matrix4();
-        rotationMatrix.makeRotationFromEuler(new THREE.Euler(this.xRotationAngle,0,this.zRotationAngle,"XYZ"));
+        rotationMatrix.makeRotationFromEuler(new THREE.Euler(this.xRotationAngle, 0, this.zRotationAngle, "XYZ"));
         finalMatrix.multiply(rotationMatrix);
         circlePosition.applyMatrix4(finalMatrix);
         this.x = circlePosition.x;
         this.y = circlePosition.y + this.height;
         this.z = circlePosition.z;
-        if (this.useOffset){
+        if (this.useOffset) {
             this.x = circlePosition.x + this.offSet.x;
             this.y = circlePosition.y + this.height;
             this.z = circlePosition.z + this.offSet.z;
         }
     }
 
-    generateInitCirclePoint(radius, height){
+    generateInitCirclePoint(radius, height) {
         let randomTheta = Math.PI * 2 * Math.random();
         this.theta = randomTheta;
         this.x = Math.cos(randomTheta) * this.radius;
@@ -131,39 +135,47 @@ class PersonPoint {
         // this.generateRotatedPosition();
     }
 
-    update(){
-        if (this.startRotate) {
-            if (this.ringRotateCounter < this.ringRotateCounterMax){
-                this.xRotationAngle += this.ringRotateSpeedX;
-                this.zRotationAngle += this.ringRotateSpeedZ;
-                this.ringRotateCounter += 1;
+    update() {
+        if (!this.fullTrailAppear){
+            if (this.startRotate) {
+                if (this.ringRotateCounter < this.ringRotateCounterMax) {
+                    this.xRotationAngle += this.ringRotateSpeedX;
+                    this.zRotationAngle += this.ringRotateSpeedZ;
+                    this.ringRotateCounter += 1;
+                }
+                this.theta += this.rotateSpeed;
+                this.x = Math.cos(this.theta) * this.radius;
+                this.z = Math.sin(this.theta) * this.radius;
+                this.generateRotatedPosition();
+                //Update Position
+                this.point.position.copy(new THREE.Vector3(this.x, this.y, this.z));
+                if (this.userInputBoard !== null) {
+                    this.userInputBoard.container.position.copy(new THREE.Vector3(this.x, this.y + 10, this.z));
+                    this.userInputBoard.update();
+                }
+                //Update trail
+                if (this.currentTrailIndex < this.numberOfPointsPerTrail) {
+                    this.currentTrailIndex += 1;
+                } else {
+                    if (this.useAnimateFullTrail) {
+                        this.fullTrailAppear = true;
+                    }
+                    else{
+                        this.currentTrailIndex = 0;
+                    }
+                }
+                this.trailLine.geometry.attributes.position.array[this.currentTrailIndex * 3] = this.x;
+                this.trailLine.geometry.attributes.position.array[this.currentTrailIndex * 3 + 1] = this.y;
+                this.trailLine.geometry.attributes.position.array[this.currentTrailIndex * 3 + 2] = this.z;
+                this.trailLine.geometry.setDrawRange(1, this.currentTrailIndex);
+                this.trailLine.geometry.attributes.position.needsUpdate = true;
             }
-            this.theta += this.rotateSpeed;
-            this.x = Math.cos(this.theta) * this.radius;
-            this.z = Math.sin(this.theta) * this.radius;
-            this.generateRotatedPosition();
-            //Update Position
-            this.point.position.copy(new THREE.Vector3(this.x, this.y, this.z));
-
-            if (this.userInputBoard !== null){
+        }
+        else{
+            if (this.userInputBoard !== null) {
                 this.userInputBoard.container.position.copy(new THREE.Vector3(this.x, this.y + 10, this.z));
                 this.userInputBoard.update();
             }
-            //Update trail
-            if (this.currentTrailIndex < this.numberOfPointsPerTrail) {
-                this.currentTrailIndex += 1;
-            } else {
-                if (this.useTrail){
-                    this.fullTrailAppear = true;
-                    this.fullTrailCircle = new CircleTrail(this.center, this.radius, this.xRotationAngle, this.zRotationAngle);
-                }
-                this.currentTrailIndex = 0;
-            }
-            this.trailLine.geometry.attributes.position.array[this.currentTrailIndex * 3] = this.x;
-            this.trailLine.geometry.attributes.position.array[this.currentTrailIndex * 3 + 1] = this.y;
-            this.trailLine.geometry.attributes.position.array[this.currentTrailIndex * 3 + 2] = this.z;
-            this.trailLine.geometry.setDrawRange(1, this.currentTrailIndex);
-            this.trailLine.geometry.attributes.position.needsUpdate = true;
         }
     }
 }

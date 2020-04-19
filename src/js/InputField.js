@@ -1,7 +1,7 @@
 //TODO: Add css
 //TODO: How to incorporate canvas size into consideration
-class InputField{
-    constructor(relPosition, content, camera){
+class InputField {
+    constructor(relPosition, content, camera) {
         this.relPosition = relPosition;
         this.content = content;
         this.buttonElement = null;
@@ -33,7 +33,7 @@ class InputField{
         // Different Screen Offset
         // this.screenOffset = new THREE.Vector3(190, -80, 0);
         this.screenOffset = new THREE.Vector3(20, 0, 0);
-        this.buttonOffset = new THREE.Vector3(0,0,0);
+        this.buttonOffset = new THREE.Vector3(0, 0, 0);
         this.clickSound = null;
         //
         this.appearText = false;
@@ -41,15 +41,15 @@ class InputField{
         this.alreadyHinted = false;
     }
 
-    createTrails(){
-        for (let i=0; i<this.numberOfTrails; i++){
+    createTrails() {
+        for (let i = 0; i < this.numberOfTrails; i++) {
             let randomScale = 1000;
-            let randomInit = new THREE.Vector3(Math.random()*randomScale - randomScale/2, Math.random()*randomScale - randomScale/2, Math.random()*randomScale - randomScale/2);
+            let randomInit = new THREE.Vector3(Math.random() * randomScale - randomScale / 2, Math.random() * randomScale - randomScale / 2, Math.random() * randomScale - randomScale / 2);
             let newTrail = new PersonPoint(16, 13.5, randomInit);
             // newTrail.xRotationAngle = Math.random()*Math.PI*2 - Math.PI;
             // newTrail.zRotationAngle = Math.random()*Math.PI*2 - Math.PI;
-            newTrail.xRotationAngle = Math.PI*0.5 + (Math.random()*0.1 - 0.05);
-            newTrail.rotateSpeed = Math.random()*0.02 - 0.5*0.02;
+            newTrail.xRotationAngle = Math.PI * 0.5 + (Math.random() * 0.1 - 0.05);
+            newTrail.rotateSpeed = Math.random() * 0.02 - 0.5 * 0.02;
             newTrail.ringRotateSpeedX = 0;
             newTrail.ringRotateSpeedZ = 0;
             newTrail.useOffset = false;
@@ -66,7 +66,7 @@ class InputField{
         button.style.width = "300px";
         button.style.height = "300px";
         button.onclick = () => {
-            if (!this.alreadyHinted){
+            if (!this.alreadyHinted) {
                 this.hintClickAnimation();
                 this.clickSound.play();
                 this.alreadyHinted = true;
@@ -82,7 +82,7 @@ class InputField{
         this.hintContainer.scale.z = 0.0;
     }
 
-    createInputField(){
+    createInputField() {
         let inputFieldDiv = document.createElement('div');
         inputFieldDiv.className = "inputDiv";
         inputFieldDiv.style.width = "800px";
@@ -90,14 +90,14 @@ class InputField{
         inputFieldDiv.style.zIndex = "50000";
         inputFieldDiv.style.position = "relative";
         // inputFieldDiv.placeholder = "Type your name";
-        let inputField =  document.createElement('input');
+        let inputField = document.createElement('input');
         inputField.className = "inputField";
         inputField.style.position = "absolute";
         inputField.style.width = "100%";
         inputField.style.height = "100%";
         inputField.id = "inputFieldID";
-        inputField.type="text";
-        inputField.placeholder= pageLang === 'zh' ? '你的“名字”' : 'Your “Name”';
+        inputField.type = "text";
+        inputField.placeholder = pageLang === 'zh' ? '你的“名字”' : 'Your “Name”';
         // inputField.placeholder="what your name";
         inputFieldDiv.appendChild(inputField);
         this.inputElement = inputField;
@@ -126,9 +126,9 @@ class InputField{
         this.inputContainer.scale.z = 0.1;
     }
 
-    postName(content){
+    postName(content) {
         let req = new XMLHttpRequest();
-        req.onreadystatechange = function() {
+        req.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 let resObj = JSON.parse(this.responseText);
                 console.log(resObj);
@@ -143,20 +143,20 @@ class InputField{
         req.send(dataJSON);
     }
 
-    createSubmitButton(){
+    createSubmitButton() {
         let submitButton = document.createElement('button');
         submitButton.style.width = "180px";
         submitButton.style.height = "100px";
         submitButton.style.zIndex = "50000";
         submitButton.style.position = "relative";
         submitButton.id = "submit";
-        submitButton.innerHTML= pageLang === 'zh' ? "加入行走" : 'Join';
+        submitButton.innerHTML = pageLang === 'zh' ? "加入行走" : 'Join';
         this.submitButtonElement = submitButton;
         submitButton.onclick = () => {
             this.putElementsInCircle();
-            for(let i=0; i<this.numberOfTrails; i++){
-                this.trails[i].ringRotateSpeedX = Math.random()*0.02;
-                this.trails[i].ringRotateSpeedZ = Math.random()*0.02;
+            for (let i = 0; i < this.numberOfTrails; i++) {
+                this.trails[i].ringRotateSpeedX = Math.random() * 0.02;
+                this.trails[i].ringRotateSpeedZ = Math.random() * 0.02;
                 this.trails[i].ringRotateCounterMax = 1000;
             }
             this.userInputContent = this.inputElement.value.slice(0, 10);
@@ -173,61 +173,66 @@ class InputField{
     }
 
     hintClickAnimation() {
-      let inputContainerTarget = new THREE.Vector3(0.1, 0.1, 0.1);
-      let hintContainerTarget = new THREE.Vector3(0.2, 0.2, 0.2);
-      this.moveValue(this.inputContainer.scale, inputContainerTarget, 2000, () => {
-                                                          this.moveValue(this.submitButtonContainer.scale, inputContainerTarget, 1500, () => {});
-                                                                                      });
-      this.buttonElement.innerHTML = "";
-      this.moveValue(this.trailGroup.scale, hintContainerTarget, 2000, () => {});
-    // this.moveValue(this.hintContainer.scale, new THREE.Vector3(0.0,0.1,0.1), 2000, ()=>{});
+        let inputContainerTarget = new THREE.Vector3(0.1, 0.1, 0.1);
+        let hintContainerTarget = new THREE.Vector3(0.2, 0.2, 0.2);
+        this.moveValue(this.inputContainer.scale, inputContainerTarget, 2000, () => {
+            this.moveValue(this.submitButtonContainer.scale, inputContainerTarget, 1500, () => {
+            });
+        });
+        this.buttonElement.innerHTML = "";
+        this.moveValue(this.trailGroup.scale, hintContainerTarget, 2000, () => {
+        });
+        // this.moveValue(this.hintContainer.scale, new THREE.Vector3(0.0,0.1,0.1), 2000, ()=>{});
     }
 
     moveValue(toMove, target, tweenTime, finishFunction) {
-    let deepTripPosition = new TWEEN.Tween(toMove)
-      .to({
-        x: target.x,
-        y: target.y,
-        z: target.z
-      }, tweenTime)
-      .easing(TWEEN.Easing.Cubic.InOut).onUpdate(function() {
-      }).onComplete(() => finishFunction())
-      .start();
-  }
+        let deepTripPosition = new TWEEN.Tween(toMove)
+            .to({
+                x: target.x,
+                y: target.y,
+                z: target.z
+            }, tweenTime)
+            .easing(TWEEN.Easing.Cubic.InOut).onUpdate(function () {
+            }).onComplete(() => finishFunction())
+            .start();
+    }
 
     moveColor(toMove, target, tweenTime, finishFunction) {
         let deepTripPosition = new TWEEN.Tween(toMove)
-          .to({
-            r: target.r,
-            g: target.g,
-            b: target.b
-          }, tweenTime)
-          .easing(TWEEN.Easing.Cubic.InOut).onUpdate(function() {}).onComplete(() => finishFunction())
-          .start();
+            .to({
+                r: target.r,
+                g: target.g,
+                b: target.b
+            }, tweenTime)
+            .easing(TWEEN.Easing.Cubic.InOut).onUpdate(function () {
+            }).onComplete(() => finishFunction())
+            .start();
     }
 
     putElementsInCircle() {
         let duration = 3000;
         this.submitButtonContainer.scale.copy(new THREE.Vector3(0, 0, 0));
         let currentOffset = {
-          x: 0,
-          y: 0
+            x: 0,
+            y: 0
         };
         let targetOffset = {
-          x: -50,
-          y: 5
+            x: -50,
+            y: 5
         };
         let tweenMovingTrack = new TWEEN.Tween(currentOffset)
-          .to(
-            targetOffset, duration)
-          .easing(TWEEN.Easing.Cubic.InOut).onUpdate(() => {
-            this.movingTrackX = currentOffset.x;
-            this.movingTrackY = currentOffset.y;
-          }).onComplete(() => {})
-          .start();
-        this.moveValue(this.inputContainer.scale, new THREE.Vector3(0, 0, 0), duration, () => {});
+            .to(
+                targetOffset, duration)
+            .easing(TWEEN.Easing.Cubic.InOut).onUpdate(() => {
+                this.movingTrackX = currentOffset.x;
+                this.movingTrackY = currentOffset.y;
+            }).onComplete(() => {
+            })
+            .start();
+        this.moveValue(this.inputContainer.scale, new THREE.Vector3(0, 0, 0), duration, () => {
+        });
         this.moveValue(this.trailGroup.scale, new THREE.Vector3(0.6, 0.6, 0.6), duration, () => {
-          this.startGenerateNewPoint = true;
+            this.startGenerateNewPoint = true;
         });
     }
 
@@ -257,53 +262,56 @@ class InputField{
         this.inputContainer.translateZ(-300);
 
         if (!this.inputFunctionFinished) {
-          this.trailGroup.position.copy(camera.position);
-          this.trailGroup.rotation.copy(camera.rotation);
-          this.trailGroup.translateX(-190 + this.screenOffset.x);
-          this.trailGroup.translateY(80 + this.screenOffset.y);
-          this.trailGroup.translateZ(-300);
+            this.trailGroup.position.copy(camera.position);
+            this.trailGroup.rotation.copy(camera.rotation);
+            this.trailGroup.translateX(-190 + this.screenOffset.x);
+            this.trailGroup.translateY(80 + this.screenOffset.y);
+            this.trailGroup.translateZ(-300);
         } else {
-          this.trailGroup.position.copy(this.newGeneratedPoint.point.position);
-          if (this.newGeneratedPoint.startRotate) {
-            if (this.trailGroup.scale.x > 0.01) {
-              this.trailGroup.scale.x *= 0.99;
-              this.trailGroup.scale.y *= 0.99;
-              this.trailGroup.scale.z *= 0.99;
+            this.trailGroup.position.copy(this.newGeneratedPoint.point.position);
+            if (this.newGeneratedPoint.startRotate) {
+                if (this.trailGroup.scale.x > 0.01) {
+                    this.trailGroup.scale.x *= 0.99;
+                    this.trailGroup.scale.y *= 0.99;
+                    this.trailGroup.scale.z *= 0.99;
+                }
+                if (this.newGeneratedPoint.userInputBoard.container.scale.x !== 0.6) {
+                    this.newGeneratedPoint.userInputBoard.container.scale.x = 0.6;
+                    this.newGeneratedPoint.userInputBoard.container.scale.y = 0.6;
+                    this.newGeneratedPoint.userInputBoard.container.scale.z = 0.6;
+                    this.newGeneratedPoint.userInputBoard.detailsElement.style.fontWeight = 900;
+                }
             }
-            if (this.newGeneratedPoint.userInputBoard.container.scale.x !== 0.6){
-              this.newGeneratedPoint.userInputBoard.container.scale.x = 0.6;
-              this.newGeneratedPoint.userInputBoard.container.scale.y = 0.6;
-              this.newGeneratedPoint.userInputBoard.container.scale.z = 0.6;
-              this.newGeneratedPoint.userInputBoard.detailsElement.style.fontWeight = 900;
-            }
-          }
         }
 
         // this.inputContainer.scale.x = 0;
         if (!this.inputFunctionFinished) {
-          for (let i = 0; i < this.numberOfTrails; i++) {
-            this.trails[i].update();
-          }
-          if (this.trails[0].startRotate && !this.appearText){
-              this.appearText = true;
-              let targetScale = new THREE.Vector3(0.1, 0.1, 0.1);
-              this.moveValue(this.hintContainer.scale, targetScale, 2000, ()=>{});
-          }
+            for (let i = 0; i < this.numberOfTrails; i++) {
+                this.trails[i].update();
+            }
+            if (this.trails[0].startRotate && !this.appearText) {
+                this.appearText = true;
+                let targetScale = new THREE.Vector3(0.1, 0.1, 0.1);
+                this.moveValue(this.hintContainer.scale, targetScale, 2000, () => {
+                });
+            }
         }
 
         if (!this.inputFunctionFinished) {
-          if (this.startGenerateNewPoint) {
-            let col = new THREE.Color('#ff0000');
-            this.moveValue(this.trailGroup.scale, new THREE.Vector3(0.15, 0.15, 0.15), 7000, () => {
-              this.scaleDownFinished()
-            });
-            for (let i = 0; i < this.numberOfTrails; i++) {
-              this.moveColor(this.trails[i].point.material.color, col, 7000, () => {});
-              this.moveColor(this.trails[i].trailLine.material.color, col, 7000, () => {});
-              // this.trails[i].ringRotateSpeed = Math.random()*0.02;
+            if (this.startGenerateNewPoint) {
+                let col = new THREE.Color('#ff0000');
+                this.moveValue(this.trailGroup.scale, new THREE.Vector3(0.15, 0.15, 0.15), 7000, () => {
+                    this.scaleDownFinished()
+                });
+                for (let i = 0; i < this.numberOfTrails; i++) {
+                    this.moveColor(this.trails[i].point.material.color, col, 7000, () => {
+                    });
+                    this.moveColor(this.trails[i].trailLine.material.color, col, 7000, () => {
+                    });
+                    // this.trails[i].ringRotateSpeed = Math.random()*0.02;
+                }
+                this.startGenerateNewPoint = false;
             }
-            this.startGenerateNewPoint = false;
-          }
         }
-  }
+    }
 }

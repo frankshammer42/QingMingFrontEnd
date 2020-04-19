@@ -1,5 +1,5 @@
-class Billboard{
-    constructor(position, content, camera){
+class Billboard {
+    constructor(position, content, camera) {
         this.position = position;
         this.content = content;
         this.container = null;
@@ -8,18 +8,18 @@ class Billboard{
         this.createBoard();
     }
 
-    createBoard(){
-        let board = document.createElement( 'div' );
+    createBoard() {
+        let board = document.createElement('div');
         board.className = 'billboard';
         //board.style.backgroundColor = 'rgba(255,255,255,' + ( Math.random() * 0.5 + 0.25 ) + ')';
         // board.style.backgroundColor = 'rgba(56,56,56, 1)';
         // board.style.backgroundColor = 'rgba(0, 0, 0, 1)';
         // board.style.backgroundColor = 'rgba(255, 255, 255, 1)';
-        let details = document.createElement( 'div' );
+        let details = document.createElement('div');
         details.className = 'details';
         details.innerHTML = this.content;
         this.detailsElement = details;
-        board.appendChild( details );
+        board.appendChild(details);
         this.element = board;
         this.container = new THREE.CSS3DObject(this.element);
         this.container.position.x = this.position.x;
@@ -27,7 +27,7 @@ class Billboard{
         this.container.position.z = this.position.z;
     }
 
-    update(){
+    update() {
         this.container.quaternion.copy(this.camera.quaternion);
     }
 }
