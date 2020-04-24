@@ -67,22 +67,29 @@ let yOffset = -16;
 
 function initVisitor() {
   let req = new XMLHttpRequest();
-  req.onreadystatechange = function() {
-    if (this.readyState === 4 && this.status === 200) {
-      let resObj = JSON.parse(this.responseText);
-      console.log('Visitor count is ' + resObj.count);
-      visitorCount = resObj.count;
-      document.getElementById('visitor-count-bar').innerText =
-        pageLang === 'zh'
-          ? visitorCount + '人正在逆时针行走'
-          : visitorCount + ' people are walking counterclockwise';
-    }
+  req.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+          let resObj = JSON.parse(this.responseText);
+          console.log('Visitor count is ' + resObj.count);
+          setVisitorCount(resObj.count);
+      } else if (this.status === 404) {
+        // for dev
+        setVisitorCount(100);
+      }
   };
   req.open('GET', '/monument-api/visitor', true);
   req.send();
 }
 
 initVisitor();
+
+function setVisitorCount(count) {
+  visitorCount = count;
+  document.getElementById('visitor-count-bar').innerText =
+      pageLang === 'zh'
+          ? visitorCount + '人正在逆时针行走'
+          : visitorCount + ' people are walking counterclockwise';
+}
 
 function resetSize() {
   document.getElementById('frame').style.height = window.innerHeight + 'px';
