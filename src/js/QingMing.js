@@ -64,7 +64,7 @@ let clickSound = new Audio('/assets/sound/click.mp3');
 let xOffset = -16.8;
 let yOffset = -16;
 // For growth animation rendering
-let useAnimationRendering = true;
+let useAnimationRendering = false;
 let userNumber = 0;
 let userNames = [];
 let enterTimes = [];
@@ -73,11 +73,8 @@ let animationPointsHeight = [];
 let animationShuffleIndex = [];
 let currentAnimationProgressIndex = 0;
 let currentNumberOfWalker = 0;
-
-
-
-
-
+// For Empty Rendering
+let useEmptyRendering = false;
 
 function initVisitor() {
   let req = new XMLHttpRequest();
@@ -190,7 +187,7 @@ function init() {
     initLoadManager();
     loadModelAndMap();
     // addPoints();
-    addBillboards();
+    // addBillboards();
     // addNameInput();
     document.addEventListener('mousemove', mouseMove);
 }
@@ -308,8 +305,8 @@ function loadModelAndMap() {
 
 function enter() {
     //fade out welcome page
-    var op = 1; // initial opacity
-    var timer = setInterval(function () {
+    let op = 1; // initial opacity
+    let timer = setInterval(function () {
         if (op <= 0.01) {
             clearInterval(timer);
             document.getElementById('welcome-page').style.display = 'none';
@@ -341,21 +338,24 @@ function enter() {
         console.log('Use Default');
         numberOfPoints = defaultPoint;
     }
-    if(!useAnimationRendering){
-        addPoints(new THREE.Vector3(0, 0, 0), numberOfPoints);
-        let offset = new THREE.Vector3(0, 0, 0);
-        let buttonOffset = new THREE.Vector3(0, 0, 0);
-        if (window.innerWidth < 1400) {
-            offset.x = 150;
-            if (window.innerWidth < 380) {
-                buttonOffset.x = xOffset;
-                buttonOffset.y = yOffset;
+
+    if (!useEmptyRendering){
+        if(!useAnimationRendering){
+            addPoints(new THREE.Vector3(0, 0, 0), numberOfPoints);
+            let offset = new THREE.Vector3(0, 0, 0);
+            let buttonOffset = new THREE.Vector3(0, 0, 0);
+            if (window.innerWidth < 1400) {
+                offset.x = 150;
+                if (window.innerWidth < 380) {
+                    buttonOffset.x = xOffset;
+                    buttonOffset.y = yOffset;
+                }
             }
+            addNameInput(offset, buttonOffset);
         }
-        addNameInput(offset, buttonOffset);
-    }
-    else{
-        setInterval(generateAnimationPoint, 800);
+        else{
+            setInterval(generateAnimationPoint, 800);
+        }
     }
     initCamMove();
 }
@@ -940,22 +940,3 @@ function generateAnimationPoint(){
         console.log("Generated One Animation Point");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
