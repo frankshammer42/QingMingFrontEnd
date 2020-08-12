@@ -80,7 +80,6 @@ let useEmptyRendering = false;
 //Main Loop------------------------------------------------------
 
 init();
-enter();
 animate();
 
 function reset_scene() {
@@ -92,12 +91,8 @@ function reset_scene() {
 }
 
 function init() {
-  // if (useAnimationRendering) {
-  //   getNamesAndTime();
-  //   userNumber = userNames.length;
-  //   generateAnimationVariables(new THREE.Vector3(0, 0, 0), userNumber);
-  // }
-  raycaster = new THREE.Raycaster();
+
+  // raycaster = new THREE.Raycaster();
   container = document.getElementById('container');
   // camera
   camera = new THREE.PerspectiveCamera(
@@ -116,7 +111,7 @@ function init() {
   // camera.position.y = 7400;
   // camera.position.z = 8620;
 
-  camera.far = 1000000;
+  camera.far = 100000;
   camera.updateProjectionMatrix();
 
   //WebGL
@@ -144,12 +139,16 @@ function init() {
   rendererCSS.domElement.style.top = 0;
   containerCSS.appendChild(rendererCSS.domElement);
 
-  //Orbit Controls
+  //Orbit Controls---
   controls = new THREE.OrbitControls(camera, container);
   controls.minDistance = 50;
   controls.maxDistance = 10000;
   controls.maxPolarAngle = Math.PI / 2;
   controls.target.set(0, maxHeight * 0.45, 0);
+
+  //initialize the pooints
+  let numberOfPoints = defaultPoint;
+  addPoints(new THREE.Vector3(0, 0, 0), numberOfPoints);
 
 
   // getLight();
@@ -173,44 +172,12 @@ function init() {
 // }
 
 
-function enter() {
-
-  // let vector = new THREE.Vector3( mouse.x, mouse.y, -1).unproject( camera );
-  let numberOfPoints = defaultPoint;
-  // if (visitorCount !== null && visitorCount !== 0) {
-  //   numberOfPoints = visitorCount;
-  // } else {
-  //   console.log('Use Default');
-  //   numberOfPoints = defaultPoint;
-  // }
-
-  // if (!useEmptyRendering) {
-  //   if (!useAnimationRendering) {
-  addPoints(new THREE.Vector3(0, 0, 0), numberOfPoints);
-  let offset = new THREE.Vector3(0, 0, 0);
-  let buttonOffset = new THREE.Vector3(0, 0, 0);
-  if (window.innerWidth < 1400) {
-    offset.x = 150;
-    if (window.innerWidth < 380) {
-      buttonOffset.x = xOffset;
-      buttonOffset.y = yOffset;
-    }
-  }
-  // addNameInput(offset, buttonOffset);
-  //   } else {
-  //     setInterval(generateAnimationPoint, 800);
-  //
-  //   }
-  // }
-  // initCamMove();
-}
-
 
 function preventEvent(event) {
   event.stopPropagation();
 }
 
-
+//draw points
 function addPoints(initPos, numberOfPoints) {
   let pointsNumber = 0;
   let remainNumber = 0;
@@ -275,27 +242,6 @@ function addPoints(initPos, numberOfPoints) {
 
 }
 
-// function moveCamera(target, tweenTime, finishFunction, easingFunction) {
-//   let deepTripPosition = new TWEEN.Tween(controls.object.position)
-//     .to({
-//         x: target.x,
-//         y: target.y,
-//         z: target.z
-//       },
-//       tweenTime
-//     )
-//     .easing(easingFunction)
-//     .onUpdate(function() {})
-//     .onComplete(() => finishFunction())
-//     .start();
-// }
-
-// function initCamMove() {
-//   let topTarget = new THREE.Vector3(0, 2370, 9000);
-//   let tweenTime = 8000;
-//   moveCamera(topTarget, tweenTime, () => {}, TWEEN.Easing.Linear.None);
-// }
-
 
 
 function animate() {
@@ -334,6 +280,59 @@ function render() {
 
 
 //-------------------------------Below are unrelavant functions------------------------------------
+// function enter() {
+
+  // let vector = new THREE.Vector3( mouse.x, mouse.y, -1).unproject( camera );
+
+  // if (visitorCount !== null && visitorCount !== 0) {
+  //   numberOfPoints = visitorCount;
+  // } else {
+  //   console.log('Use Default');
+  //   numberOfPoints = defaultPoint;
+  // }
+
+  // if (!useEmptyRendering) {
+  //   if (!useAnimationRendering) {
+
+  // let offset = new THREE.Vector3(0, 0, 0);
+  // let buttonOffset = new THREE.Vector3(0, 0, 0);
+  // if (window.innerWidth < 1400) {
+  //   offset.x = 150;
+  //   if (window.innerWidth < 380) {
+  //     buttonOffset.x = xOffset;
+  //     buttonOffset.y = yOffset;
+  //   }
+  // }
+  // addNameInput(offset, buttonOffset);
+  //   } else {
+  //     setInterval(generateAnimationPoint, 800);
+  //
+  //   }
+  // }
+  // initCamMove();
+// }
+
+// function moveCamera(target, tweenTime, finishFunction, easingFunction) {
+//   let deepTripPosition = new TWEEN.Tween(controls.object.position)
+//     .to({
+//         x: target.x,
+//         y: target.y,
+//         z: target.z
+//       },
+//       tweenTime
+//     )
+//     .easing(easingFunction)
+//     .onUpdate(function() {})
+//     .onComplete(() => finishFunction())
+//     .start();
+// }
+
+// function initCamMove() {
+//   let topTarget = new THREE.Vector3(0, 2370, 9000);
+//   let tweenTime = 8000;
+//   moveCamera(topTarget, tweenTime, () => {}, TWEEN.Easing.Linear.None);
+// }
+
 
 // function initVisitor() {
 //   let req = new XMLHttpRequest();
