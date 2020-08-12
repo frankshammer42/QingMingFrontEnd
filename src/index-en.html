@@ -53,125 +53,35 @@
 
 <body>
 	<div style="width: 0; height: 0;">
-		<img style="width: 0; height: 0;" src="https://www.qingming.space/assets/images/facebook-preview.png"/>
+		<img style="width: 0; height: 0;" src="https://www.qingming.space/assets/images/facebook-preview.png" />
 	</div>
-	<!-- <div id="frame" class="frame">
-		<div id="welcome-page" class="welcome-page">
-			<div id="card-backdrop" class="card-backdrop">
-				<div class="card welcome-card">
-					<div class="title" id="main-title">
-						<h1>QINGMING</h1>
-					</div>
-					<div class="intro hidden">
-						<p>4 April 2020 is Qingming Festival, the day we commemorate the dead.</p>
-						<p>However, because of the epidemic, most people were unable to visit graves and pay tribute to their loved ones. This is an online space in memory of COVID-19 victims. </p>
-						<p>It takes you to the Hongshan Auditorium in Wuhan, the place where the “Two Sessions” of Hubei were held in January 2020. You can leave your name here to join the counter-clockwise walk and commemorate the lost life.</p>
-						<p>Each visitor will leave a walking path of their own, and these trajectories collectively will be turned into an online monument. This monument will permanently stand in front of Wuhan Hongshan Auditorium on major map websites.</p>
-						<p>We shall never forget our pain and tear. Neither should we stop examining the systematic problems exposed during the crisis, and strive for a better future.</p>
-					</div>
-				<div id="loading">0%</div>
-				<div class="controls">
-					<button class="hidden"  onclick="enter()">Enter</button>
-				</div>
-			</div>
-		</div> -->
-	</div>
-	<div class="main-page">
-		<div class="language-options">
-			<a class="inactive-lang" href ="index-zh.html"> 中文</a>
-			<a class="active-lang" href ="index-en.html"> English</a>
-		</div>
-		<button class="info-button" onclick="showInfoCard()">
-			<img src="/assets/images/info.svg" alt="info">
-		</button>
-		<button class="share-button" onclick="toggleShareControls()">
-			<img src="/assets/images/share.svg" alt="info">
-		</button>
-		<div id="share-controls" class="share-controls">
-			<button class="share-wechat" onclick="shareTo('WECHAT')">
-				<img src="/assets/images/wechat.svg" alt="info">
-			</button>
-			<button class="share-weibo" onclick="shareTo('WEIBO')">
-				<img src="/assets/images/weibo.svg" alt="info">
-			</button>
-			<button class="share-twitter" onclick="shareTo('TWITTER')">
-				<img src="/assets/images/twitter.svg" alt="info">
-			</button>
-			<button class="share-facebook" onclick="shareTo('FACEBOOK')">
-				<img src="/assets/images/facebook.svg" alt="info">
-			</button>
-		</div>
-		<div id="qr-card-backdrop" class="card-backdrop" onclick="closeQrCard()">
-			<div class="card qr-card">
-				<img src="/assets/images/share-qr.png" alt="QR code" onclick="preventEvent(event)">
-				<div class="qr-instruction">Please share this image through WeChat</div>
-			</div>
-		</div>
-		<div id="visitor-count-bar" class="visitor-count-bar">
-			xx people are walking counterclockwise
-		</div>
-		<button class="view-angle1-button" onclick="moveToFreeView()">
-			Overview
-		</button>
-		<button class="view-angle2-button" onclick="moveToTop()">
-			Top
-		</button>
-		<button class="view-angle3-button" onclick="moveAuto()">
-			Orbit
-		</button>
-		<div id="info-card-backdrop" class="card-backdrop" onclick="closeInfoCard()">
-			<div class="card info-card" onclick="preventEvent(event)">
-				<div class="intro">
-					<header>QINGMING</header>
-					<p>4 April 2020 is Qingming Festival, the day we commemorate the dead.</p>
-					<p>However, because of the epidemic, most people were unable to visit graves and pay tribute to their loved ones. This is an online space in memory of COVID-19 victims. </p>
-					<p>It takes you to the Hongshan Auditorium in Wuhan, the place where the “Two Sessions” of Hubei were held in January 2020. You can leave your name here to join the counter-clockwise walk and commemorate the lost life.</p>
-					<p>Each visitor will leave a walking path of their own, and these trajectories collectively will be turned into an online monument. This monument will permanently stand in front of Wuhan Hongshan Auditorium on major map websites.</p>
-					<p>We shall never forget our pain and tear. Neither should we stop examining the systematic problems exposed during the crisis, and strive for a better future.</p>
-					<header class="credits">Credits</header>
-					<p class="credit-title">Original Concept</p>
-					<p class="credit-names">Jiabao Li</p>
-					<p class="credit-title">Design</p>
-					<p class="credit-names">Jiabao Li, Huiyi Chen, Rui An</p>
-					<p class="credit-title">Development</p>
-					<p class="credit-names">Rui An, Huiyi Chen</p>
-					<p class="credit-title">Modeling & Rendering</p>
-					<p class="credit-names">Jiabao Li</p>
-					<p class="credit-title">Curator</p>
-					<p class="credit-names">Hongbin Zheng</p>
-					<p class="credit-title">Sound</p>
-					<p class="credit-names">Lu Wang (dk)</p>
-					<p class="credit-title">Special Thanks</p>
-					<p class="credit-names">Jing Xiong</p>
-				</div>
-				<button class="close-button" onclick="closeInfoCard()">
-					<img src="/assets/images/close.svg" alt="close">
-				</button>
-			</div>
-		</div>
-		<div id="container">
-		</div>
-		<div id="containerCSS">
+	<div id="frame" class="frame">
+
+		<div class="main-page">
+
+			<div id="container"></div>
+			<div id="containerCSS"> </div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		let pageLang = 'en';
-	</script>
-	<script src="js/dat.gui.min.js"></script>
-	<script src="js/three.js"></script>
-	<script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
-	<script src="js/OrbitControls.js"></script>
-	<script src="js/stats.min.js"></script>
-	<script src="js/TrackballControls.js"></script>
-	<script src="js/CircleTrail.js"></script>
-	<script src="js/PersonLife.js"></script>
-	<script src="js/PersonPoint.js"></script>
-	<script src="js/OBJLoader.js"></script>
-	<script src="js/Line.js"></script>
-	<script src="js/Billboard.js"></script>
-	<script src="js/InputField.js"></script>
-	<script src="assets/data/qingming_name_sorted.js"></script>
-	<script src="js/QingMing.js"></script>
+
+			<script type="text/javascript">
+				let pageLang = 'en';
+			</script>
+			<script src="js/dat.gui.min.js"></script>
+			<script src="js/three.js"></script>
+			<script src="https://threejs.org/examples/js/renderers/CSS3DRenderer.js"></script>
+			<script src="js/OrbitControls.js"></script>
+			<script src="js/stats.min.js"></script>
+			<script src="js/TrackballControls.js"></script>
+			<script src="js/CircleTrail.js"></script>
+			<script src="js/PersonLife.js"></script>
+			<script src="js/PersonPoint.js"></script>
+			<script src="js/OBJLoader.js"></script>
+			<script src="js/Line.js"></script>
+			<script src="js/Billboard.js"></script>
+			<script src="js/InputField.js"></script>
+			<script src="assets/data/qingming_name_sorted.js"></script>
+			<script src="js/QingMing.js"></script>
 </body>
 
 </html>

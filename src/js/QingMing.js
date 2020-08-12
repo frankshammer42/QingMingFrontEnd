@@ -159,17 +159,17 @@ function init() {
   // addPoints();
   // addBillboards();
   // addNameInput();
-  // document.addEventListener('mousemove', mouseMove);
+  document.addEventListener('mousemove', mouseMove);
 }
 //
-// function mouseMove(event) {
-//   mouse = new THREE.Vector3();
-//   mouse.set(
-//     (event.clientX / window.innerWidth) * 2 - 1,
-//     -(event.clientY / window.innerHeight) * 2 + 1,
-//     0.5
-//   );
-// }
+function mouseMove(event) {
+  mouse = new THREE.Vector3();
+  mouse.set(
+    (event.clientX / window.innerWidth) * 2 - 1,
+    -(event.clientY / window.innerHeight) * 2 + 1,
+    0.5
+  );
+}
 
 
 
@@ -354,12 +354,12 @@ function render() {
 
 
 
-// function resetSize() {
-//     document.getElementById('frame').style.height = window.innerHeight + 'px';
-// }
+function resetSize() {
+    document.getElementById('frame').style.height = window.innerHeight + 'px';
+}
 
-// window.addEventListener('resize', resetSize);
-// resetSize();
+window.addEventListener('resize', resetSize);
+resetSize();
 
 // function showInfoCard() {
 //     document.getElementById('info-card-backdrop').style.display = 'flex';
