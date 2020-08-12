@@ -92,11 +92,11 @@ function reset_scene() {
 }
 
 function init() {
-  if (useAnimationRendering) {
-    getNamesAndTime();
-    userNumber = userNames.length;
-    generateAnimationVariables(new THREE.Vector3(0, 0, 0), userNumber);
-  }
+  // if (useAnimationRendering) {
+  //   getNamesAndTime();
+  //   userNumber = userNames.length;
+  //   generateAnimationVariables(new THREE.Vector3(0, 0, 0), userNumber);
+  // }
   raycaster = new THREE.Raycaster();
   container = document.getElementById('container');
   // camera
@@ -202,15 +202,13 @@ function enter() {
   //
   //   }
   // }
-  initCamMove();
+  // initCamMove();
 }
-
 
 
 function preventEvent(event) {
   event.stopPropagation();
 }
-
 
 
 function addPoints(initPos, numberOfPoints) {
@@ -277,27 +275,26 @@ function addPoints(initPos, numberOfPoints) {
 
 }
 
+// function moveCamera(target, tweenTime, finishFunction, easingFunction) {
+//   let deepTripPosition = new TWEEN.Tween(controls.object.position)
+//     .to({
+//         x: target.x,
+//         y: target.y,
+//         z: target.z
+//       },
+//       tweenTime
+//     )
+//     .easing(easingFunction)
+//     .onUpdate(function() {})
+//     .onComplete(() => finishFunction())
+//     .start();
+// }
 
-function moveCamera(target, tweenTime, finishFunction, easingFunction) {
-  let deepTripPosition = new TWEEN.Tween(controls.object.position)
-    .to({
-        x: target.x,
-        y: target.y,
-        z: target.z
-      },
-      tweenTime
-    )
-    .easing(easingFunction)
-    .onUpdate(function() {})
-    .onComplete(() => finishFunction())
-    .start();
-}
-
-function initCamMove() {
-  let topTarget = new THREE.Vector3(0, 2000, 3500);
-  let tweenTime = 8000;
-  moveCamera(topTarget, tweenTime, () => {}, TWEEN.Easing.Linear.None);
-}
+// function initCamMove() {
+//   let topTarget = new THREE.Vector3(0, 2370, 9000);
+//   let tweenTime = 8000;
+//   moveCamera(topTarget, tweenTime, () => {}, TWEEN.Easing.Linear.None);
+// }
 
 
 
@@ -310,23 +307,22 @@ function animate() {
     personPoints[i].update();
     if (personPoints[i].startRotate) {
       numberOfWalking += 1;
-      console.log(numberOfWalking);
     }
   }
   if (currentNumberOfWalker !== numberOfWalking) {
     currentNumberOfWalker = numberOfWalking;
-
   }
   //---------Billboards
   // for (let i = 0; i < billBoards.length; i++) {
   //   billBoards[i].update();
   // }
   controls.update();
-  // if (inputField !== null) {
-  //   inputField.update();
-  // }
+  if (inputField !== null) {
+    inputField.update();
+  }
   requestAnimationFrame(animate);
   render();
+  console.log(camera.position);
 }
 
 function render() {
