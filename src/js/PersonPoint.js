@@ -32,7 +32,7 @@ class PersonPoint {
         //Dynamics
         this.rotateSpeed = -Math.random() * 0.009;
         //Trail
-        this.numberOfPointsPerTrail = 1000 + Math.floor(Math.random() * 100);
+        this.numberOfPointsPerTrail = 1000 + Math.floor(Math.random() * 400);
         this.trailLineGeometry = new THREE.BufferGeometry();
         this.trailLinePosition = new Float32Array(this.numberOfPointsPerTrail * 3);
         // this.trailLineMaterial = new THREE.LineBasicMaterial({color: 0x000000, linewidth: 3});
@@ -74,7 +74,7 @@ class PersonPoint {
         // this.offSet = new THREE.Vector3(Math.random()*500 - 250, 0, Math.random()*500-250);
         this.offSet = new THREE.Vector3(0, 0, 0);
         // Circle Trail
-        this.useAnimateFullTrail = true;
+        this.useAnimateFullTrail = false;
         this.fullTrailAppear = false;
     }
 

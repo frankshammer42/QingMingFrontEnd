@@ -64,7 +64,7 @@ let clickSound = new Audio('/assets/sound/click.mp3');
 let xOffset = -16.8;
 let yOffset = -16;
 // For growth animation rendering
-let useAnimationRendering = false;
+let useAnimationRendering = true;
 let userNumber = 0;
 let userNames = [];
 let enterTimes = [];
@@ -137,7 +137,7 @@ function init() {
         10000
     );
     camera.position.x = -7965.66;
-    camera.position.y = 514.81;
+    camera.position.y = 800;
     camera.position.z = -532.06;
     // camera.position.x = 0;
     // camera.position.y = 0;
@@ -177,17 +177,17 @@ function init() {
     //Orbit Controls
     controls = new THREE.OrbitControls(camera, container);
     controls.minDistance = 50;
-    controls.maxDistance = 8000;
+    controls.maxDistance = 20000;
     controls.maxPolarAngle = Math.PI / 2;
-    controls.target.set(0, maxHeight * 0.25, 0);
+    controls.target.set(0, maxHeight * 0.4, 0);
 
     getLight();
     addSkybox();
     //model
     initLoadManager();
     loadModelAndMap();
-    // addPoints();
-    // addBillboards();
+    addPoints();
+    addBillboards();
     // addNameInput();
     document.addEventListener('mousemove', mouseMove);
 }
@@ -351,10 +351,13 @@ function enter() {
                     buttonOffset.y = yOffset;
                 }
             }
-            addNameInput(offset, buttonOffset);
+            // addNameInput(offset, buttonOffset);
         }
         else{
             setInterval(generateAnimationPoint, 800);
+            let offset = new THREE.Vector3(0, 0, 0);
+            let buttonOffset = new THREE.Vector3(0, 0, 0);
+            addNameInput(offset, buttonOffset);
         }
     }
     initCamMove();
@@ -600,7 +603,7 @@ function moveCamera(target, tweenTime, finishFunction, easingFunction) {
 }
 
 function initCamMove() {
-    let topTarget = new THREE.Vector3(0, 2000, 3500);
+    let topTarget = new THREE.Vector3(0, 2000, 6500);
     let tweenTime = 8000;
     moveCamera(topTarget, tweenTime, () => {
     }, TWEEN.Easing.Linear.None);
