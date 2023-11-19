@@ -65,6 +65,7 @@ class InputField {
         button.className = "addNameHint";
         button.style.width = "300px";
         button.style.height = "300px";
+        button.style.fontSize = "45px";
         button.onclick = () => {
             if (!this.alreadyHinted) {
                 this.hintClickAnimation();

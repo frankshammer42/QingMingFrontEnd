@@ -76,6 +76,8 @@ let currentNumberOfWalker = 0;
 // For Empty Rendering
 let useEmptyRendering = false;
 
+
+
 function initVisitor() {
   let req = new XMLHttpRequest();
   req.onreadystatechange = function () {

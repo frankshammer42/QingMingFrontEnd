@@ -554,6 +554,7 @@ header.credits {
   position: relative;
 }
 
+
 #submit {
   background: rgba(0, 0, 0, 0.56);
   box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.5);
@@ -736,8 +737,11 @@ header.credits {
 }
 
 .addNameHint {
+    width: 300px;
+    height: 300px;
   font-size: 45px;
   text-align: center;
+    z-index: -1;
 }
 
 .addNameHint:hover {
